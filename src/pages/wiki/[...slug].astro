@@ -1,0 +1,49 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import WikiLayout from "../../layouts/WikiLayout.astro";
+import { renderWikiHtml, wikiPageTitle } from "../../lib/wiki";
+
+export async function getStaticPaths() {
+	const pages = await getCollection("wiki");
+	const byId = new Map(pages.map((page) => [page.id, page]));
+	const aliases: Record<string, string> = {
+		"🎮-Remote-Controller": "Remote-Controller",
+		"Documentación-del-Robot": "Documentación-Robot",
+		Perception: "Vision",
+	};
+
+	const paths = pages.map((entry) => ({
+		params: { slug: entry.id },
+		props: { entry },
+	}));
+
+	for (const [from, to] of Object.entries(aliases)) {
+		const entry = byId.get(to);
+		if (entry) {
+			paths.push({
+				params: { slug: from },
+				props: { entry },
+			});
+		}
+	}
+
+	return paths;
+}
+
+interface Props {
+	entry: CollectionEntry<"wiki">;
+}
+
+const { entry } = Astro.props;
+
+if (!entry.rendered?.html) {
+	throw new Error(`Wiki page "${entry.id}" is missing rendered HTML.`);
+}
+
+const html = await renderWikiHtml(entry.rendered.html, import.meta.env.BASE_URL);
+const title = wikiPageTitle(entry.id, entry.body);
+---
+
+<WikiLayout title={title} currentId={entry.id}>
+	<article class="wiki-prose" set:html={html} />
+</WikiLayout>

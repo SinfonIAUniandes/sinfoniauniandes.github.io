@@ -1,0 +1,19 @@
+---
+import { getCollection } from "astro:content";
+import WikiLayout from "../../layouts/WikiLayout.astro";
+import { renderWikiHtml, wikiPageTitle } from "../../lib/wiki";
+
+const pages = await getCollection("wiki");
+const entry = pages.find((page) => page.id === "Home");
+
+if (!entry?.rendered?.html) {
+	throw new Error("Wiki home page is missing.");
+}
+
+const html = await renderWikiHtml(entry.rendered.html, import.meta.env.BASE_URL);
+const title = wikiPageTitle(entry.id, entry.body);
+---
+
+<WikiLayout title={title} currentId="Home">
+	<article class="wiki-prose" set:html={html} />
+</WikiLayout>

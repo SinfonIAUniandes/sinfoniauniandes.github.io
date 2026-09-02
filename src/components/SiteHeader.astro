@@ -1,0 +1,235 @@
+---
+import sinfoniaLogo from "../assets/sinfonia.svg";
+import sinfoniaStatic from "../assets/sinfonia-static.svg";
+import hallOfFameLogo from "../assets/hall-of-fame.svg";
+
+interface Props {
+	animate?: boolean;
+}
+
+const { animate = false } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/+$/, "");
+const homeHref = `${baseUrl}/`;
+const hallHref = `${baseUrl}/hall-of-fame`;
+const wikiHref = `${baseUrl}/wiki`;
+const isHallOfFame = Astro.url.pathname.replace(/\/+$/, "").endsWith("hall-of-fame");
+---
+
+<header class="site-header">
+	{animate ? (
+		<a
+			class="site-header__logo site-header__logo--hero site-header__logo--sinfonia site-header__logo--animate"
+			href={homeHref}
+			aria-label="SINFONiA home"
+		>
+			<img src={sinfoniaLogo.src} alt="SINFONiA" />
+		</a>
+	) : (
+		<a
+			class="site-header__logo site-header__logo--corner"
+			href={homeHref}
+			aria-label="SINFONiA home"
+		>
+			<img src={sinfoniaStatic.src} alt="SINFONiA" />
+		</a>
+	)}
+
+	{isHallOfFame && (
+		<div class="site-header__logo site-header__logo--hero site-header__logo--hall site-header__logo--animate">
+			<img src={hallOfFameLogo.src} alt="Hall of Fame" />
+		</div>
+	)}
+
+	<nav class:list={["site-header__links", animate && "site-header__links--delayed"]}>
+		<a class="site-header__link site-header__link--wiki" href={wikiHref}>Wiki</a>
+		{!isHallOfFame && (
+			<a class="site-header__link site-header__link--hall" href={hallHref}>
+				Hall of Fame
+			</a>
+		)}
+	</nav>
+</header>
+
+<style>
+	.site-header {
+		position: absolute;
+		inset: 0;
+		z-index: 5;
+		pointer-events: none;
+	}
+
+	.site-header__logo {
+		position: absolute;
+		z-index: 5;
+		pointer-events: auto;
+	}
+
+	.site-header__logo img {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.site-header__logo--corner {
+		top: 1.1rem;
+		left: clamp(0.85rem, 3vw, 1.75rem);
+		width: clamp(104px, 16vw, 140px);
+	}
+
+	.site-header__logo--hero {
+		top: 1.25rem;
+		left: 50%;
+		width: clamp(132px, 18vw, 168px);
+		transform: translateX(-50%);
+	}
+
+	.site-header__logo--hall {
+		--hero-end-top: 1.25rem;
+		--hero-end-width: clamp(220px, 42vw, 340px);
+		width: var(--hero-end-width);
+	}
+
+	.site-header__logo--animate {
+		top: 50%;
+		width: min(92vw, 1200px);
+		transform: translate(-50%, -50%);
+		animation: settle-logo 0.8s cubic-bezier(0.7, 0, 0.25, 1) 0.6s forwards;
+	}
+
+	.site-header__logo--sinfonia.site-header__logo--animate {
+		animation-delay: 1.05s;
+	}
+
+	.site-header__logo--hall.site-header__logo--animate {
+		animation-name: settle-hall;
+	}
+
+	.site-header__links {
+		position: absolute;
+		top: 1.5rem;
+		right: clamp(1rem, 4vw, 2.5rem);
+		z-index: 6;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 0.35rem;
+		pointer-events: auto;
+	}
+
+	.site-header__link {
+		font-family: "Lato", sans-serif;
+		font-size: clamp(0.84rem, 2vw, 1.08rem);
+		font-weight: 700;
+		letter-spacing: 0.03em;
+		line-height: 1.2;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+
+	.site-header__link--wiki {
+		color: var(--blue);
+	}
+
+	.site-header__link--wiki:hover,
+	.site-header__link--wiki:focus-visible {
+		color: rgb(32 35 161 / 72%);
+	}
+
+	.site-header__link--hall {
+		color: #c4a027;
+		text-shadow:
+			0 0 8px rgb(196 197 81 / 70%),
+			0 0 22px rgb(196 197 81 / 45%);
+	}
+
+	.site-header__link--hall:hover,
+	.site-header__link--hall:focus-visible {
+		color: #a88814;
+		text-shadow:
+			0 0 10px rgb(196 197 81 / 90%),
+			0 0 28px rgb(196 197 81 / 55%);
+	}
+
+	.site-header__link:focus-visible {
+		outline: 2px dashed rgb(184, 150, 36);
+		outline-offset: 0.3rem;
+	}
+
+	.site-header__links--delayed {
+		opacity: 0;
+		animation: reveal-hall 0.45s ease 1.85s forwards;
+	}
+
+	@keyframes settle-logo {
+		from {
+			top: 50%;
+			width: min(92vw, 1200px);
+			transform: translate(-50%, -50%);
+		}
+		to {
+			top: 1.25rem;
+			width: clamp(132px, 18vw, 168px);
+			transform: translate(-50%, 0);
+		}
+	}
+
+	@keyframes settle-hall {
+		from {
+			top: 50%;
+			width: min(92vw, 1200px);
+			transform: translate(-50%, -50%);
+		}
+		to {
+			top: var(--hero-end-top);
+			width: var(--hero-end-width);
+			transform: translate(-50%, 0);
+		}
+	}
+
+	@keyframes reveal-hall {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+
+	@media (max-width: 40rem) {
+		.site-header__logo--hall {
+			--hero-end-top: 3.4rem;
+			--hero-end-width: clamp(200px, 88vw, 340px);
+		}
+	}
+
+	@media (max-width: 30rem) {
+		.site-header__links {
+			top: 0.55rem;
+			right: 0.75rem;
+		}
+
+		.site-header__link {
+			font-size: 0.8rem;
+		}
+
+		.site-header__logo--corner {
+			top: 0.75rem;
+			width: 96px;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.site-header__logo--animate {
+			top: 1.25rem;
+			width: clamp(132px, 18vw, 168px);
+			transform: translateX(-50%);
+			animation: none;
+		}
+
+		.site-header__logo--hall.site-header__logo--animate {
+			top: var(--hero-end-top);
+			width: var(--hero-end-width);
+		}
+
+		.site-header__links--delayed {
+			opacity: 1;
+			animation: none;
+		}
+	}
+</style>
