@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -40 594 130" role="img" aria-labelledby="hall-title hall-description">
+  <title id="hall-title">Hall of Fame</title>
+  <desc id="hall-description">Golden Hall of Fame wordmark drawn in the SINFONiA lettering style.</desc>
+
+  <style>
+    @keyframes trace-border {
+      from { stroke-dashoffset: 1.01; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes fill-in {
+      from { fill-opacity: 0; }
+      to { fill-opacity: 1; }
+    }
+
+    .border {
+      fill: none;
+      stroke: rgb(196,160,39);
+      stroke-dasharray: 1.01;
+      stroke-dashoffset: 1.01;
+      stroke-linecap: butt;
+      stroke-linejoin: round;
+      animation: trace-border 0.111111s ease-in both;
+    }
+
+    .letter {
+      fill-opacity: 0;
+      animation: fill-in 0.027778s linear 0.111111s both;
+    }
+
+    .border-1 { animation-delay: 0s; }
+    .border-2 { animation-delay: 0.044s; }
+    .border-3 { animation-delay: 0.088s; }
+    .border-4 { animation-delay: 0.132s; }
+    .border-5 { animation-delay: 0.176s; }
+    .border-6 { animation-delay: 0.22s; }
+    .border-7 { animation-delay: 0.264s; }
+    .border-8 { animation-delay: 0.308s; }
+    .border-9 { animation-delay: 0.352s; }
+    .border-10 { animation-delay: 0.396s; }
+    .letter-1 { animation-delay: 0.1s; }
+    .letter-2 { animation-delay: 0.144s; }
+    .letter-3 { animation-delay: 0.188s; }
+    .letter-4 { animation-delay: 0.232s; }
+    .letter-5 { animation-delay: 0.276s; }
+    .letter-6 { animation-delay: 0.32s; }
+    .letter-7 { animation-delay: 0.364s; }
+    .letter-8 { animation-delay: 0.408s; }
+    .letter-9 { animation-delay: 0.452s; }
+    .letter-10 { animation-delay: 0.496s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .border { animation: none; stroke-dashoffset: 0; }
+      .letter { animation: none; fill-opacity: 1; }
+    }
+  </style>
+
+  <g class="wordmark" fill="rgb(196,160,39)">
+    <g class="letter letter-1">
+      <path d="M20 32.18 H30.76 V53.27 H48 V32.18 H58.76 V84 H48 V62.27 H30.76 V84 H20 Z" />
+      <path d="M20 32.18 H30.76 V53.27 H48 V32.18 H58.76 V84 H48 V62.27 H30.76 V84 H20 Z" fill="none" pathLength="1" class="border border-1" />
+    </g>
+
+    <g class="letter letter-2" transform="translate(-248.07 0)">
+      <path d="M326.05 58.1 L316.83 84 L335.32 32.18 L347.55 32.18 L365.91 84 L354.16 84 L350.82 73.35 L331.73 73.35 L328.15 84 L316.83 84 Z M334.65 64.42 L347.8 64.42 L341.33 44.03 L334.65 64.42 Z" fill-rule="evenodd" />
+      <path d="M326.05 58.1 L316.83 84 L335.32 32.18 L347.55 32.18 L365.91 84 L354.16 84 L350.82 73.35 L331.73 73.35 L328.15 84 L316.83 84 Z" fill="none" pathLength="1" class="border border-2" />
+      <path d="M334.65 64.42 L347.8 64.42 L341.33 44.03 L334.65 64.42 Z" fill="none" pathLength="1" class="border border-2" />
+    </g>
+
+    <g class="letter letter-3">
+      <path d="M127.84 32.18 H138.6 V74.89 H164.58 V84 H127.84 Z" />
+      <path d="M127.84 32.18 H138.6 V74.89 H164.58 V84 H127.84 Z" fill="none" pathLength="1" class="border border-3" />
+    </g>
+
+    <g class="letter letter-4">
+      <path d="M174.58 32.18 H185.34 V74.89 H211.32 V84 H174.58 Z" />
+      <path d="M174.58 32.18 H185.34 V74.89 H211.32 V84 H174.58 Z" fill="none" pathLength="1" class="border border-4" />
+    </g>
+
+    <g class="letter letter-5" transform="translate(59.77 0)">
+      <path d="M183.55 58.02 C183.55 48.53 186.18 41.4 191.43 36.64 C195.34 32.61 201 30.6 208.41 30.6 C215.81 30.6 221.47 32.61 225.39 36.64 C230.61 41.4 233.23 48.53 233.23 58.02 C233.23 67.32 230.61 74.45 225.39 79.39 C221.47 83.43 215.81 85.44 208.41 85.44 C201 85.44 195.34 83.43 191.43 79.39 C186.18 74.45 183.55 67.32 183.55 58.02 Z M194.31 58.02 C194.31 63.86 195.59 68.36 198.14 71.52 C200.7 74.68 204.12 76.27 208.41 76.27 C212.7 76.27 216.11 74.68 218.64 71.52 C221.14 68.36 222.4 63.86 222.4 58.02 C222.4 52.21 221.14 47.71 218.62 44.54 C216.1 41.36 212.7 39.77 208.41 39.77 C204.12 39.77 200.7 41.36 198.14 44.52 C195.59 47.68 194.31 52.18 194.31 58.02 Z" fill-rule="evenodd" />
+      <path d="M183.55 58.02 C183.55 48.53 186.18 41.4 191.43 36.64 C195.34 32.61 201 30.6 208.41 30.6 C215.81 30.6 221.47 32.61 225.39 36.64 C230.61 41.4 233.23 48.53 233.23 58.02 C233.23 67.32 230.61 74.45 225.39 79.39 C221.47 83.43 215.81 85.44 208.41 85.44 C201 85.44 195.34 83.43 191.43 79.39 C186.18 74.45 183.55 67.32 183.55 58.02 Z" fill="none" pathLength="1" class="border border-5" />
+      <path d="M194.31 58.02 C194.31 63.86 195.59 68.36 198.14 71.52 C200.7 74.68 204.12 76.27 208.41 76.27 C212.7 76.27 216.11 74.68 218.64 71.52 C221.14 68.36 222.4 63.86 222.4 58.02 C222.4 52.21 221.14 47.71 218.62 44.54 C216.1 41.36 212.7 39.77 208.41 39.77 C204.12 39.77 200.7 41.36 198.14 44.52 C195.59 47.68 194.31 52.18 194.31 58.02 Z" fill="none" pathLength="1" class="border border-5" />
+    </g>
+
+    <g class="letter letter-6" transform="translate(161.52 0)">
+      <path d="M141.48 32.25 H178.22 V41.36 H152.24 V53.27 H174.99 V62.27 H152.24 V84 H141.48 Z" />
+      <path d="M141.48 32.25 H178.22 V41.36 H152.24 V53.27 H174.99 V62.27 H152.24 V84 H141.48 Z" fill="none" pathLength="1" class="border border-6" />
+    </g>
+
+    <g class="letter letter-7" transform="translate(230.26 0)">
+      <path d="M141.48 32.25 H178.22 V41.36 H152.24 V53.27 H174.99 V62.27 H152.24 V84 H141.48 Z" />
+      <path d="M141.48 32.25 H178.22 V41.36 H152.24 V53.27 H174.99 V62.27 H152.24 V84 H141.48 Z" fill="none" pathLength="1" class="border border-7" />
+    </g>
+
+    <g class="letter letter-8" transform="translate(101.65 0)">
+      <path d="M326.05 58.1 L316.83 84 L335.32 32.18 L347.55 32.18 L365.91 84 L354.16 84 L350.82 73.35 L331.73 73.35 L328.15 84 L316.83 84 Z M334.65 64.42 L347.8 64.42 L341.33 44.03 L334.65 64.42 Z" fill-rule="evenodd" />
+      <path d="M326.05 58.1 L316.83 84 L335.32 32.18 L347.55 32.18 L365.91 84 L354.16 84 L350.82 73.35 L331.73 73.35 L328.15 84 L316.83 84 Z" fill="none" pathLength="1" class="border border-8" />
+      <path d="M334.65 64.42 L347.8 64.42 L341.33 44.03 L334.65 64.42 Z" fill="none" pathLength="1" class="border border-8" />
+    </g>
+
+    <g class="letter letter-9">
+      <path d="M477.56 32.18 H488.32 L508.46 73.47 L528.6 32.18 H539.36 V84 H528.6 V50.31 L512.82 84 H504.1 L488.32 50.31 V84 H477.56 Z" />
+      <path d="M477.56 32.18 H488.32 L508.46 73.47 L528.6 32.18 H539.36 V84 H528.6 V50.31 L512.82 84 H504.1 L488.32 50.31 V84 H477.56 Z" fill="none" pathLength="1" class="border border-9" />
+    </g>
+
+    <g class="letter letter-10">
+      <path d="M549.36 32.25 H586.1 V41.36 H560.12 V53.27 H582.87 V62.27 H560.12 V74.89 H586.1 V84 H549.36 Z" />
+      <path d="M549.36 32.25 H586.1 V41.36 H560.12 V53.27 H582.87 V62.27 H560.12 V74.89 H586.1 V84 H549.36 Z" fill="none" pathLength="1" class="border border-10" />
+    </g>
+  </g>
+</svg>
