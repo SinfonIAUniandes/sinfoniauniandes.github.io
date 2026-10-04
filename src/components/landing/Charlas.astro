@@ -1,0 +1,530 @@
+---
+const talk = {
+	id: "YsuCxLRNemg",
+	title: "Desde los ojos de un Robot",
+	subtitle: "¿Cómo las máquinas ven nuestro mundo?",
+	speaker: "Juan David Guevara Arévalo",
+	href: "https://youtu.be/YsuCxLRNemg",
+	poster: "https://i.ytimg.com/vi/YsuCxLRNemg/maxresdefault.jpg",
+};
+---
+
+<section id="charlas" class="band">
+	<div class="shell">
+		<p class="eyebrow reveal">Charlas y talleres</p>
+		<h2 class="charlas__story reveal" style="--step: 1">
+			En 2026-20 surgió un sueño... y lo acabamos de empezar, nuestra primera charla fue un
+			éxito y vienen muchas más! Podrás repetirlas en nuestro canal de
+			<a href="https://www.youtube.com/@SinfonIA-Uniandes">YouTube</a>.
+		</h2>
+
+		<div class="charlas">
+			<article class="talk reveal" style="--step: 2" data-youtube={talk.id}>
+				<div class="talk__stage">
+					<button
+						class="talk__launch"
+						type="button"
+						aria-label={`Reproducir: ${talk.title}. ${talk.subtitle}`}
+					>
+						<img
+							src={talk.poster}
+							alt=""
+							width="1280"
+							height="720"
+							loading="lazy"
+							decoding="async"
+						/>
+						<span class="talk__play" aria-hidden="true">
+							<span class="talk__play-core"></span>
+						</span>
+					</button>
+					<span class="talk__bars" aria-hidden="true"></span>
+				</div>
+				<div class="talk__info">
+					<p class="label">Ya se puede ver</p>
+					<h3>{talk.title}</h3>
+					<p class="talk__sub">{talk.subtitle}</p>
+					<p class="talk__speaker">{talk.speaker}</p>
+					<a class="talk__link" href={talk.href} rel="noreferrer">Ver en YouTube</a>
+				</div>
+			</article>
+
+			<aside class="soon reveal" style="--step: 3">
+				<p class="label">Siguiente</p>
+				<p class="soon__when">
+					<span class="soon__day">09</span>
+					<span class="soon__month">octubre</span>
+				</p>
+				<p class="soon__note">La próxima charla es el 9 de octubre y vienen muchas más: reserva el día.</p>
+				<span class="soon__dots" aria-hidden="true">
+					<i></i><i></i><i></i><i></i>
+				</span>
+			</aside>
+		</div>
+
+		<div class="atelier reveal" style="--step: 3">
+			<div class="atelier__glow" aria-hidden="true"></div>
+			<p class="atelier__badge">Muy pronto</p>
+			<h3>Talleres</h3>
+			<p class="atelier__note">
+				Los talleres vienen muy pronto: un espacio para ensayar, preguntar y armar con las manos,
+				que todavía se está afinando y pronto se abre.
+			</p>
+			<span class="atelier__dots" aria-hidden="true">
+				<i></i><i></i><i></i><i></i>
+			</span>
+		</div>
+	</div>
+</section>
+
+<style>
+	.charlas__story {
+		max-width: none;
+		width: 100%;
+		font-size: clamp(1.85rem, 4.4vw, 3.15rem);
+		line-height: 1.22;
+		text-wrap: wrap;
+	}
+
+	.charlas__story a {
+		color: inherit;
+		text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent);
+	}
+
+	.charlas {
+		display: grid;
+		grid-template-columns: minmax(0, 1.55fr) minmax(16rem, 0.7fr);
+		gap: clamp(1.1rem, 2.4vw, 1.6rem);
+		margin-top: clamp(2.4rem, 6vh, 3.6rem);
+		align-items: stretch;
+	}
+
+	.talk {
+		display: grid;
+		grid-template-rows: auto 1fr;
+		overflow: hidden;
+		border: 1px solid color-mix(in srgb, var(--pop-blue) 22%, var(--line));
+		border-radius: 1.35rem;
+		background: var(--paper);
+		box-shadow: 0 22px 48px rgb(23 23 26 / 8%);
+	}
+
+	.talk__stage {
+		position: relative;
+		aspect-ratio: 16 / 9;
+		overflow: hidden;
+		background: #17171a;
+	}
+
+	.talk__launch {
+		position: absolute;
+		inset: 0;
+		display: block;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		border: 0;
+		background: #17171a;
+		cursor: pointer;
+	}
+
+	.talk__stage img,
+	.talk__stage iframe {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border: 0;
+	}
+
+	.talk__stage iframe {
+		position: absolute;
+		inset: 0;
+	}
+
+	.talk__bars {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 1;
+		height: 5px;
+		background: linear-gradient(
+			90deg,
+			var(--pop-gray) 0 25%,
+			var(--pop-red) 25% 50%,
+			var(--pop-gold) 50% 75%,
+			var(--pop-blue) 75% 100%
+		);
+		pointer-events: none;
+	}
+
+	.talk__play {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		display: grid;
+		place-items: center;
+		background: rgb(23 23 26 / 18%);
+		transition: background 0.25s ease;
+	}
+
+	.talk__play-core {
+		position: relative;
+		width: 4.6rem;
+		height: 4.6rem;
+		border-radius: 999px;
+		background: var(--pop-red);
+		box-shadow: 0 12px 32px rgb(219 62 59 / 38%);
+		transition: transform 0.25s cubic-bezier(0.2, 0.75, 0.25, 1);
+	}
+
+	.talk__play-core::before {
+		content: "";
+		position: absolute;
+		inset: -0.55rem;
+		border: 2px solid color-mix(in srgb, var(--pop-gold) 70%, white);
+		border-radius: 999px;
+		opacity: 0.7;
+	}
+
+	.talk__play-core::after {
+		content: "";
+		position: absolute;
+		top: 50%;
+		left: 54%;
+		width: 0;
+		height: 0;
+		border-style: solid;
+		border-width: 0.7rem 0 0.7rem 1.15rem;
+		border-color: transparent transparent transparent #fff;
+		transform: translate(-50%, -50%);
+	}
+
+	.talk__launch:hover .talk__play,
+	.talk__launch:focus-visible .talk__play {
+		background: rgb(23 23 26 / 8%);
+	}
+
+	.talk__launch:hover .talk__play-core,
+	.talk__launch:focus-visible .talk__play-core {
+		transform: scale(1.08);
+	}
+
+	.talk.is-playing .talk__launch,
+	.talk.is-playing .talk__bars {
+		display: none;
+	}
+
+	.talk__info {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		padding: 1.15rem 1.25rem 1.25rem;
+	}
+
+	.talk__info .label {
+		margin-bottom: 0.25rem;
+		color: var(--pop-blue);
+	}
+
+	.talk__info h3 {
+		max-width: 22ch;
+		font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+	}
+
+	.talk__sub {
+		color: var(--ink-soft);
+		font-size: 1rem;
+	}
+
+	.talk__speaker {
+		margin-top: 0.45rem;
+		color: var(--ink-faint);
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.04em;
+	}
+
+	.talk__link {
+		margin-top: 0.7rem;
+		font-weight: 600;
+		width: fit-content;
+	}
+
+	.soon {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		min-height: 100%;
+		padding: 1.4rem 1.3rem 1.45rem;
+		overflow: hidden;
+		border: 1px solid color-mix(in srgb, var(--pop-gold) 38%, var(--line));
+		border-radius: 1.35rem;
+		background:
+			radial-gradient(90% 70% at 100% 0%, rgb(219 62 59 / 16%), transparent 58%),
+			radial-gradient(80% 60% at 0% 100%, rgb(32 35 161 / 18%), transparent 62%),
+			linear-gradient(165deg, #fff8e8, #eef0fb 55%, #fff);
+		color: var(--ink);
+	}
+
+	.soon .label {
+		color: var(--pop-red);
+	}
+
+	.soon__when {
+		display: flex;
+		flex-direction: column;
+		margin: 0.4rem 0 1.1rem;
+		line-height: 0.8;
+	}
+
+	.soon__day {
+		font-family: var(--display);
+		font-size: clamp(5.4rem, 12vw, 7.2rem);
+		font-weight: 500;
+		letter-spacing: -0.06em;
+		color: var(--pop-blue);
+	}
+
+	.soon__month {
+		margin-top: 0.35rem;
+		color: var(--pop-red);
+		font-family: var(--mono);
+		font-size: 0.86rem;
+		font-weight: 500;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+	}
+
+	.soon h3 {
+		max-width: 12ch;
+		font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+	}
+
+	.soon__note {
+		margin-top: 0.7rem;
+		color: var(--ink-soft);
+		font-size: 0.98rem;
+	}
+
+	.soon__dots {
+		display: flex;
+		gap: 0.4rem;
+		margin-top: 1.4rem;
+	}
+
+	.soon__dots i {
+		width: 0.55rem;
+		height: 0.55rem;
+		border-radius: 999px;
+	}
+
+	.soon__dots i:nth-child(1) {
+		background: var(--pop-gray);
+	}
+
+	.soon__dots i:nth-child(2) {
+		background: var(--pop-red);
+	}
+
+	.soon__dots i:nth-child(3) {
+		background: var(--pop-gold);
+	}
+
+	.soon__dots i:nth-child(4) {
+		background: var(--pop-blue);
+	}
+
+	.atelier {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		min-height: clamp(22rem, 48vh, 32rem);
+		margin-top: clamp(1.1rem, 2.4vw, 1.6rem);
+		padding: clamp(1.8rem, 5vw, 3.2rem);
+		overflow: hidden;
+		border-radius: 1.5rem;
+		color: #fff;
+		background: #1a1c86;
+	}
+
+	.atelier__glow {
+		position: absolute;
+		inset: -20%;
+		background:
+			radial-gradient(36% 42% at 82% 18%, rgb(219 62 59 / 42%), transparent 70%),
+			radial-gradient(32% 38% at 18% 82%, rgb(196 197 81 / 28%), transparent 68%),
+			radial-gradient(48% 50% at 50% 50%, rgb(255 255 255 / 8%), transparent 72%);
+		pointer-events: none;
+	}
+
+	.atelier__badge,
+	.atelier h3,
+	.atelier__note,
+	.atelier__dots {
+		position: relative;
+		z-index: 1;
+	}
+
+	.atelier__badge {
+		width: fit-content;
+		margin: 0 0 0.6rem;
+		padding: 0.45rem 0.9rem;
+		border: 1px solid rgb(196 197 81 / 55%);
+		border-radius: 999px;
+		background: rgb(196 197 81 / 14%);
+		color: #f3f0b8;
+		font-family: var(--mono);
+		font-size: 0.86rem;
+		font-weight: 500;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+	}
+
+	.atelier h3 {
+		max-width: none;
+		font-size: clamp(4.4rem, 14vw, 10rem);
+		line-height: 0.86;
+		letter-spacing: -0.06em;
+		color: #fff;
+	}
+
+	.atelier__note {
+		max-width: none;
+		margin-top: 1.15rem;
+		color: rgb(255 255 255 / 86%);
+		font-size: clamp(1.25rem, 2.6vw, 1.85rem);
+		line-height: 1.35;
+	}
+
+	.atelier__dots {
+		display: flex;
+		gap: 0.45rem;
+		margin-top: 1.6rem;
+	}
+
+	.atelier__dots i {
+		width: 0.62rem;
+		height: 0.62rem;
+		border-radius: 999px;
+		background: #fff;
+	}
+
+	.atelier__dots i:nth-child(1) {
+		background: #9d9ca3;
+	}
+
+	.atelier__dots i:nth-child(2) {
+		background: var(--pop-red);
+	}
+
+	.atelier__dots i:nth-child(3) {
+		background: var(--pop-gold);
+	}
+
+	.atelier__dots i:nth-child(4) {
+		background: #d8daf8;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.talk__play-core::before {
+			animation: pulse-ring 2.2s ease-out infinite;
+		}
+
+		.soon__dots i {
+			animation: pulse-dot 2.4s ease-in-out infinite;
+		}
+
+		.soon__dots i:nth-child(2) {
+			animation-delay: 0.15s;
+		}
+
+		.soon__dots i:nth-child(3) {
+			animation-delay: 0.3s;
+		}
+
+		.soon__dots i:nth-child(4) {
+			animation-delay: 0.45s;
+		}
+
+		.atelier__glow {
+			animation: drift 18s ease-in-out infinite alternate;
+		}
+
+		.atelier__dots i {
+			animation: pulse-dot 2.4s ease-in-out infinite;
+		}
+
+		.atelier__dots i:nth-child(2) {
+			animation-delay: 0.15s;
+		}
+
+		.atelier__dots i:nth-child(3) {
+			animation-delay: 0.3s;
+		}
+
+		.atelier__dots i:nth-child(4) {
+			animation-delay: 0.45s;
+		}
+	}
+
+	@keyframes pulse-ring {
+		from {
+			transform: scale(0.92);
+			opacity: 0.8;
+		}
+		to {
+			transform: scale(1.18);
+			opacity: 0;
+		}
+	}
+
+	@media (max-width: 70rem) {
+		.charlas {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.soon {
+			min-height: 0;
+		}
+
+		.soon__when {
+			flex-direction: row;
+			align-items: baseline;
+			gap: 0.85rem;
+		}
+
+		.soon__day {
+			font-size: clamp(3.4rem, 18vw, 5rem);
+		}
+
+		.soon h3 {
+			max-width: 22ch;
+		}
+
+	}
+</style>
+
+<script>
+	const talk = document.querySelector<HTMLElement>(".talk[data-youtube]");
+	const stage = talk?.querySelector<HTMLElement>(".talk__stage");
+	const launch = talk?.querySelector<HTMLButtonElement>(".talk__launch");
+	if (talk && stage && launch) {
+		launch.addEventListener("click", () => {
+			if (talk.classList.contains("is-playing")) return;
+			const id = talk.dataset.youtube;
+			if (!id) return;
+			const frame = document.createElement("iframe");
+			frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+			frame.title = "Charla de SinfonIA";
+			frame.allow =
+				"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+			frame.allowFullscreen = true;
+			stage.append(frame);
+			talk.classList.add("is-playing");
+		});
+	}
+</script>
