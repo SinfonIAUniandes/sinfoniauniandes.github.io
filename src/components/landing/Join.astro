@@ -12,12 +12,60 @@ const contacts = [
 	{ label: "Camino", value: "Hall of Fame", href: `${baseUrl}/hall-of-fame` },
 ];
 
-const repos = [
-	"naoqi_driver2_sinfonIA",
-	"naoqi_bringup2_SinfonIA",
-	"docker-utils",
-	"lerobot_robot_nao",
-];
+type Repo = {
+	name: string;
+	url: string;
+	description: string;
+	language: string | null;
+	stars: number;
+};
+
+async function fetchPublicRepos(): Promise<Repo[]> {
+	const collected: {
+		name: string;
+		html_url: string;
+		description: string | null;
+		language: string | null;
+		stargazers_count: number;
+		archived: boolean;
+		pushed_at: string;
+	}[] = [];
+
+	for (let page = 1; page <= 5; page++) {
+		const response = await fetch(
+			`https://api.github.com/orgs/SinfonIAUniandes/repos?per_page=100&page=${page}&type=public&sort=updated`,
+			{
+				headers: {
+					Accept: "application/vnd.github+json",
+					"User-Agent": "sinfonia-website",
+				},
+			},
+		);
+		if (!response.ok) break;
+		const batch = await response.json();
+		if (!Array.isArray(batch) || batch.length === 0) break;
+		collected.push(...batch);
+		if (batch.length < 100) break;
+	}
+
+	return collected
+		.filter((repo) => !repo.archived)
+		.sort((a, b) => +new Date(b.pushed_at) - +new Date(a.pushed_at))
+		.map((repo) => ({
+			name: repo.name,
+			url: repo.html_url,
+			description: repo.description?.trim() ?? "",
+			language: repo.language,
+			stars: repo.stargazers_count,
+		}));
+}
+
+let repos: Repo[] = [];
+try {
+	repos = await fetchPublicRepos();
+} catch {
+	repos = [];
+}
 ---
 
 <section id="join" class="band">
@@ -71,16 +119,6 @@ const repos = [
 					}
 				</dl>
 
-				<div class="repos reveal">
-					<p class="label">Código abierto</p>
-					<ul>
-						{repos.map((repo) => <li class="mono">{repo}</li>)}
-					</ul>
-					<p class="note repos__note">
-						Y unos veinte más. Si te da curiosidad, entra: la investigación OpenSource se lee
-						en voz alta.
-					</p>
-				</div>
 			</div>
 
 			<figure class="join__plate reveal" style="--step: 1">
@@ -95,6 +133,62 @@ const repos = [
 				<span class="join__bubble" aria-hidden="true">¡Ven al ML102!</span>
 				<figcaption>Nova.</figcaption>
 			</figure>
+
+			<div class="repos reveal">
+				<div class="repos__head">
+					<p class="label">Código abierto</p>
+					<div class="repos__nav">
+						<button class="repos__btn" type="button" data-dir="-1" aria-label="Repositorios anteriores">
+							<span aria-hidden="true">←</span>
+						</button>
+						<button class="repos__btn" type="button" data-dir="1" aria-label="Repositorios siguientes">
+							<span aria-hidden="true">→</span>
+						</button>
+					</div>
+				</div>
+				<div class="repos__viewport">
+					<ul class="repos__track" role="list">
+						{
+							repos.map((repo, index) => (
+								<li style={`--tone: var(--tone-${(index % 4) + 1})`}>
+									<a class="repo" href={repo.url} target="_blank" rel="noreferrer">
+										<span class="repo__dots" aria-hidden="true">
+											<i></i><i></i><i></i><i></i>
+										</span>
+										<span class="repo__name mono">{repo.name}</span>
+										<span class="repo__desc">{repo.description || "Sin descripción todavía."}</span>
+										<span class="repo__meta">
+											{
+												repo.language ? (
+													<span class="repo__lang">
+														<i></i>
+														{repo.language}
+													</span>
+												) : null
+											}
+											{
+												repo.stars > 0 ? (
+													<span class="repo__stars">{repo.stars} ★</span>
+												) : null
+											}
+											<span class="repo__go">Abrir</span>
+										</span>
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+				<p class="note repos__note">
+					{
+						repos.length
+							? `${repos.length} repositorios públicos. Si te da curiosidad, entra: la investigación OpenSource se lee en voz alta.`
+							: "Si te da curiosidad, entra al GitHub de SinfonIA: la investigación OpenSource se lee en voz alta."
+					}
+					{" "}
+					<a href="https://github.com/SinfonIAUniandes">github.com/SinfonIAUniandes</a>
+				</p>
+			</div>
 		</div>
 	</div>
 </section>
@@ -103,8 +197,21 @@ const repos = [
 	.join {
 		display: grid;
 		grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+		grid-template-areas:
+			"copy plate"
+			"repos repos";
 		gap: clamp(2rem, 5vw, 4.5rem);
 		align-items: start;
+	}
+
+	.join__copy {
+		grid-area: copy;
+		min-width: 0;
+	}
+
+	.join__plate {
+		grid-area: plate;
+		min-width: 0;
 	}
 
 	.contacts {
@@ -143,28 +250,206 @@ const repos = [
 	}
 
 	.repos {
-		margin-top: clamp(2rem, 5vh, 3rem);
+		grid-area: repos;
+		position: relative;
+		z-index: 1;
+		min-width: 0;
+		margin-top: 0;
+		padding-top: 0.2rem;
+		background: var(--paper);
 	}
 
-	.repos ul {
+	.repos__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-bottom: 0.85rem;
+	}
+
+	.repos__head .label {
+		margin: 0;
+	}
+
+	.repos__nav {
+		display: flex;
+		gap: 0.4rem;
+	}
+
+	.repos__btn {
+		display: grid;
+		place-items: center;
+		width: 2.2rem;
+		height: 2.2rem;
+		padding: 0;
+		border: 1px solid var(--line-strong);
+		border-radius: 999px;
+		background: var(--paper);
+		color: var(--ink);
+		font: inherit;
+		line-height: 1;
+		cursor: pointer;
+	}
+
+	.repos__btn:hover,
+	.repos__btn:focus-visible {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+
+	.repos__viewport {
+		overflow: hidden;
+	}
+
+	.repos__track {
+		display: flex;
+		gap: 0.85rem;
+		margin: 0;
+		padding: 0.15rem 0 0.4rem;
+		list-style: none;
+		overflow-x: auto;
+		scroll-snap-type: none;
+		scrollbar-width: none;
+	}
+
+	.repos__track::-webkit-scrollbar {
+		display: none;
+	}
+
+	.repos__track li {
+		flex: 0 0 min(18.5rem, 78%);
+
+	}
+
+	.repo {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 0.55rem;
+		min-height: 11.2rem;
+		height: 100%;
+		padding: 1.05rem 1.15rem 0.95rem 1.2rem;
+		overflow: hidden;
+		border: 1px solid color-mix(in srgb, var(--tone) 26%, var(--line));
+		border-radius: 0.9rem;
+		background:
+			radial-gradient(90% 70% at 100% 0%, color-mix(in srgb, var(--tone) 16%, white), transparent 64%),
+			var(--paper);
+		color: var(--ink);
+		text-decoration: none;
+		box-shadow: inset 0.42rem 0 0 var(--tone);
+		transition:
+			border-color 0.22s ease,
+			translate 0.22s ease,
+			box-shadow 0.22s ease,
+			background 0.22s ease;
+	}
+
+	.repo::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		right: 1.15rem;
+		left: 1.15rem;
+		height: 3px;
+		border-radius: 0 0 999px 999px;
+		background: var(--tone);
+	}
+
+	.repo,
+	.repo:hover,
+	.repo:focus-visible {
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.repo:hover,
+	.repo:focus-visible {
+		border-color: var(--tone);
+		translate: 0 -0.2rem;
+		box-shadow:
+			inset 0.42rem 0 0 var(--tone),
+			0 16px 30px color-mix(in srgb, var(--tone) 18%, transparent);
+	}
+
+	.repo__dots {
+		display: flex;
+		gap: 0.28rem;
+	}
+
+	.repo__dots i {
+		width: 0.42rem;
+		height: 0.42rem;
+		border-radius: 999px;
+	}
+
+	.repo__dots i:nth-child(1) {
+		background: var(--pop-gray);
+	}
+
+	.repo__dots i:nth-child(2) {
+		background: var(--pop-red);
+	}
+
+	.repo__dots i:nth-child(3) {
+		background: var(--pop-gold);
+	}
+
+	.repo__dots i:nth-child(4) {
+		background: var(--pop-blue);
+	}
+
+	.repo__name {
+		color: var(--ink);
+		font-size: 0.9rem;
+		line-height: 1.35;
+		word-break: break-word;
+	}
+
+	.repo__desc {
+		flex: 1;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+		overflow: hidden;
+		color: var(--ink-soft);
+		font-size: 0.88rem;
+		line-height: 1.45;
+	}
+
+	.repo__meta {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.4rem 1.25rem;
-		margin: 0;
-		padding: 0;
-		list-style: none;
+		align-items: center;
+		gap: 0.55rem;
+		color: var(--ink-faint);
+		font-family: var(--mono);
+		font-size: 0.68rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
 	}
 
-	.repos li {
-		color: var(--accent);
-		transition: translate 0.22s ease, color 0.22s ease;
+	.repo__lang {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
 	}
 
-	@media (prefers-reduced-motion: no-preference) {
-		.repos li:hover {
-			translate: 0 -0.15rem;
-			color: var(--pop-red);
-		}
+	.repo__lang i {
+		width: 0.45rem;
+		height: 0.45rem;
+		border-radius: 999px;
+		background: var(--tone);
+	}
+
+	.repo__stars {
+		color: var(--pop-gold);
+	}
+
+	.repo__go {
+		margin-left: auto;
+		color: var(--tone);
+		letter-spacing: 0.08em;
 	}
 
 	.repos__note {
@@ -173,8 +458,6 @@ const repos = [
 	}
 
 	.join__plate {
-		position: sticky;
-		top: clamp(1rem, 8vh, 5rem);
 		margin: 0;
 	}
 
@@ -262,11 +545,13 @@ const repos = [
 	@media (max-width: 60rem) {
 		.join {
 			grid-template-columns: minmax(0, 1fr);
+			grid-template-areas:
+				"plate"
+				"copy"
+				"repos";
 		}
 
 		.join__plate {
-			position: static;
-			order: -1;
 			max-width: 22rem;
 		}
 	}
@@ -278,3 +563,106 @@ const repos = [
 		}
 	}
 </style>
+
+<script>
+	const root = document.querySelector<HTMLElement>(".repos");
+	const track = root?.querySelector<HTMLElement>(".repos__track");
+	if (root && track) {
+		const originals = track.children.length;
+		const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+		const step = () => {
+			const card = track.querySelector("li");
+			const styles = getComputedStyle(track);
+			const gap = Number.parseFloat(styles.columnGap || styles.gap) || 14;
+			return (card?.getBoundingClientRect().width ?? 280) + gap;
+		};
+
+		const loopWidth = () => {
+			const mid = track.children[originals] as HTMLElement | undefined;
+			return mid?.offsetLeft ?? 0;
+		};
+
+		const wrap = (left: number) => {
+			const half = loopWidth();
+			if (!half) {
+				const max = Math.max(0, track.scrollWidth - track.clientWidth);
+				if (left > max) return 0;
+				if (left < 0) return max;
+				return left;
+			}
+			while (left >= half) left -= half;
+			while (left < 0) left += half;
+			return left;
+		};
+
+		const cruise = 28;
+		let target = 0;
+		let velocity = 0;
+		let stepping = false;
+		let stepTimer = 0;
+
+		const hold = () => {
+			target = 0;
+		};
+
+		const release = () => {
+			if (!stepping) target = cruise;
+		};
+
+		const go = (dir: number) => {
+			stepping = true;
+			target = 0;
+			velocity = 0;
+			window.clearTimeout(stepTimer);
+			track.scrollTo({ left: wrap(track.scrollLeft + dir * step()), behavior: "smooth" });
+			stepTimer = window.setTimeout(() => {
+				stepping = false;
+				if (!root.matches(":hover") && !root.contains(document.activeElement)) target = cruise;
+			}, 520);
+		};
+
+		for (const button of root.querySelectorAll<HTMLButtonElement>(".repos__btn")) {
+			button.addEventListener("click", () => go(Number(button.dataset.dir)));
+		}
+
+		if (!reduce && originals > 0) {
+			for (const node of [...track.children]) {
+				const clone = node.cloneNode(true) as HTMLElement;
+				clone.setAttribute("aria-hidden", "true");
+				for (const link of clone.querySelectorAll("a")) link.setAttribute("tabindex", "-1");
+				track.append(clone);
+			}
+
+			target = cruise;
+			velocity = cruise;
+			let carry = 0;
+			let last = performance.now();
+
+			const tick = (now: number) => {
+				const dt = Math.min(now - last, 48);
+				last = now;
+				const tau = target < velocity ? 140 : 320;
+				velocity += (target - velocity) * (1 - Math.exp(-dt / tau));
+				if (target === 0 && velocity < 0.4) velocity = 0;
+				if (!stepping && velocity) {
+					carry += (velocity * dt) / 1000;
+					const jump = Math.floor(carry);
+					if (jump) {
+						carry -= jump;
+						track.scrollLeft = wrap(track.scrollLeft + jump);
+					}
+				}
+				requestAnimationFrame(tick);
+			};
+
+			requestAnimationFrame(tick);
+			root.addEventListener("pointerenter", hold);
+			root.addEventListener("pointerleave", release);
+			root.addEventListener("focusin", hold);
+			root.addEventListener("focusout", () => {
+				if (!root.contains(document.activeElement)) release();
+			});
+		}
+	}
+</script>
