@@ -1,11 +1,12 @@
 ---
 import face from "../../assets/pepper/pepper.png";
+import JoinBlocked from "./JoinBlocked.astro";
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/+$/, "");
 
 const contacts = [
 	{ label: "Correo", value: "sinfonia@uniandes.edu.co", href: "mailto:sinfonia@uniandes.edu.co" },
-	{ label: "Edificio", value: "Mario Laserna, Cra. 1 E #19A-70, ML106, Bogotá" },
+	{ label: "Edificio", value: "Laboratorio Colivri - ML102" },
 	{ label: "Código", value: "github.com/SinfonIAUniandes", href: "https://github.com/SinfonIAUniandes" },
 	{ label: "Wiki", value: "Las notas del día a día, en español", href: `${baseUrl}/wiki` },
 	{ label: "Camino", value: "Hall of Fame", href: `${baseUrl}/hall-of-fame` },
@@ -30,11 +31,11 @@ const repos = [
 					derecho, de diseño.
 				</p>
 				<p class="lede reveal" style="--step: 2">
-					No hace falta llegar sabiendo. Escríbenos, pasa por el ML106 o lee la wiki con calma.
+					No hace falta llegar sabiendo. Escríbenos, pasa por el ML102 o lee la wiki con calma.
 				</p>
 
 				<div class="actions reveal" style="--step: 2">
-					<a class="action action--primary" href="mailto:sinfonia@uniandes.edu.co">Únete al grupo</a>
+					<JoinBlocked />
 					<a class="action action--quiet" href={`${baseUrl}/wiki`}>Lee la wiki</a>
 				</div>
 
@@ -44,7 +45,26 @@ const repos = [
 							<div class="contact reveal" style={`--step: ${index + 1}`}>
 								<dt>{contact.label}</dt>
 								<dd>
-									{contact.href ? <a href={contact.href}>{contact.value}</a> : contact.value}
+									{
+										contact.label === "Edificio" ? (
+											<>
+												Laboratorio{" "}
+												<a
+													class="colivri-cta"
+													href="https://colivri.uniandes.edu.co/"
+													target="_blank"
+													rel="noreferrer"
+												>
+													Colivri
+												</a>
+												{" - ML102"}
+											</>
+										) : contact.href ? (
+											<a href={contact.href}>{contact.value}</a>
+										) : (
+											contact.value
+										)
+									}
 								</dd>
 							</div>
 						))
@@ -72,7 +92,7 @@ const repos = [
 					loading="lazy"
 					decoding="async"
 				/>
-				<span class="join__bubble" aria-hidden="true">¡Ven al ML106!</span>
+				<span class="join__bubble" aria-hidden="true">¡Ven al ML102!</span>
 				<figcaption>Nova.</figcaption>
 			</figure>
 		</div>
@@ -115,6 +135,11 @@ const repos = [
 		margin: 0;
 		font-size: 0.98rem;
 		line-height: 1.55;
+	}
+
+	.colivri-cta {
+		font-weight: 600;
+		text-underline-offset: 0.18em;
 	}
 
 	.repos {

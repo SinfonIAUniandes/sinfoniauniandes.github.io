@@ -228,6 +228,37 @@
 	transform: translateY(1px);
 }
 
+.landing .action--blocked {
+	cursor: not-allowed;
+	opacity: 0.58;
+	filter: saturate(0.7);
+}
+
+.landing .action--blocked:hover,
+.landing .action--blocked:active {
+	background: var(--accent);
+	color: #fff;
+	transform: none;
+}
+
+.join-wait-tip {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 40;
+	padding: 0.45rem 0.55rem;
+	border: 2px solid #2c0a4a;
+	background: #100010;
+	color: #fcfcfc;
+	font-family: "Press Start 2P", ui-monospace, monospace;
+	font-size: 10px;
+	line-height: 1.55;
+	letter-spacing: 0;
+	white-space: nowrap;
+	pointer-events: none;
+	image-rendering: pixelated;
+}
+
 /* ---------- Movimiento con scroll ---------- */
 
 @keyframes reveal-rise {
@@ -465,6 +496,16 @@
 	.landing .action:hover {
 		translate: 0 -0.22rem;
 		box-shadow: 0 14px 28px rgb(23 23 26 / 12%);
+	}
+
+	.landing .action--blocked:hover,
+	.landing .action--blocked:active {
+		translate: none;
+		box-shadow: none;
+	}
+
+	.landing .action--blocked::after {
+		display: none;
 	}
 
 	/* Un brillo recorre el botón principal, como una invitación. */

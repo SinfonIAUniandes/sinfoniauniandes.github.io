@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import Hero from '../components/landing/Hero.astro';
+import LibraryNav from '../components/landing/LibraryNav.astro';
 import Ticker from '../components/landing/Ticker.astro';
 import About from '../components/landing/About.astro';
 import Alliance from '../components/landing/Alliance.astro';
@@ -47,9 +48,11 @@ const chorus = [
 		<span class="progress__fill"></span>
 	</div>
 
-	<main class="landing">
+	<main class="landing landing--library">
+		<LibraryNav />
+
 		<div class="stage">
-			<SiteHeader animate />
+			<SiteHeader animate links={false} />
 			<Hero />
 		</div>
 
@@ -99,6 +102,12 @@ const chorus = [
 	.stage {
 		position: relative;
 		overflow: clip;
+	}
+
+	@media (max-width: 60rem) {
+		.landing--library:has(.library:not(.is-closed)) {
+			padding-bottom: 6.5rem;
+		}
 	}
 
 	@media (max-width: 34rem) {

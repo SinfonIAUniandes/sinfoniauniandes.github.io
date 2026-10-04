@@ -5,9 +5,10 @@ import hallOfFameLogo from "../assets/hall-of-fame.svg";
 
 interface Props {
 	animate?: boolean;
+	links?: boolean;
 }
 
-const { animate = false } = Astro.props;
+const { animate = false, links = true } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL.replace(/\/+$/, "");
 const homeHref = `${baseUrl}/`;
 const hallHref = `${baseUrl}/hall-of-fame`;
@@ -40,14 +41,16 @@ const isHallOfFame = Astro.url.pathname.replace(/\/+$/, "").endsWith("hall-of-fa
 		</div>
 	)}
 
-	<nav class:list={["site-header__links", animate && "site-header__links--delayed"]}>
-		<a class="site-header__link site-header__link--wiki" href={wikiHref}>Wiki</a>
-		{!isHallOfFame && (
-			<a class="site-header__link site-header__link--hall" href={hallHref}>
-				Hall of Fame
-			</a>
-		)}
-	</nav>
+	{links && (
+		<nav class:list={["site-header__links", animate && "site-header__links--delayed"]}>
+			<a class="site-header__link site-header__link--wiki" href={wikiHref}>Wiki</a>
+			{!isHallOfFame && (
+				<a class="site-header__link site-header__link--hall" href={hallHref}>
+					Hall of Fame
+				</a>
+			)}
+		</nav>
+	)}
 </header>
 
 <style>
