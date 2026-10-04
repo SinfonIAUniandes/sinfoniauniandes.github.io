@@ -1,0 +1,178 @@
+---
+const placings = [
+	{ year: "2019", city: "Sídney", place: "4.º", note: "empate", fill: 0.4 },
+	{ year: "2022", city: "Bangkok", place: "2.º", note: "", fill: 0.7 },
+	{ year: "2023", city: "Burdeos", place: "2.º", note: "", fill: 0.7 },
+	{ year: "2024", city: "Eindhoven", place: "1.º", note: "", fill: 1, won: true },
+];
+---
+
+<section id="robocup" class="band">
+	<div class="shell">
+		<p class="eyebrow reveal">RoboCup@Home Social Standard Platform League</p>
+		<h2 class="reveal" style="--step: 1">Cuarto, segundo, segundo, primero.</h2>
+
+		<p class="lede reveal" style="--step: 2">
+			Entre 2011 y 2017 competimos con robots pequeños, en otra liga.
+		</p>
+		<p class="lede reveal" style="--step: 3">
+			Desde 2019 estamos en @Home: robots de servicio, casas de verdad, personas al lado.
+		</p>
+
+		<ol class="podium" role="list">
+			{
+				placings.map((entry, index) => (
+					<li
+						class:list={["podium__item", "reveal", entry.won && "podium__item--won"]}
+						style={`--fill: ${entry.fill}; --step: ${index + 2}`}
+					>
+						<div class="podium__bar">
+							<span class="podium__place">{entry.place}</span>
+						</div>
+						<p class="podium__meta">
+							<span class="podium__year">{entry.year}</span>
+							<span>{entry.note ? `${entry.city}, ${entry.note}` : entry.city}</span>
+						</p>
+					</li>
+				))
+			}
+		</ol>
+
+		<div class="winning">
+			<div class="winning__block reveal">
+				<p class="label">El equipo 2024</p>
+				<p class="note">
+					Alexandra Gutiérrez, Alonso Hernández, Santiago Rodríguez, David Cuevas, David Tobón
+					y más gente de esta casa. Llegaron primero, y no fue por un punto.
+				</p>
+			</div>
+
+			<div class="winning__block reveal" style="--step: 1">
+				<p class="label">Lo que hizo la diferencia</p>
+				<p class="note">
+					En la prueba más libre, el robot escuchó pedidos que nadie había programado.
+				</p>
+				<p class="note">
+					Pepper aprendió a seguir a alguien de cerca —casi siempre lo lograba en trayectos
+					cortos— y a leer gestos y el ambiente para entender cada pedido.
+				</p>
+				<p class="note">
+					Después lo contamos, con el código a la vista, en las actas de RoboCup 2024:
+					<em>SinfonIA Uniandes: Winning Team of the RoboCup@Home Social Standard Platform
+					League 2024</em>.
+				</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.podium {
+		--podium-h: clamp(8.5rem, 21vw, 15rem);
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 0 clamp(0.6rem, 2.2vw, 1.75rem);
+		margin: clamp(3rem, 7vh, 4.5rem) 0 0;
+		padding: 0 0 0.85rem;
+		border-bottom: 1px solid var(--line-strong);
+		list-style: none;
+	}
+
+	.podium__item {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+	}
+
+	.podium__bar {
+		position: relative;
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		height: calc(var(--fill) * var(--podium-h));
+		overflow: hidden;
+		border-top: 1px solid var(--line-strong);
+		background: var(--tint);
+	}
+
+	/*
+		Las barras crecen cuando entran en la pantalla: el podio se construye
+		ante el lector. Se anima clip-path, no la altura, para no mover el
+		layout en cada cuadro.
+	*/
+	@supports (animation-timeline: view()) {
+		@media (prefers-reduced-motion: no-preference) {
+			.podium__bar {
+				animation: grow-up both linear;
+				animation-timeline: view();
+				animation-range: entry 8% cover 55%;
+			}
+		}
+	}
+
+	.podium__place {
+		padding-top: 0.85rem;
+		color: var(--ink-faint);
+		font-family: var(--display);
+		font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+		font-weight: 500;
+		letter-spacing: -0.04em;
+		line-height: 1;
+	}
+
+	.podium__item--won .podium__bar {
+		border-top-width: 2px;
+		border-top-color: var(--accent);
+		background: var(--accent-wash);
+	}
+
+	/* El brillo del primer lugar pasa cada pocos segundos. */
+	@media (prefers-reduced-motion: no-preference) {
+		.podium__item--won .podium__bar::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 55%) 50%, transparent 65%);
+			animation: sheen 5s ease-in-out infinite;
+		}
+	}
+
+	.podium__item--won .podium__place {
+		color: var(--accent);
+	}
+
+	.podium__meta {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+		margin-top: 0.9rem;
+		color: var(--ink-soft);
+		font-size: 0.88rem;
+		line-height: 1.35;
+	}
+
+	.podium__year {
+		color: var(--ink);
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		font-weight: 500;
+	}
+
+	.winning {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+		gap: clamp(1.75rem, 5vw, 4rem);
+		margin-top: clamp(2.5rem, 6vh, 4rem);
+	}
+
+	@media (max-width: 48rem) {
+		.podium {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 2rem 1.25rem;
+		}
+
+		.winning {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+</style>

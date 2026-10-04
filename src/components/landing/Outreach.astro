@@ -1,0 +1,203 @@
+---
+const venues = [
+	{ name: "Uniandes Fest", note: "La vitrina de la universidad. Llevamos los robots y cualquiera puede hablarles." },
+	{ name: "Hospital Militar", note: "El robot entra al hospital y la gente se le acerca." },
+	{ name: "Biblioteca Virgilio Barco", note: "En la biblioteca, entre estantes, alguien le pide algo." },
+	{ name: "Fundación Santa Fe", note: "Nos sentamos con la fundación y dejamos que el robot conviva un rato." },
+];
+
+const support = ["Bancolombia", "Colsubsidio", "Celcia"];
+---
+
+<section id="outreach" class="band band--tint">
+	<div class="shell">
+		<h2 class="reveal">Llevamos los robots a ferias, hospitales y bibliotecas.</h2>
+
+		<p class="lede reveal" style="--step: 1">
+			Competir es solo la mitad.
+		</p>
+		<p class="lede reveal" style="--step: 2">
+			La otra mitad es poner un robot frente a quien nunca ha visto uno y dejar que le pida
+			cosas.
+		</p>
+
+		<div class="outreach">
+			<ul class="venues" role="list">
+				{
+					venues.map((venue, index) => (
+						<li class="venue reveal" style={`--step: ${index + 1}`}>
+							<h3>{venue.name}</h3>
+							<p>{venue.note}</p>
+						</li>
+					))
+				}
+			</ul>
+
+			<div class="outreach__side">
+				<div class="chunk reveal" style="--step: 2">
+					<p class="label">Talleres</p>
+					<p class="note">
+						Abrimos talleres para quien quiera empezar.
+						Las grabaciones quedan publicadas: no las guardamos en un cajón.
+					</p>
+				</div>
+
+				<div class="chunk reveal" style="--step: 3">
+					<p class="label">Encuéntranos</p>
+					<ul class="channels">
+						<li>
+							<a href="https://www.youtube.com/@SinfonIA-Uniandes" >YouTube</a>
+							<span class="mono">@SinfonIA-Uniandes</span>
+						</li>
+						<li>
+							<a href="https://www.instagram.com/sinfonia_uniandes/" >Instagram</a>
+							<span class="mono">@sinfonia_uniandes</span>
+						</li>
+					</ul>
+				</div>
+
+				<div class="chunk reveal" style="--step: 4">
+					<p class="label">Con el apoyo de</p>
+					<ul class="support">
+						{support.map((name) => <li>{name}</li>)}
+					</ul>
+					<p class="note support__note">Y de quienes diseñaron lo que nos pusimos en Eindhoven.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.outreach {
+		display: grid;
+		grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+		gap: clamp(2rem, 5vw, 4.5rem);
+		margin-top: clamp(2.5rem, 6vh, 4rem);
+	}
+
+	.venues {
+		margin: 0;
+		padding: 0;
+		border-bottom: 1px solid var(--line);
+		list-style: none;
+	}
+
+	.venue {
+		padding-block: clamp(1.2rem, 2.6vh, 1.7rem);
+		border-top: 1px solid var(--line);
+	}
+
+	.venue h3 {
+		margin: 0;
+		font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+	}
+
+	.venue p {
+		max-width: 32rem;
+		margin-top: 0.45rem;
+		color: var(--ink-soft);
+		font-size: 0.95rem;
+		line-height: 1.55;
+	}
+
+	.outreach__side {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1.75rem, 4vh, 2.75rem);
+	}
+
+	.chunk .note a {
+		text-decoration: underline;
+	}
+
+	.channels {
+		margin: 0;
+		padding: 0;
+		border-bottom: 1px solid var(--line);
+		list-style: none;
+	}
+
+	.channels li {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0.5rem 1rem;
+		padding-block: 0.6rem;
+		border-top: 1px solid var(--line);
+		font-size: 0.95rem;
+	}
+
+	.channels a {
+		text-decoration: underline;
+	}
+
+	.channels .mono {
+		color: var(--ink-soft);
+		font-size: 0.8rem;
+	}
+
+	.support {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.support li {
+		padding: 0.4rem 0.7rem;
+		border: 1px solid var(--line-strong);
+		color: var(--ink);
+		font-size: 0.85rem;
+		line-height: 1.2;
+		transition:
+			translate 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.2),
+			transform 0.25s ease,
+			border-color 0.25s ease,
+			color 0.25s ease;
+	}
+
+	/* Cada chip con una tinta del logotipo, y un saludo al pasar el cursor. */
+	.support li:nth-child(4n + 1) {
+		border-color: color-mix(in srgb, var(--pop-red) 55%, white);
+	}
+
+	.support li:nth-child(4n + 2) {
+		border-color: color-mix(in srgb, var(--pop-gold) 55%, white);
+	}
+
+	.support li:nth-child(4n + 3) {
+		border-color: color-mix(in srgb, var(--pop-blue) 55%, white);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.support li:hover {
+			translate: 0 -0.25rem;
+			transform: rotate(-2.2deg);
+			border-color: var(--ink);
+			color: var(--ink);
+		}
+
+		.channels a {
+			transition: color 0.2s ease, translate 0.2s ease;
+		}
+
+		.channels a:hover {
+			color: var(--pop-red);
+			translate: 0.2rem 0;
+		}
+	}
+
+	.support__note {
+		margin-top: 0.9rem;
+		font-size: 0.9rem;
+	}
+
+	@media (max-width: 60rem) {
+		.outreach {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+</style>

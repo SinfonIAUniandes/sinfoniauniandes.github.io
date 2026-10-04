@@ -1,0 +1,257 @@
+---
+import face from "../../assets/pepper/pepper.png";
+
+const baseUrl = import.meta.env.BASE_URL.replace(/\/+$/, "");
+
+const contacts = [
+	{ label: "Correo", value: "sinfonia@uniandes.edu.co", href: "mailto:sinfonia@uniandes.edu.co" },
+	{ label: "Edificio", value: "Mario Laserna, Cra. 1 E #19A-70, ML106, Bogotá" },
+	{ label: "Código", value: "github.com/SinfonIAUniandes", href: "https://github.com/SinfonIAUniandes" },
+	{ label: "Wiki", value: "Las notas del día a día, en español", href: `${baseUrl}/wiki` },
+	{ label: "Camino", value: "Hall of Fame", href: `${baseUrl}/hall-of-fame` },
+];
+
+const repos = [
+	"naoqi_driver2_sinfonIA",
+	"naoqi_bringup2_SinfonIA",
+	"docker-utils",
+	"lerobot_robot_nao",
+];
+---
+
+<section id="join" class="band">
+	<div class="shell">
+		<div class="join">
+			<div class="join__copy">
+				<h2 class="reveal">Hay un lugar en la mesa para cualquier disciplina.</h2>
+
+				<p class="lede reveal" style="--step: 1">
+					Cada semestre se sienta gente nueva: de eléctrica, de sistemas, de mecánica, de
+					derecho, de diseño.
+				</p>
+				<p class="lede reveal" style="--step: 2">
+					No hace falta llegar sabiendo. Escríbenos, pasa por el ML106 o lee la wiki con calma.
+				</p>
+
+				<div class="actions reveal" style="--step: 2">
+					<a class="action action--primary" href="mailto:sinfonia@uniandes.edu.co">Únete al grupo</a>
+					<a class="action action--quiet" href={`${baseUrl}/wiki`}>Lee la wiki</a>
+				</div>
+
+				<dl class="contacts">
+					{
+						contacts.map((contact, index) => (
+							<div class="contact reveal" style={`--step: ${index + 1}`}>
+								<dt>{contact.label}</dt>
+								<dd>
+									{contact.href ? <a href={contact.href}>{contact.value}</a> : contact.value}
+								</dd>
+							</div>
+						))
+					}
+				</dl>
+
+				<div class="repos reveal">
+					<p class="label">Código abierto</p>
+					<ul>
+						{repos.map((repo) => <li class="mono">{repo}</li>)}
+					</ul>
+					<p class="note repos__note">
+						Y unos veinte más. Si te da curiosidad, entra: la investigación OpenSource se lee
+						en voz alta.
+					</p>
+				</div>
+			</div>
+
+			<figure class="join__plate reveal" style="--step: 1">
+				<img
+					src={face.src}
+					width={face.width}
+					height={face.height}
+					alt="Primer plano de un robot Pepper mirando a la cámara"
+					loading="lazy"
+					decoding="async"
+				/>
+				<span class="join__bubble" aria-hidden="true">¡Ven al ML106!</span>
+				<figcaption>
+					Pepper. Con ella —y con Nao y con otros— hacemos casi todo lo que ves aquí.
+				</figcaption>
+			</figure>
+		</div>
+	</div>
+</section>
+
+<style>
+	.join {
+		display: grid;
+		grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+		gap: clamp(2rem, 5vw, 4.5rem);
+		align-items: start;
+	}
+
+	.contacts {
+		margin: clamp(2.5rem, 6vh, 3.5rem) 0 0;
+		padding: 0;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.contact {
+		display: grid;
+		grid-template-columns: minmax(0, 7rem) minmax(0, 1fr);
+		gap: 1rem;
+		padding-block: 0.7rem;
+		border-top: 1px solid var(--line);
+	}
+
+	.contact dt {
+		color: var(--ink-faint);
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		font-weight: 500;
+		letter-spacing: 0.12em;
+		line-height: 1.7;
+		text-transform: uppercase;
+	}
+
+	.contact dd {
+		margin: 0;
+		font-size: 0.98rem;
+		line-height: 1.55;
+	}
+
+	.repos {
+		margin-top: clamp(2rem, 5vh, 3rem);
+	}
+
+	.repos ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem 1.25rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.repos li {
+		color: var(--accent);
+		transition: translate 0.22s ease, color 0.22s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.repos li:hover {
+			translate: 0 -0.15rem;
+			color: var(--pop-red);
+		}
+	}
+
+	.repos__note {
+		margin-top: 0.9rem;
+		font-size: 0.92rem;
+	}
+
+	.join__plate {
+		position: sticky;
+		top: clamp(1rem, 8vh, 5rem);
+		margin: 0;
+	}
+
+	/* Un aura del color del logotipo detrás del retrato. */
+	.join__plate::before {
+		content: "";
+		position: absolute;
+		inset: -6% -9%;
+		z-index: -1;
+		border-radius: 2.5rem;
+		background:
+			radial-gradient(60% 55% at 74% 24%, rgb(219 62 59 / 12%), transparent 70%),
+			radial-gradient(55% 55% at 26% 76%, rgb(32 35 161 / 10%), transparent 72%);
+		filter: blur(2px);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.join__plate::before {
+			animation: drift 19s ease-in-out infinite alternate;
+		}
+	}
+
+	/* La invitación dicha en voz de robot. */
+	.join__bubble {
+		position: absolute;
+		top: 1.15rem;
+		right: 1.15rem;
+		z-index: 1;
+		padding: 0.55rem 1rem;
+		border: 1px solid color-mix(in srgb, var(--pop-red) 42%, white);
+		border-radius: 1.4rem;
+		background: rgb(255 255 255 / 93%);
+		color: var(--pop-red);
+		font-family: var(--display);
+		font-size: clamp(0.85rem, 1.5vw, 1rem);
+		font-weight: 500;
+		letter-spacing: -0.01em;
+		line-height: 1.2;
+		white-space: nowrap;
+		box-shadow: 0 12px 26px rgb(23 23 26 / 10%);
+	}
+
+	.join__bubble::after {
+		content: "";
+		position: absolute;
+		left: 1.15rem;
+		bottom: -0.4rem;
+		width: 0.8rem;
+		height: 0.8rem;
+		border-right: 1px solid;
+		border-bottom: 1px solid;
+		border-color: inherit;
+		border-radius: 0 0 0.22rem 0;
+		background: rgb(255 255 255 / 93%);
+		transform: rotate(45deg);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.join__bubble {
+			opacity: 0;
+			animation:
+				pop-in 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.2) 0.25s forwards,
+				bob 5s ease-in-out 0.9s infinite alternate;
+		}
+	}
+
+	.join__plate img {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		object-position: center;
+	}
+
+	.join__plate figcaption {
+		margin-top: 0.9rem;
+		padding-top: 0.7rem;
+		border-top: 1px solid var(--line);
+		color: var(--ink-faint);
+		font-size: 0.82rem;
+		line-height: 1.5;
+	}
+
+	@media (max-width: 60rem) {
+		.join {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.join__plate {
+			position: static;
+			order: -1;
+			max-width: 22rem;
+		}
+	}
+
+	@media (max-width: 34rem) {
+		.contact {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 0.25rem;
+		}
+	}
+</style>

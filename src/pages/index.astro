@@ -1,19 +1,109 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import Hero from '../components/landing/Hero.astro';
+import Ticker from '../components/landing/Ticker.astro';
+import About from '../components/landing/About.astro';
+import Alliance from '../components/landing/Alliance.astro';
+import RoboCup from '../components/landing/RoboCup.astro';
+import Fleet from '../components/landing/Fleet.astro';
+import Stack from '../components/landing/Stack.astro';
+import Outreach from '../components/landing/Outreach.astro';
+import Join from '../components/landing/Join.astro';
+
+import '../styles/landing.css';
+
+const description =
+	'SinfonIA es una iniciativa estudiantil de la Universidad de los Andes, en Bogotá. Hacemos investigación OpenSource y llevamos a Pepper, Nao y otros robots a espacios reales, donde interactúan con personas.';
+
+/* Conversaciones que podrían pasar frente a un robot social. */
+const greetings = [
+	'¡Hola!',
+	'¿Me pasas el azúcar?',
+	'Te escucho',
+	'Bienvenido a Uniandes',
+	'¿Cómo estás?',
+	'Gracias',
+	'¿Te ayudo con eso?',
+	'Cuéntame más',
+	'Vamos juntos',
+];
+
+/* Lo que somos cuando no competimos. */
+const chorus = [
+	'Investigación OpenSource',
+	'Personas primero',
+	'Robots entre humanos',
+	'Código abierto',
+	'Hecho en Bogotá',
+	'Para todos',
+	'Aprender juntos',
+	'Robots que conviven',
+];
 ---
 
-<Layout>
-	<main class="landing-page">
-		<SiteHeader animate />
+<Layout title="SinfonIA Uniandes" description={description} lang="es">
+	<div class="progress" aria-hidden="true">
+		<span class="progress__fill"></span>
+	</div>
+
+	<main class="landing">
+		<div class="stage">
+			<SiteHeader animate />
+			<Hero />
+		</div>
+
+		<Ticker phrases={greetings} />
+
+		<About />
+		<Alliance />
+		<RoboCup />
+		<Fleet />
+		<Stack />
+		<Outreach />
+		<Ticker phrases={chorus} reverse tint />
+		<Join />
 	</main>
 </Layout>
 
 <style>
-	.landing-page {
+	/*
+		.progress es la posición de lectura, una línea de director por el borde
+		izquierdo. Fija y solo con transform, sin costo por cuadro.
+	*/
+	.progress {
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		z-index: 6;
+		width: 2px;
+		pointer-events: none;
+	}
+
+	.progress__fill {
+		display: block;
+		width: 100%;
+		height: 100%;
+		background: var(--accent);
+		transform: scaleY(0);
+		transform-origin: top;
+	}
+
+	/*
+		.stage contiene el encabezado animado. Debe ser un bloque del tamaño del
+		héroe; si no, la animación del logo tomaría la página entera como referencia.
+		`clip` contiene al robot que se sale del héroe sin volverlo un contenedor
+		de scroll, lo que rompería las placas fijas de abajo.
+	*/
+	.stage {
 		position: relative;
-		min-height: 100svh;
-		overflow: hidden;
-		background: white;
+		overflow: clip;
+	}
+
+	@media (max-width: 34rem) {
+		.progress {
+			display: none;
+		}
 	}
 </style>

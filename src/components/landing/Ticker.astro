@@ -1,0 +1,152 @@
+---
+/*
+	Cinta de frases que pasa sola, como una conversación de fondo.
+	La fila se duplica y el desplazamiento va de 0 a -50 %, así el bucle
+	no tiene costura. Se detiene al pasar el cursor y no se mueve con
+	`prefers-reduced-motion: reduce`.
+*/
+interface Props {
+	phrases: string[];
+	reverse?: boolean;
+	tint?: boolean;
+}
+
+const { phrases, reverse = false, tint = false } = Astro.props;
+---
+
+<div class:list={["ticker", reverse && "ticker--reverse", tint && "ticker--tint"]} aria-hidden="true">
+	<div class="ticker__track">
+		{
+			[0, 1].map(() => (
+				<ul class="ticker__row">
+					{phrases.map((phrase, index) => (
+						<li class="ticker__item" style={`--tone: var(--tone-${(index % 4) + 1})`}>
+							{phrase}
+						</li>
+					))}
+				</ul>
+			))
+		}
+	</div>
+</div>
+
+<style>
+	.ticker {
+		overflow: clip;
+		padding-block: clamp(0.85rem, 2vw, 1.35rem);
+		border-block: 1px solid var(--line);
+		background: var(--paper);
+	}
+
+	.ticker--tint {
+		border-color: var(--line-strong);
+		background: var(--tint);
+	}
+
+	.ticker__track {
+		display: flex;
+		width: max-content;
+		animation: marquee 46s linear infinite;
+	}
+
+	.ticker--reverse .ticker__track {
+		animation-direction: reverse;
+	}
+
+	.ticker__row {
+		display: flex;
+		align-items: center;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.ticker__item {
+		display: flex;
+		align-items: center;
+		gap: clamp(1.15rem, 2.6vw, 2.15rem);
+		margin-right: clamp(1.15rem, 2.6vw, 2.15rem);
+		color: var(--tone);
+		font-family: var(--display);
+		font-size: clamp(1.05rem, 2.3vw, 1.65rem);
+		font-weight: 500;
+		letter-spacing: -0.028em;
+		line-height: 1.15;
+		white-space: nowrap;
+	}
+
+	/* El punto que separa una frase de la siguiente, como un pulso. */
+	.ticker__item::after {
+		content: "";
+		width: 0.42em;
+		height: 0.42em;
+		border-radius: 999px;
+		background: currentcolor;
+		opacity: 0.38;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ticker__track {
+			animation: none;
+		}
+	}
+</style>
+
+<script>
+	/*
+		Al pasar el cursor la cinta no se clava: el reloj de la animación baja
+		a cero, como un freno, y al salir vuelve a su ritmo.
+	*/
+	const BRAKE_MS = 920;
+	const ROLL_MS = 780;
+
+	const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+	const easeInOut = (t: number) => t * t * (3 - 2 * t);
+
+	function setupTicker(root: HTMLElement) {
+		const track = root.querySelector<HTMLElement>(".ticker__track");
+		if (!track) return;
+
+		const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+		if (reduceMotion.matches) return;
+
+		let raf = 0;
+
+		const findAnim = () => track.getAnimations()[0];
+
+		const setRate = (to: number, duration: number) => {
+			const current = findAnim();
+			if (!current) return;
+			window.cancelAnimationFrame(raf);
+
+			const from = current.playbackRate;
+			const start = performance.now();
+			const ease = to === 0 ? easeOut : easeInOut;
+
+			const tick = (now: number) => {
+				const t = Math.min((now - start) / duration, 1);
+				current.playbackRate = from + (to - from) * ease(t);
+				if (t < 1) raf = requestAnimationFrame(tick);
+			};
+
+			raf = requestAnimationFrame(tick);
+		};
+
+		root.addEventListener("pointerenter", () => setRate(0, BRAKE_MS));
+		root.addEventListener("pointerleave", () => setRate(1, ROLL_MS));
+
+		reduceMotion.addEventListener("change", () => {
+			if (reduceMotion.matches) {
+				window.cancelAnimationFrame(raf);
+				const current = findAnim();
+				if (current) current.playbackRate = 0;
+			} else {
+				setRate(1, ROLL_MS);
+			}
+		});
+	}
+
+	for (const ticker of document.querySelectorAll<HTMLElement>(".ticker")) {
+		setupTicker(ticker);
+	}
+</script>
