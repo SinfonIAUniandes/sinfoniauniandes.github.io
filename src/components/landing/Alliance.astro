@@ -1,0 +1,169 @@
+---
+const robots = [
+	{ name: "Ópera", home: "Universidad de los Andes", tone: "var(--pop-gray)" },
+	{ name: "Lied", home: "Universidad del Magdalena", tone: "var(--pop-red)" },
+	{ name: "Sonata", home: "Universidad Santo Tomás", tone: "var(--pop-gold)" },
+	{ name: "Lírica", home: "Bancolombia", tone: "var(--pop-blue)" },
+];
+---
+
+<section id="alliance" class="band band--tint">
+	<div class="shell">
+		<h2 class="reveal">Cuatro robots, cuatro nombres, una alianza.</h2>
+
+		<div class="reveal" style="--step: 1">
+			<p class="lede">
+				La Alianza SinfonIA nació entre 2018 y 2019.
+			</p>
+			<p class="lede">
+				Se sentaron juntas la Universidad de los Andes, la Universidad Santo Tomás, la
+				Universidad del Magdalena y el Centro de Competencias en IA de Bancolombia.
+			</p>
+			<p class="lede">
+				SoftBank Robotics envió cuatro robots Pepper. Cada uno llegó con un nombre, como quien
+				llega a una casa.
+			</p>
+		</div>
+
+		<ol class="names" role="list">
+			{
+				robots.map((robot, index) => (
+					<li class="name reveal" style={`--step: ${index + 1}`}>
+						<span class="name__dot" style={`--tone: ${robot.tone}`} aria-hidden="true" />
+						<h3>{robot.name}</h3>
+						<p>{robot.home}</p>
+					</li>
+				))
+			}
+		</ol>
+
+		<div class="after reveal">
+			<div>
+				<p class="note">
+					Desde entonces, el grupo de Uniandes creció como una iniciativa propia.
+				</p>
+				<p class="note">
+					Hay un lugar para quien venga de eléctrica, de sistemas, de mecánica, de derecho, de
+					diseño… o de cualquier otro pasillo del campus.
+				</p>
+			</div>
+			<div class="after__where">
+				<p class="label">Dónde nos encontramos</p>
+				<p>
+					Edificio Mario Laserna<br />
+					Cra. 1 E #19A-70, salón ML106<br />
+					Bogotá, Colombia
+				</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.names {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: clamp(1.25rem, 3vw, 2.5rem);
+		margin: clamp(3rem, 7vh, 4.5rem) 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.name {
+		padding-top: 1rem;
+		border-top: 1px solid var(--line-strong);
+	}
+
+	/*
+		Cada robot es un nodo de la alianza: el punto emite un anillo que se
+		disuelve, como una señal que viaja de una sede a otra.
+	*/
+	.name__dot {
+		position: relative;
+		display: block;
+		width: 0.65rem;
+		height: 0.65rem;
+		margin-bottom: 0.85rem;
+		border-radius: 999px;
+		background: var(--tone);
+		transition: transform 0.25s ease;
+	}
+
+	.name__dot::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border: 1px solid var(--tone);
+		border-radius: 999px;
+		opacity: 0;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.name__dot::after {
+			animation: ping-ring 2.8s ease-out infinite;
+		}
+
+		.name:nth-child(2) .name__dot::after {
+			animation-delay: 0.7s;
+		}
+
+		.name:nth-child(3) .name__dot::after {
+			animation-delay: 1.4s;
+		}
+
+		.name:nth-child(4) .name__dot::after {
+			animation-delay: 2.1s;
+		}
+
+		.name:hover .name__dot {
+			transform: scale(1.45);
+		}
+	}
+
+	.name h3 {
+		margin: 0;
+		font-size: clamp(1.8rem, 3.6vw, 2.9rem);
+		line-height: 1;
+	}
+
+	.name p {
+		margin-top: 0.7rem;
+		color: var(--ink-soft);
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: -0.01em;
+		line-height: 1.45;
+	}
+
+	.after {
+		display: grid;
+		grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+		gap: clamp(1.75rem, 5vw, 4rem);
+		margin-top: clamp(3rem, 7vh, 4.5rem);
+		padding-top: clamp(1.5rem, 3.5vh, 2.25rem);
+		border-top: 1px solid var(--line-strong);
+	}
+
+	.after__where p:last-child {
+		color: var(--ink-soft);
+		font-size: 0.95rem;
+		line-height: 1.6;
+	}
+
+	@media (max-width: 60rem) {
+		.names {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.after {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+
+	@media (max-width: 34rem) {
+		.names {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 1.5rem;
+		}
+	}
+</style>

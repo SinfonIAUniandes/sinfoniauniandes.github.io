@@ -3,11 +3,13 @@ import "../styles/global.css";
 
 interface Props {
 	title?: string;
+	description?: string;
 	lang?: string;
 	theme?: "light" | "dark";
 }
 
-const { title = "SinfonIA Uniandes", lang = "en", theme = "light" } = Astro.props;
+const { title = "SinfonIA Uniandes", description, lang = "en", theme = "light" } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/+$/, "");
 ---
 
 <!doctype html>
@@ -15,9 +17,10 @@ const { title = "SinfonIA Uniandes", lang = "en", theme = "light" } = Astro.prop
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href={`${baseUrl}/favicon.svg`} />
+        <link rel="icon" href={`${baseUrl}/favicon.ico`} />
         <meta name="generator" content={Astro.generator} />
+        {description && <meta name="description" content={description} />}
         <title>{title}</title>
     </head>
     <body>

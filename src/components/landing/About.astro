@@ -1,0 +1,144 @@
+---
+const words = [
+	{ text: "sinergia", tone: "var(--pop-red)" },
+	{ text: "investigación", tone: "var(--pop-gold)" },
+	{ text: "formación", tone: "var(--pop-gray)" },
+	{ text: "inteligencia artificial", tone: "var(--pop-blue)" },
+];
+
+const stats = [
+	{ n: 4, suffix: "", label: "Robots Pepper con nombre propio" },
+	{ n: 1, suffix: "", label: "Campeonato mundial, en Eindhoven" },
+	{ n: 7, suffix: "", label: "Cosas de casa que el robot aprende a hacer" },
+	{ n: 20, suffix: "+", label: "Proyectos abiertos, para quien quiera mirar" },
+];
+---
+
+<section id="about" class="band">
+	<div class="shell">
+		<h2 class="reveal">El nombre lo dice todo.</h2>
+
+		<p class="lede reveal" style="--step: 1">
+			SinfonIA significa{" "}
+			{words.map((word, index) => (
+				<>
+					<em class="tint-word" style={`--tone: ${word.tone}`}>{word.text}</em>
+					{index < words.length - 2 ? ", " : index === words.length - 2 ? " e " : "."}
+				</>
+			))}
+		</p>
+		<p class="lede reveal" style="--step: 2">
+			Somos una iniciativa estudiantil de la Universidad de los Andes, en Bogotá.
+		</p>
+		<p class="lede reveal" style="--step: 3">
+			Hacemos investigación OpenSource y llevamos a Pepper, Nao y otros robots a espacios
+			reales, donde interactúan con humanos.
+		</p>
+
+		<div class="stats">
+			{
+				stats.map((stat, index) => (
+					<div class="stat reveal" style={`--step: ${index + 4}`}>
+						<p class="stat__n">
+							<span data-count={stat.n}>{stat.n}</span>
+							{stat.suffix}
+						</p>
+						<p class="stat__label">{stat.label}</p>
+					</div>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.stats {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: clamp(1.25rem, 3vw, 2.5rem);
+		margin-top: clamp(3rem, 7vh, 4.5rem);
+	}
+
+	.stat {
+		padding-top: 1rem;
+		border-top: 1px solid var(--line-strong);
+	}
+
+	.stat__n {
+		font-family: var(--display);
+		font-size: clamp(2.2rem, 4.6vw, 3.4rem);
+		font-weight: 500;
+		letter-spacing: -0.045em;
+		line-height: 1;
+	}
+
+	.stat__n span {
+		color: var(--accent);
+	}
+
+	.stat__label {
+		margin-top: 0.7rem;
+		color: var(--ink-soft);
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: -0.01em;
+		line-height: 1.45;
+	}
+
+	@media (max-width: 60rem) {
+		.stats {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 34rem) {
+		.stats {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 1.5rem;
+		}
+	}
+</style>
+
+<script>
+	/*
+		Los números se cuentan al llegar: 0, 1, 2… hasta el dato real.
+		Con `prefers-reduced-motion` el dato simplemente está ahí, y sin
+		IntersectionObserver también.
+	*/
+	const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+	const countUp = (node: HTMLElement) => {
+		const target = Number(node.dataset.count);
+		if (!Number.isFinite(target)) return;
+
+		const start = performance.now();
+		const duration = 1150;
+
+		const tick = (now: number) => {
+			const t = Math.min((now - start) / duration, 1);
+			const eased = 1 - Math.pow(1 - t, 3);
+			node.textContent = String(Math.round(target * eased));
+			if (t < 1) requestAnimationFrame(tick);
+		};
+
+		requestAnimationFrame(tick);
+	};
+
+	const nodes = document.querySelectorAll<HTMLElement>("[data-count]");
+
+	if (!prefersReduced.matches && "IntersectionObserver" in window) {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						countUp(entry.target as HTMLElement);
+						observer.unobserve(entry.target);
+					}
+				}
+			},
+			{ threshold: 0.6 }
+		);
+
+		nodes.forEach((node) => observer.observe(node));
+	}
+</script>

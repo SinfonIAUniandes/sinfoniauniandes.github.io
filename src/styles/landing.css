@@ -1,0 +1,488 @@
+/*
+	Lenguaje compartido de la página.
+
+	Cada sección guarda su propio layout en estilos locales. Este archivo solo
+	contiene los tokens comunes, el ritmo vertical y las primitivas de movimiento
+	con scroll, para que la página se lea como un instrumento y no como ocho.
+
+	Regla de movimiento: todo es visible por defecto y cada animación se activa
+	solo con `@supports (animation-timeline: view())` más
+	`prefers-reduced-motion: no-preference`. Un navegador sin ese soporte muestra
+	la página terminada sin más.
+*/
+
+/*
+	Los tokens viven en :root para que la línea de lectura fija, que está fuera
+	del envoltorio de la página, use la misma paleta que el resto.
+*/
+:root {
+	--ink: #17171a;
+	--ink-soft: #56555d;
+	--ink-faint: #7c7b84;
+	--line: #e3e2e9;
+	--line-strong: #cdccd7;
+	--accent: #2023a1;
+	--accent-wash: #edeefa;
+	--paper: #fff;
+	--tint: #f4f4f8;
+
+	/*
+		Las cuatro tintas del logotipo: gris, rojo, amarillo y azul. Son el
+		vocabulario de color de los gestos sociales (puntos, burbujas, cintas).
+	*/
+	--pop-gray: #5b5a60;
+	--pop-red: #db3e3b;
+	--pop-gold: #a88814;
+	--pop-blue: #2023a1;
+
+	--tone-1: var(--pop-red);
+	--tone-2: var(--pop-gray);
+	--tone-3: var(--pop-gold);
+	--tone-4: var(--pop-blue);
+
+	--display: "Space Grotesk", "Lato", sans-serif;
+	--body: "Lato", sans-serif;
+	--mono: "JetBrains Mono", ui-monospace, monospace;
+
+	--shell: 84rem;
+	--gutter: clamp(1.15rem, 5vw, 4.5rem);
+	--measure: 34rem;
+	--band: clamp(5.5rem, 11vh, 9.5rem);
+}
+
+.landing {
+	color: var(--ink);
+	background: var(--paper);
+	font-family: var(--body);
+}
+
+/* ---------- Primitivas de layout ---------- */
+
+.landing .shell {
+	width: min(100% - var(--gutter) * 2, var(--shell));
+	margin-inline: auto;
+}
+
+.landing section[id] {
+	scroll-margin-top: clamp(1rem, 6vh, 4rem);
+}
+
+.landing .band {
+	padding-block: var(--band);
+}
+
+.landing .band--tint {
+	background: var(--tint);
+}
+
+/* ---------- Tipografía ---------- */
+
+.landing h1,
+.landing h2,
+.landing h3 {
+	font-family: var(--display);
+	font-weight: 500;
+	letter-spacing: -0.032em;
+	line-height: 1.02;
+	text-wrap: balance;
+}
+
+.landing h2 {
+	font-size: clamp(2.1rem, 5vw, 3.7rem);
+	margin: 0;
+}
+
+.landing .eyebrow {
+	margin: 0 0 1.15rem;
+	color: var(--accent);
+	font-family: var(--mono);
+	font-size: 0.72rem;
+	font-weight: 500;
+	letter-spacing: 0.15em;
+	line-height: 1.4;
+	text-transform: uppercase;
+}
+
+.landing p {
+	margin: 0;
+	font-size: clamp(1rem, 1.15vw, 1.1rem);
+	line-height: 1.62;
+}
+
+.landing .lede {
+	max-width: var(--measure);
+	margin-top: 1.4rem;
+	color: var(--ink-soft);
+}
+
+.landing .lede + .lede {
+	margin-top: 1rem;
+}
+
+.landing .note + .note {
+	margin-top: 0.8rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	html {
+		scroll-behavior: smooth;
+	}
+}
+
+.landing .note {
+	max-width: 40rem;
+	color: var(--ink-soft);
+	font-size: 0.98rem;
+	line-height: 1.6;
+}
+
+.landing strong {
+	font-weight: 700;
+	color: var(--ink);
+}
+
+.landing .label {
+	margin: 0 0 0.85rem;
+	color: var(--ink-faint);
+	font-family: var(--mono);
+	font-size: 0.7rem;
+	font-weight: 500;
+	letter-spacing: 0.14em;
+	line-height: 1.4;
+	text-transform: uppercase;
+}
+
+.landing .mono {
+	font-family: var(--mono);
+	font-size: 0.86rem;
+	letter-spacing: -0.01em;
+}
+
+/* ---------- Enlaces y acciones ---------- */
+
+.landing a {
+	color: var(--accent);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.22em;
+	transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.landing a:hover {
+	text-decoration-color: currentcolor;
+}
+
+.landing :is(a, button):focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 0.28rem;
+}
+
+.landing .actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.7rem;
+	margin-top: 2.2rem;
+}
+
+.landing .action {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.6rem;
+	padding: 0.82rem 1.4rem;
+	font-family: var(--display);
+	font-size: 0.98rem;
+	font-weight: 500;
+	letter-spacing: -0.01em;
+	line-height: 1;
+	text-decoration: none;
+	white-space: nowrap;
+	transition:
+		background 0.2s ease,
+		border-color 0.2s ease,
+		color 0.2s ease,
+		transform 0.12s ease;
+}
+
+.landing .action--primary {
+	background: var(--accent);
+	border: 1px solid var(--accent);
+	color: #fff;
+}
+
+.landing .action--primary:hover {
+	background: #191b83;
+	color: #fff;
+}
+
+.landing .action--quiet {
+	background: transparent;
+	border: 1px solid var(--line-strong);
+	color: var(--ink);
+}
+
+.landing .action--quiet:hover {
+	border-color: var(--ink);
+	color: var(--ink);
+}
+
+.landing .action:active {
+	transform: translateY(1px);
+}
+
+/* ---------- Movimiento con scroll ---------- */
+
+@keyframes reveal-rise {
+	from {
+		opacity: 0;
+		transform: translateY(2rem);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes hero-exit {
+	to {
+		opacity: 0.1;
+		transform: translateY(3.5rem) scale(1.06);
+	}
+}
+
+@keyframes progress-fill {
+	to {
+		transform: scaleY(1);
+	}
+}
+
+@keyframes hero-rise {
+	from {
+		opacity: 0;
+		transform: translateY(1.5rem);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes idle-float {
+	to {
+		transform: translateY(-0.7rem);
+	}
+}
+
+@supports (animation-timeline: view()) {
+	@media (prefers-reduced-motion: no-preference) {
+		/* El contenido entra al llegar al viewport, con desfase por --step. */
+		.landing .reveal {
+			animation: reveal-rise both linear;
+			animation-timeline: view();
+			animation-range: entry 0% cover calc(19% + var(--step, 0) * 4%);
+		}
+	}
+}
+
+@supports (animation-timeline: scroll()) {
+	@media (prefers-reduced-motion: no-preference) {
+		/* El héroe se aparta cuando el lector empieza a moverse. */
+		.landing .hero__art {
+			animation: hero-exit both linear;
+			animation-timeline: scroll(root block);
+			animation-range: 0% 7%;
+		}
+
+		/* Posición de lectura, como línea de director por el borde izquierdo. */
+		.landing .progress__fill {
+			animation: progress-fill both linear;
+			animation-timeline: scroll(root block);
+		}
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.landing .hero__item {
+		opacity: 0;
+		animation: hero-rise 0.85s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+		animation-delay: var(--at, 0s);
+	}
+
+	/* El robot nunca se queda quieto del todo. */
+	.landing .hero__figure {
+		animation: idle-float 6.5s ease-in-out 0.4s infinite alternate;
+	}
+}
+
+/* ---------- Identidad viva: gestos sociales ---------- */
+
+/*
+	El logotipo se traza letra por letra; aquí la página responde con el mismo
+	espíritu: las palabras suben una a una, las burbujas aparecen como en una
+	conversación, los puntos laten como quien está hablando y todo objeto
+	responde al cursor. Como arriba, sin `prefers-reduced-motion: no-preference`
+	no hay animación: la página queda quieta y completa.
+*/
+
+@keyframes word-rise {
+	from {
+		opacity: 0;
+		transform: translateY(0.85em) rotate(1.6deg);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes pop-in {
+	from {
+		opacity: 0;
+		transform: scale(0.62) translateY(0.8rem);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes bob {
+	to {
+		translate: 0 -0.6rem;
+	}
+}
+
+@keyframes drift {
+	to {
+		transform: translate3d(3%, -4%, 0) scale(1.12);
+	}
+}
+
+@keyframes marquee {
+	to {
+		transform: translateX(-50%);
+	}
+}
+
+@keyframes pulse-dot {
+	0%,
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 0.45;
+		transform: scale(0.7);
+	}
+}
+
+@keyframes ping-ring {
+	to {
+		opacity: 0;
+		transform: scale(2.4);
+	}
+}
+
+@keyframes sheen {
+	0%,
+	58% {
+		translate: -130% 0;
+	}
+	100% {
+		translate: 130% 0;
+	}
+}
+
+/* Crece desde el suelo, como el podio de RoboCup. */
+@keyframes grow-up {
+	from {
+		clip-path: inset(100% 0 0 0);
+	}
+	to {
+		clip-path: inset(0 0 0 0);
+	}
+}
+
+/* Un subrayado de marcador que se engrosa al pasar el cursor. */
+.landing .tint-word {
+	font-style: normal;
+	font-weight: 700;
+	color: var(--tone, var(--ink));
+	padding-bottom: 0.08em;
+	background-image: linear-gradient(currentcolor, currentcolor);
+	background-repeat: no-repeat;
+	background-position: 0 100%;
+	background-size: 100% 0.1em;
+	transition: background-size 0.3s ease, translate 0.3s ease;
+}
+
+/* El punto que late: cada eyebrow es algo que está pasando ahora. */
+.landing .eyebrow::before {
+	content: "";
+	display: inline-block;
+	width: 0.52em;
+	height: 0.52em;
+	margin-right: 0.62em;
+	border-radius: 999px;
+	background: var(--pop-red);
+	vertical-align: 0.1em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.landing .eyebrow::before {
+		animation: pulse-dot 2.6s ease-in-out infinite;
+	}
+
+	.landing .tint-word:hover {
+		background-size: 100% 0.32em;
+		translate: 0 -0.08em;
+	}
+
+	/* Todo lo que se puede tocar se levanta un poco al acercarse el cursor. */
+	.landing :is(.name, .venue, .chore, .layer, .chunk, .contact, .podium__item, .stat) {
+		transition:
+			translate 0.28s cubic-bezier(0.2, 0.75, 0.25, 1),
+			border-color 0.28s ease,
+			background-color 0.28s ease,
+			box-shadow 0.28s ease;
+	}
+
+	.landing :is(.name, .venue, .chore, .layer, .chunk, .contact, .podium__item, .stat):hover {
+		translate: 0 -0.35rem;
+		border-color: var(--accent);
+		background-color: var(--paper);
+		box-shadow: 0 18px 32px rgb(23 23 26 / 7%);
+	}
+
+	.landing .action {
+		transition:
+			background 0.2s ease,
+			border-color 0.2s ease,
+			color 0.2s ease,
+			transform 0.12s ease,
+			translate 0.25s cubic-bezier(0.2, 0.75, 0.25, 1),
+			box-shadow 0.25s ease;
+	}
+
+	.landing .action:hover {
+		translate: 0 -0.22rem;
+		box-shadow: 0 14px 28px rgb(23 23 26 / 12%);
+	}
+
+	/* Un brillo recorre el botón principal, como una invitación. */
+	.landing .action--primary {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.landing .action--primary::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(105deg, transparent 32%, rgb(255 255 255 / 38%) 50%, transparent 68%);
+		translate: -130% 0;
+	}
+
+	.landing .action--primary:hover::after {
+		transition: translate 0.65s ease;
+		translate: 130% 0;
+	}
+}

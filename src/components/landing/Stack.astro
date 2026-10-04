@@ -1,0 +1,163 @@
+---
+import platform from "../../assets/pepper/SBR_Pepper-Hero_FullRobot.webp";
+
+const layers = [
+	{
+		name: "Ver",
+		note: "Las cámaras de la cabeza. Caras, objetos, el cuarto. El robot mira como quien entra a una habitación.",
+	},
+	{
+		name: "Moverse",
+		note: "Sigue a una persona, no a un punto en el mapa. Cruza un pasillo sin atropellar a nadie.",
+	},
+	{
+		name: "Tocar",
+		note: "Los brazos saludan, alcanzan, sostienen. Lo cotidiano, hecho con las manos.",
+	},
+	{
+		name: "Hablar",
+		note: "Escucha, entiende, responde. A veces aquí mismo; a veces, si hace falta, con un poco de ayuda en la nube.",
+	},
+	{
+		name: "Unirlo todo",
+		note: "El código está abierto. Pepper, Nao y lo que venga se conectan, y a veces improvisamos —una vez, hasta con una Nintendo 3DS.",
+	},
+];
+---
+
+<section id="stack" class="band">
+	<div class="shell">
+		<p class="eyebrow reveal">Cómo se sostiene todo</p>
+		<h2 class="reveal" style="--step: 1">Cinco maneras de estar en el mundo.</h2>
+
+		<p class="lede reveal" style="--step: 2">
+			El robot no piensa en un solo sitio.
+		</p>
+		<p class="lede reveal" style="--step: 3">
+			Cada pieza puede vivir en Pepper, en un computador al lado o, si hace falta, en la nube.
+		</p>
+
+		<div class="stack">
+			<ol class="layers" role="list">
+				{
+					layers.map((layer, index) => (
+						<li class="layer reveal" style={`--step: ${index + 2}`}>
+							<h3>{layer.name}</h3>
+							<p>{layer.note}</p>
+						</li>
+					))
+				}
+			</ol>
+
+			<figure class="stack__plate reveal" style="--step: 2">
+				<img
+					src={platform.src}
+					width={platform.width}
+					height={platform.height}
+					alt="Un robot Pepper de cuerpo entero, con quien más convivimos"
+					loading="lazy"
+					decoding="async"
+				/>
+				<figcaption>Pepper, de cuerpo entero. Con ella —y con Nao y con otros— hacemos casi todo.</figcaption>
+			</figure>
+		</div>
+	</div>
+</section>
+
+<style>
+	.stack {
+		display: grid;
+		grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+		gap: clamp(2rem, 5vw, 4.5rem);
+		margin-top: clamp(2.5rem, 6vh, 4rem);
+	}
+
+	.layers {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.layer {
+		display: grid;
+		grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+		gap: clamp(0.75rem, 2.5vw, 2rem);
+		padding-block: clamp(1.2rem, 2.8vh, 1.8rem);
+		border-top: 1px solid var(--line);
+	}
+
+	.layer:last-child {
+		border-bottom: 1px solid var(--line);
+	}
+
+	.layer h3 {
+		margin: 0;
+		font-size: clamp(1.1rem, 1.7vw, 1.4rem);
+		letter-spacing: -0.028em;
+		line-height: 1.15;
+		transition: color 0.25s ease, translate 0.25s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.layer:hover h3 {
+			color: var(--accent);
+			translate: 0.35rem 0;
+		}
+	}
+
+	.layer p {
+		color: var(--ink-soft);
+		font-size: 0.97rem;
+		line-height: 1.55;
+	}
+
+	/* La plataforma se queda quieta mientras las capas pasan. */
+	.stack__plate {
+		position: sticky;
+		top: clamp(1rem, 8vh, 5rem);
+		align-self: start;
+		margin: 0;
+		padding: clamp(1rem, 2.5vw, 1.75rem);
+		background: var(--tint);
+	}
+
+	.stack__plate img {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-height: 26rem;
+		object-fit: contain;
+	}
+
+	/* La plataforma flota mientras las capas pasan: nada del robot está tieso. */
+	@media (prefers-reduced-motion: no-preference) {
+		.stack__plate img {
+			animation: bob 7s ease-in-out 0.8s infinite alternate;
+		}
+	}
+
+	.stack__plate figcaption {
+		margin-top: 0.9rem;
+		padding-top: 0.7rem;
+		border-top: 1px solid var(--line);
+		color: var(--ink-faint);
+		font-size: 0.82rem;
+	}
+
+	@media (max-width: 60rem) {
+		.stack {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.stack__plate {
+			position: static;
+			max-width: 22rem;
+		}
+	}
+
+	@media (max-width: 40rem) {
+		.layer {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+</style>

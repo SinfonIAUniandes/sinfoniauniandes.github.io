@@ -1,0 +1,431 @@
+---
+import figure from "../../assets/pepper/Pepper-the-Robot-PNG.png";
+
+const headline = ["Robots", "sociales,", "en", "espacios", "reales."];
+
+const bubbles = [
+	{ text: "¡Hola!", tone: "var(--pop-red)", className: "bubble--a", at: "2.35s" },
+	{ text: "¿Me pasas el azúcar?", tone: "var(--pop-gold)", className: "bubble--b", at: "2.6s" },
+	{ text: "Bienvenido a Uniandes", tone: "var(--pop-blue)", className: "bubble--c", at: "2.85s" },
+];
+
+const sections = [
+	{ href: "#about", label: "Quiénes somos" },
+	{ href: "#alliance", label: "La alianza" },
+	{ href: "#robocup", label: "RoboCup" },
+	{ href: "#fleet", label: "Los robots" },
+	{ href: "#stack", label: "Cómo lo hacemos" },
+	{ href: "#outreach", label: "Fuera del campus" },
+];
+---
+
+<div class="hero">
+	<span class="hero__aura" aria-hidden="true"></span>
+	<div class="shell hero__shell">
+		<div class="hero__grid">
+			<div class="hero__copy">
+				<p class="eyebrow hero__item" style="--at: 1.45s">Investigación abierta, robots entre personas</p>
+
+				<h1 style="--at: 1.58s">
+					{
+						headline.map((word, index) => (
+							<span class="hero__word" style={`--i: ${index}`}>{word} </span>
+						))
+					}
+				</h1>
+
+				<p class="lede hero__item" style="--at: 1.78s">
+					Una iniciativa estudiantil de la Universidad de los Andes, en Bogotá.
+				</p>
+				<p class="lede hero__item" style="--at: 1.86s">
+					Hacemos investigación OpenSource y llevamos a Pepper, Nao y otros robots a espacios
+					reales donde interactúan con humanos.
+				</p>
+
+				<div class="actions hero__item" style="--at: 1.94s">
+					<a class="action action--primary" href="mailto:sinfonia@uniandes.edu.co">Únete al grupo</a>
+					<a class="action action--quiet" href="#robocup">Mira el camino hasta Eindhoven</a>
+				</div>
+			</div>
+
+			<div class="hero__art">
+				<div class="hero__enter hero__item" style="--at: 1.5s">
+					<div class="hero__stage">
+						<img
+							class="hero__figure"
+							src={figure.src}
+							width={figure.width}
+							height={figure.height}
+							alt="Un robot Pepper de SinfonIA con un brazo en alto y la marca Uniandes en su tableta"
+							fetchpriority="high"
+							decoding="async"
+						/>
+						<div class="hero__bubbles" aria-hidden="true">
+							{
+								bubbles.map((bubble) => (
+									<span
+										class:list={["bubble", bubble.className]}
+										style={`--tone: ${bubble.tone}; --at: ${bubble.at}`}
+									>
+										{bubble.text}
+									</span>
+								))
+							}
+						</div>
+					</div>
+				</div>
+				<span class="hero__floor" aria-hidden="true"></span>
+			</div>
+		</div>
+
+		<nav class="page-index hero__item" style="--at: 2.2s" aria-label="Secciones de esta página">
+			<p class="label">En esta página</p>
+			<ul>
+				{
+					sections.map((item) => (
+						<li>
+							<a href={item.href}>{item.label}</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+	</div>
+</div>
+
+<style>
+	.hero {
+		position: relative;
+	}
+
+	/*
+		.hero__shell es la columna flex de alto completo, no .hero, porque la
+		sección y el envoltorio shell son dos elementos distintos.
+	*/
+	.hero__shell {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: 100svh;
+		box-sizing: border-box;
+		padding-block: clamp(5rem, 10vh, 6rem) clamp(1.5rem, 5vh, 3rem);
+	}
+
+	/*
+		Manchas de color que respiran detrás del héroe, con las tintas del
+		logotipo. Van muy suaves para no competir con el texto.
+	*/
+	.hero__aura {
+		position: absolute;
+		inset: -12% -18% -4% -18%;
+		z-index: 0;
+		pointer-events: none;
+		background:
+			radial-gradient(38% 46% at 78% 30%, rgb(219 62 59 / 11%), transparent 70%),
+			radial-gradient(34% 42% at 62% 72%, rgb(196 197 81 / 13%), transparent 70%),
+			radial-gradient(46% 52% at 26% 40%, rgb(32 35 161 / 8%), transparent 72%);
+		filter: blur(2px);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.hero__aura {
+			animation: drift 22s ease-in-out infinite alternate;
+		}
+	}
+
+	/* Las palabras del titular entran una a una, como se traza el logotipo. */
+	.hero__word {
+		display: inline-block;
+		white-space: pre;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.hero__word {
+			opacity: 0;
+			animation: word-rise 0.72s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+			animation-delay: calc(1.58s + var(--i) * 0.09s);
+		}
+	}
+
+	.hero__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+		align-items: end;
+		gap: clamp(1.5rem, 4vw, 3.5rem);
+		flex: 1;
+	}
+
+	.hero__copy {
+		align-self: end;
+		padding-bottom: clamp(0.5rem, 3vh, 2rem);
+	}
+
+	h1 {
+		max-width: 16ch;
+		font-size: clamp(2.4rem, 5.2vw, 4.4rem);
+		line-height: 1;
+		text-wrap: balance;
+	}
+
+	/*
+		Tres cajas anidadas a propósito. El parallax del scroll, la entrada y la
+		flotación animan transform, y dos animaciones sobre un mismo elemento se
+		reemplazan en vez de combinarse.
+	*/
+	.hero__art {
+		position: relative;
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-end;
+		min-height: clamp(17rem, 48vh, 31rem);
+		margin-right: calc(var(--gutter) * -0.5);
+	}
+
+	.hero__enter {
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-end;
+		width: 100%;
+		transition: translate 0.4s ease-out;
+	}
+
+	/*
+		El escenario se encoge al retrato: las burbujas se anclan al robot,
+		no a la columna vacía a su izquierda.
+	*/
+	.hero__stage {
+		position: relative;
+	}
+
+	.hero__figure {
+		display: block;
+		width: auto;
+		height: clamp(15rem, 46vh, 29rem);
+		object-fit: contain;
+		object-position: bottom right;
+	}
+
+	.hero__floor {
+		position: absolute;
+		bottom: 0;
+		left: 6%;
+		right: 0;
+		height: 1px;
+		background: var(--line);
+	}
+
+	/*
+		Burbujas de conversación alrededor del robot: la interacción
+		humano-robot que buscamos, dicha sin palabras de más.
+	*/
+	.hero__bubbles {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		transition: translate 0.55s ease-out;
+		translate: calc(var(--px, 0) * -16px) calc(var(--py, 0) * -11px);
+	}
+
+	.bubble {
+		position: absolute;
+		padding: 0.55rem 1rem;
+		border: 1px solid;
+		border-color: color-mix(in srgb, var(--tone) 42%, white);
+		border-radius: 1.4rem;
+		background: rgb(255 255 255 / 92%);
+		color: var(--tone);
+		font-family: var(--display);
+		font-size: clamp(0.85rem, 1.5vw, 1.02rem);
+		font-weight: 500;
+		letter-spacing: -0.01em;
+		line-height: 1.2;
+		white-space: nowrap;
+		box-shadow: 0 12px 26px rgb(23 23 26 / 8%);
+	}
+
+	/* La colita apunta hacia Pepper, a la derecha de cada burbuja. */
+	.bubble::after {
+		content: "";
+		position: absolute;
+		top: 50%;
+		right: -0.38rem;
+		left: auto;
+		width: 0.72rem;
+		height: 0.72rem;
+		margin-top: -0.36rem;
+		border-right: 1px solid;
+		border-bottom: 1px solid;
+		border-color: inherit;
+		border-radius: 0 0 0.22rem 0;
+		background: rgb(255 255 255 / 92%);
+		transform: rotate(-45deg);
+	}
+
+	/* Las tres, pegadas al flanco izquierdo del robot, sin tapar cara ni tableta. */
+	.bubble--a {
+		top: 8%;
+		right: 62%;
+		left: auto;
+	}
+
+	.bubble--b {
+		top: 36%;
+		right: 72%;
+		left: auto;
+	}
+
+	.bubble--c {
+		bottom: 16%;
+		top: auto;
+		right: 58%;
+		left: auto;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.bubble {
+			opacity: 0;
+			animation:
+				pop-in 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.2) var(--at, 2.35s) forwards,
+				bob 5.5s ease-in-out calc(var(--at, 2.35s) + 0.6s) infinite alternate;
+		}
+
+		.bubble--b {
+			animation-delay: var(--at, 2.6s), calc(var(--at, 2.6s) + 0.85s);
+		}
+
+		.bubble--c {
+			animation-delay: var(--at, 2.85s), calc(var(--at, 2.85s) + 1.1s);
+		}
+	}
+
+	.page-index {
+		max-width: 40rem;
+		margin-top: clamp(2rem, 5vh, 3.5rem);
+		padding-top: 1.15rem;
+		border-top: 1px solid var(--line);
+	}
+
+	.page-index ul {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 0.3rem clamp(0.75rem, 2.5vw, 2.25rem);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.page-index a {
+		display: inline-block;
+		padding-block: 0.3rem;
+		color: var(--ink);
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		letter-spacing: -0.01em;
+		text-decoration: none;
+	}
+
+	.page-index a:hover {
+		color: var(--accent);
+		text-decoration: underline;
+	}
+
+	@media (max-width: 60rem) {
+		.hero__shell {
+			padding-block: clamp(5rem, 10vh, 6rem) 2rem;
+		}
+
+		.bubble--b {
+			display: none;
+		}
+
+		.bubble--a {
+			top: 6%;
+			right: 4%;
+			left: auto;
+		}
+
+		.bubble--c {
+			bottom: 10%;
+			right: 6%;
+			left: auto;
+		}
+
+		.bubble--a::after,
+		.bubble--c::after {
+			right: auto;
+			left: 1.15rem;
+			top: auto;
+			bottom: -0.36rem;
+			margin-top: 0;
+			transform: rotate(45deg);
+		}
+
+		.hero__grid {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 1.5rem;
+		}
+
+		.hero__art {
+			order: -1;
+			justify-content: flex-start;
+			min-height: 0;
+			margin-right: 0;
+		}
+
+		.hero__enter {
+			justify-content: flex-start;
+		}
+
+		.hero__figure {
+			height: clamp(11rem, 30vh, 17rem);
+			object-position: bottom left;
+		}
+
+		.hero__floor {
+			left: 0;
+		}
+
+		.page-index ul {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 34rem) {
+		.hero__art {
+			margin-right: calc(var(--gutter) * -1);
+		}
+	}
+</style>
+
+<script>
+	/*
+		El héroe sigue al cursor con un parallax suave: el robot se acerca un
+		poco a quien lo mira. Se mueve con la propiedad `translate` para no
+		pelear con las animaciones de entrada y flotación, que usan `transform`.
+	*/
+	const hero = document.querySelector<HTMLElement>(".hero");
+	const figure = document.querySelector<HTMLElement>(".hero__enter");
+
+	if (hero && figure && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		hero.addEventListener(
+			"pointermove",
+			(event) => {
+				const rect = hero.getBoundingClientRect();
+				const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+				const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+				figure.style.translate = `${x * -11}px ${y * -7}px`;
+				hero.style.setProperty("--px", x.toFixed(3));
+				hero.style.setProperty("--py", y.toFixed(3));
+			},
+			{ passive: true }
+		);
+
+		hero.addEventListener("pointerleave", () => {
+			figure.style.translate = "0 0";
+			hero.style.setProperty("--px", "0");
+			hero.style.setProperty("--py", "0");
+		});
+	}
+</script>
