@@ -5,15 +5,15 @@ import nova from "../../assets/pepper/PEP_Pack07_001 (2).webp";
 const fleet = [
 	{
 		name: "Ópera",
-		note: "La primera Pepper que recibió esta casa, cuando la alianza era de cuatro.",
+		note: "La primera que recibió esta casa, cuando la alianza era de cuatro.",
 		image: opera,
-		alt: "Ópera, la primera Pepper, de pie con los brazos abiertos",
+		alt: "Ópera, de pie con los brazos abiertos",
 	},
 	{
 		name: "Nova",
-		note: "La que viaja. Nova ha estado en Sídney, Bangkok, Burdeos y Eindhoven.",
+		note: "La guerrera que se disfraza. Va a eventos y es víctima de todos los desarrollos antes de que estén listos.",
 		image: nova,
-		alt: "Nova, la Pepper que viaja a las competencias, con una mano en alto",
+		alt: "Nova, con una mano en alto",
 	},
 ];
 
@@ -33,16 +33,14 @@ const chores = [
 
 <section id="fleet" class="band band--tint">
 	<div class="shell">
-		<h2 class="reveal">Dos robots y una lista de cosas de casa.</h2>
+		<h2 class="reveal">Tres robots y una lista de cosas de casa.</h2>
 
 		<p class="lede reveal" style="--step: 1">
-			Ópera fue la primera. Nova es la que viaja.
+			Nova y Ópera son Pepper. Orión es un Nao.
 		</p>
 		<p class="lede reveal" style="--step: 2">
-			En @Home las pruebas parecen de casa a propósito.
-		</p>
-		<p class="lede reveal" style="--step: 3">
-			Si un robot no sabe llevar una bandeja, no tiene nada que hacer entre personas.
+			En @Home las pruebas parecen de casa a propósito. Si un robot no sabe llevar una
+			bandeja, no tiene nada que hacer entre personas.
 		</p>
 
 		<div class="fleet">
@@ -59,7 +57,7 @@ const chores = [
 						/>
 						<figcaption>
 							<h3>{robot.name}</h3>
-							<p>{robot.note}</p>
+							{robot.note ? <p>{robot.note}</p> : null}
 						</figcaption>
 					</figure>
 				))
