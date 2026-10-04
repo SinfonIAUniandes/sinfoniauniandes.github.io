@@ -11,6 +11,7 @@ import Fleet from '../components/landing/Fleet.astro';
 import Stack from '../components/landing/Stack.astro';
 import Outreach from '../components/landing/Outreach.astro';
 import Charlas from '../components/landing/Charlas.astro';
+import Repos from '../components/landing/Repos.astro';
 import Join from '../components/landing/Join.astro';
 
 import '../styles/landing.css';
@@ -60,12 +61,13 @@ const chorus = [
 		<Ticker phrases={greetings} />
 
 		<About />
-		<Alliance />
-		<RoboCup />
 		<Fleet />
+		<Charlas />
+		<Repos />
 		<Stack />
 		<Outreach />
-		<Charlas />
+		<RoboCup />
+		<Alliance />
 		<Ticker phrases={chorus} reverse tint />
 		<Join />
 	</main>
