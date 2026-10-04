@@ -1,0 +1,51 @@
+---
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<button
+	class:list={["action", "action--primary", "action--blocked", className]}
+	type="button"
+	aria-disabled="true"
+	aria-describedby="join-wait-tip"
+>
+	Únete al grupo
+</button>
+
+<script>
+	const MESSAGE = "Espera hasta 2027-10 :(";
+
+	let tip = document.getElementById("join-wait-tip");
+	if (!tip) {
+		tip = document.createElement("div");
+		tip.id = "join-wait-tip";
+		tip.className = "join-wait-tip";
+		tip.setAttribute("role", "tooltip");
+		tip.hidden = true;
+		tip.textContent = MESSAGE;
+		document.body.appendChild(tip);
+	}
+
+	const bubble = tip;
+
+	const show = (event: PointerEvent) => {
+		bubble.hidden = false;
+		bubble.style.translate = `${event.clientX + 14}px ${event.clientY + 18}px`;
+	};
+
+	const hide = () => {
+		bubble.hidden = true;
+	};
+
+	for (const button of document.querySelectorAll<HTMLButtonElement>(".action--blocked")) {
+		if (button.dataset.waitBound === "true") continue;
+		button.dataset.waitBound = "true";
+		button.addEventListener("click", (event) => event.preventDefault());
+		button.addEventListener("pointerenter", show);
+		button.addEventListener("pointermove", show);
+		button.addEventListener("pointerleave", hide);
+	}
+</script>
