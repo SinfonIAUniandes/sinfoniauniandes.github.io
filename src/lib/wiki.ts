@@ -156,8 +156,16 @@ export async function optimizeWikiImages(html: string): Promise<string> {
 	return out;
 }
 
+export function wrapWikiTables(html: string): string {
+	// Las tablas largas se envuelven en un contenedor con desplazamiento
+	// horizontal para que nunca ensanchen la página.
+	return html.replace(/(<table\b[\s\S]*?<\/table>)/gi, '<div class="wiki-table-wrap">$1</div>');
+}
+
 export async function renderWikiHtml(html: string, baseUrl: string): Promise<string> {
-	return optimizeWikiImages(rewriteWikiHtml(html, baseUrl));
+	return wrapWikiTables(
+		await optimizeWikiImages(rewriteWikiHtml(html, baseUrl)),
+	);
 }
 
 export function wikiPageTitle(id: string, body = ""): string {

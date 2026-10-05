@@ -32,3 +32,4 @@ AGENTS.md
 .claude # I do not know if this exists
 .codex # Does this exist?
 SKILLS.md # Maybe people adds this on the repository?
+.playwright-cli
