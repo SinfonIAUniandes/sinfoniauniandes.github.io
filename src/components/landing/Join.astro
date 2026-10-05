@@ -125,6 +125,11 @@ const contacts = [
 		text-underline-offset: 0.18em;
 	}
 
+	/* El aura del retrato puede sangrar, pero nunca debe ensanchar la página. */
+	#join {
+		overflow-x: clip;
+	}
+
 	.join__plate {
 		position: relative;
 		margin: 0;

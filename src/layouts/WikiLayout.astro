@@ -254,6 +254,8 @@ const sections = parseWikiSidebar(sidebarSource, import.meta.env.BASE_URL);
 		padding: 0.1em 0.35em;
 		background: rgb(255 255 255 / 8%);
 		border-radius: 0.3rem;
+		/* Rutas y nombres de archivo largos deben poder cortarse. */
+		overflow-wrap: anywhere;
 	}
 
 	.wiki-main :global(.wiki-prose table) {
@@ -279,6 +281,12 @@ const sections = parseWikiSidebar(sidebarSource, import.meta.env.BASE_URL);
 		padding: 0.2rem 0 0.2rem 1rem;
 		color: var(--wiki-muted);
 		border-left: 3px solid var(--yellow);
+	}
+
+	/* Las tablas anchas se desplazan de lado en su propio contenedor en vez
+	   de ensanchar la página. */
+	.wiki-main :global(.wiki-prose .wiki-table-wrap) {
+		overflow-x: auto;
 	}
 
 	@media (max-width: 52rem) {
