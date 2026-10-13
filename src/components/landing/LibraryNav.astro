@@ -2,8 +2,8 @@
 const baseUrl = import.meta.env.BASE_URL.replace(/\/+$/, "");
 
 const books = [
-	{ href: `${baseUrl}/wiki`, label: "Wiki", icon: "wiki", cloth: "#fff", ink: "#2023a1", edge: "#2023a1" },
-	{ href: `${baseUrl}/hall-of-fame`, label: "Hall of Fame", icon: "fame", cloth: "#f6f0d4", ink: "#5c4a0c", edge: "#a88814" },
+	{ href: `${baseUrl}/wiki`, label: "Wiki", icon: "wiki", cloth: "var(--ghost-white)", ink: "var(--prussian-blue)", edge: "var(--medium-slate-blue)" },
+	{ href: `${baseUrl}/hall-of-fame`, label: "Hall of Fame", icon: "fame", cloth: "var(--fame-gold-cloth)", ink: "var(--fame-gold-ink)", edge: "var(--fame-gold)" },
 ] as const;
 ---
 
@@ -16,10 +16,10 @@ const books = [
 		aria-label="Abrir biblioteca"
 	>
 		<svg class="library__icon library__icon--open" viewBox="0 0 24 24" aria-hidden="true">
-			<rect x="3.5" y="2.2" width="17" height="5.6" rx="1.35" fill="var(--pop-gray)"></rect>
-			<rect x="3.5" y="9.2" width="17" height="5.6" rx="1.35" fill="var(--pop-red)"></rect>
-			<rect x="3.5" y="16.2" width="17" height="5.6" rx="1.35" fill="var(--pop-blue)"></rect>
-			<rect x="16.6" y="2.2" width="2.2" height="5.6" rx="0.45" fill="var(--pop-gold)"></rect>
+			<rect x="3.5" y="2.2" width="17" height="5.6" rx="1.35" fill="var(--prussian-blue)"></rect>
+			<rect x="3.5" y="9.2" width="17" height="5.6" rx="1.35" fill="var(--medium-slate-blue)"></rect>
+			<rect x="3.5" y="16.2" width="17" height="5.6" rx="1.35" fill="var(--periwinkle)"></rect>
+			<rect x="16.6" y="2.2" width="2.2" height="5.6" rx="0.45" fill="var(--lavender-mist)"></rect>
 		</svg>
 		<svg class="library__icon library__icon--close" viewBox="0 0 24 24" aria-hidden="true">
 			<path
@@ -149,7 +149,7 @@ const books = [
 		border: 1px solid var(--line);
 		border-radius: 1rem;
 		background: var(--paper);
-		box-shadow: 0 16px 36px rgb(23 23 26 / 8%);
+		box-shadow: 0 16px 36px rgb(11 27 58 / 8%);
 		transition:
 			grid-template-rows 0.48s cubic-bezier(0.2, 0.75, 0.25, 1),
 			padding 0.48s cubic-bezier(0.2, 0.75, 0.25, 1),

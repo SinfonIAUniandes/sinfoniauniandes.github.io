@@ -102,9 +102,9 @@ const bubbles = [
 		z-index: 0;
 		pointer-events: none;
 		background:
-			radial-gradient(38% 46% at 78% 30%, rgb(219 62 59 / 11%), transparent 70%),
-			radial-gradient(34% 42% at 62% 72%, rgb(196 197 81 / 13%), transparent 70%),
-			radial-gradient(46% 52% at 26% 40%, rgb(32 35 161 / 8%), transparent 72%);
+			radial-gradient(38% 46% at 78% 30%, rgb(34 211 238 / 28%), transparent 70%),
+			radial-gradient(34% 42% at 62% 72%, rgb(196 181 253 / 42%), transparent 70%),
+			radial-gradient(46% 52% at 26% 40%, rgb(124 108 240 / 16%), transparent 72%);
 		filter: blur(2px);
 	}
 
@@ -233,17 +233,17 @@ const bubbles = [
 		position: absolute;
 		padding: 0.55rem 1rem;
 		border: 1px solid;
-		border-color: color-mix(in srgb, var(--tone) 42%, white);
+		border-color: var(--tone);
 		border-radius: 1.4rem;
-		background: rgb(255 255 255 / 92%);
-		color: var(--tone);
+		background: color-mix(in srgb, var(--tone) 22%, var(--ghost-white));
+		color: var(--prussian-blue);
 		font-family: var(--display);
 		font-size: clamp(0.85rem, 1.5vw, 1.02rem);
 		font-weight: 500;
 		letter-spacing: -0.01em;
 		line-height: 1.2;
 		white-space: nowrap;
-		box-shadow: 0 12px 26px rgb(23 23 26 / 8%);
+		box-shadow: 0 12px 26px rgb(11 27 58 / 8%);
 	}
 
 	/* La colita apunta hacia abajo, a la cabeza de Nova. */
@@ -259,7 +259,7 @@ const bubbles = [
 		border-bottom: 1px solid;
 		border-color: inherit;
 		border-radius: 0 0 0.22rem 0;
-		background: rgb(255 255 255 / 92%);
+		background: rgb(250 248 252 / 92%);
 		transform: rotate(45deg);
 	}
 

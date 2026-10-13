@@ -2,10 +2,31 @@
 @import "tailwindcss";
 
 :root {
-    --grey: rgb(91,90,96);
-    --red: rgb(219,62,59);
-    --blue: rgb(32,35,161);
-    --yellow: rgb(196,197,81);
+    --prussian-blue: #0b1b3a;
+    --periwinkle: #c4b5fd;
+    --medium-slate-blue: #7c6cf0;
+    --cyan: #22d3ee;
+    --lavender-mist: #f3f0fa;
+    --ghost-white: #faf8fc;
+
+    /*
+        Hall of Fame keeps a heroic gold. It is the only warm metal in the
+        system, chosen to sit beside Prussian blue without reviving the old
+        chartreuse ink.
+    */
+    --fame-gold: #c9a227;
+    --fame-gold-deep: #8f6c12;
+    --fame-gold-ink: #5c4510;
+    --fame-gold-cloth: #f8f1dc;
+
+    /*
+        Los tres primarios, en el lugar del rojo, el azul y el amarillo.
+        El azul noche queda como tinta, igual que el gris del logotipo.
+    */
+    --grey: var(--prussian-blue);
+    --red: var(--periwinkle);
+    --blue: var(--medium-slate-blue);
+    --yellow: var(--cyan);
 }
 
 html {
@@ -14,6 +35,8 @@ html {
 
 body {
     font-family: "Lato", sans-serif;
+    background: var(--ghost-white);
+    color: var(--prussian-blue);
 }
 
 h1,

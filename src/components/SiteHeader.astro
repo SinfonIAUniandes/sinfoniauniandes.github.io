@@ -130,31 +130,36 @@ const isHallOfFame = Astro.url.pathname.replace(/\/+$/, "").endsWith("hall-of-fa
 	}
 
 	.site-header__link--wiki {
-		color: var(--blue);
+		color: var(--prussian-blue);
 	}
 
 	.site-header__link--wiki:hover,
 	.site-header__link--wiki:focus-visible {
-		color: rgb(32 35 161 / 72%);
+		color: var(--medium-slate-blue);
 	}
 
 	.site-header__link--hall {
-		color: #c4a027;
+		color: var(--fame-gold-deep);
 		text-shadow:
-			0 0 8px rgb(196 197 81 / 70%),
-			0 0 22px rgb(196 197 81 / 45%);
+			0 0 8px rgb(201 162 39 / 55%),
+			0 0 22px rgb(201 162 39 / 32%);
 	}
 
 	.site-header__link--hall:hover,
 	.site-header__link--hall:focus-visible {
-		color: #a88814;
+		color: var(--fame-gold);
 		text-shadow:
-			0 0 10px rgb(196 197 81 / 90%),
-			0 0 28px rgb(196 197 81 / 55%);
+			0 0 10px rgb(201 162 39 / 80%),
+			0 0 28px rgb(201 162 39 / 42%);
 	}
 
-	.site-header__link:focus-visible {
-		outline: 2px dashed rgb(184, 150, 36);
+	.site-header__link--wiki:focus-visible {
+		outline: 2px dashed var(--medium-slate-blue);
+		outline-offset: 0.3rem;
+	}
+
+	.site-header__link--hall:focus-visible {
+		outline: 2px dashed var(--fame-gold);
 		outline-offset: 0.3rem;
 	}
 

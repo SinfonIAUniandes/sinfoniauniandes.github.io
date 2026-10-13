@@ -57,15 +57,15 @@ const sections = parseWikiSidebar(sidebarSource, import.meta.env.BASE_URL);
 
 <style>
 	.wiki-shell {
-		--wiki-bg: #101218;
-		--wiki-sidebar: #141722;
-		--wiki-text: #e6e4ee;
-		--wiki-muted: #b4b1bd;
-		--wiki-heading: #eef0ff;
-		--wiki-link: #9aa3ff;
-		--wiki-link-hover: #c5c9ff;
-		--wiki-border: rgb(255 255 255 / 10%);
-		--wiki-code: #0b0d16;
+		--wiki-bg: var(--prussian-blue);
+		--wiki-sidebar: color-mix(in srgb, var(--prussian-blue) 78%, var(--medium-slate-blue));
+		--wiki-text: var(--lavender-mist);
+		--wiki-muted: var(--periwinkle);
+		--wiki-heading: var(--ghost-white);
+		--wiki-link: var(--periwinkle);
+		--wiki-link-hover: var(--ghost-white);
+		--wiki-border: rgb(196 181 253 / 18%);
+		--wiki-code: color-mix(in srgb, var(--prussian-blue) 72%, black);
 		min-height: 100svh;
 		background: var(--wiki-bg);
 		color: var(--wiki-text);
@@ -78,7 +78,7 @@ const sections = parseWikiSidebar(sidebarSource, import.meta.env.BASE_URL);
 		gap: 1rem;
 		padding: 0.9rem clamp(1rem, 4vw, 2rem);
 		border-bottom: 1px solid var(--wiki-border);
-		background: rgb(8 10 16 / 72%);
+		background: rgb(11 27 58 / 72%);
 	}
 
 	.wiki-top__logo {
@@ -92,12 +92,8 @@ const sections = parseWikiSidebar(sidebarSource, import.meta.env.BASE_URL);
 		height: auto;
 	}
 
-	.wiki-top__logo :global(path[fill="rgb(91,90,96)"]) {
-		fill: #eceaf2;
-	}
-
-	.wiki-top__logo :global(path[fill="rgb(32,35,161)"]) {
-		fill: #8b92ff;
+	.wiki-top__logo :global(path[fill="rgb(11,27,58)"]) {
+		fill: var(--lavender-mist);
 	}
 
 	.wiki-top__title {

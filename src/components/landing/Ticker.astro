@@ -66,7 +66,10 @@ const { phrases, reverse = false, tint = false } = Astro.props;
 		align-items: center;
 		gap: clamp(1.15rem, 2.6vw, 2.15rem);
 		margin-right: clamp(1.15rem, 2.6vw, 2.15rem);
-		color: var(--tone);
+		color: var(--prussian-blue);
+		background: color-mix(in srgb, var(--tone) 28%, transparent);
+		padding: 0.12em 0.42em;
+		border-radius: 0.28em;
 		font-family: var(--display);
 		font-size: clamp(1.05rem, 2.3vw, 1.65rem);
 		font-weight: 500;
@@ -81,8 +84,8 @@ const { phrases, reverse = false, tint = false } = Astro.props;
 		width: 0.42em;
 		height: 0.42em;
 		border-radius: 999px;
-		background: currentcolor;
-		opacity: 0.38;
+		background: var(--tone);
+		opacity: 1;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

@@ -16,24 +16,24 @@
 	del envoltorio de la página, use la misma paleta que el resto.
 */
 :root {
-	--ink: #17171a;
-	--ink-soft: #56555d;
-	--ink-faint: #7c7b84;
-	--line: #e3e2e9;
-	--line-strong: #cdccd7;
-	--accent: #2023a1;
-	--accent-wash: #edeefa;
-	--paper: #fff;
-	--tint: #f4f4f8;
+	--ink: var(--prussian-blue);
+	--ink-soft: color-mix(in srgb, var(--prussian-blue) 72%, var(--medium-slate-blue));
+	--ink-faint: color-mix(in srgb, var(--prussian-blue) 58%, var(--ghost-white));
+	--line: color-mix(in srgb, var(--periwinkle) 46%, var(--lavender-mist));
+	--line-strong: color-mix(in srgb, var(--medium-slate-blue) 34%, var(--lavender-mist));
+	--accent: var(--medium-slate-blue);
+	--accent-wash: color-mix(in srgb, var(--periwinkle) 40%, var(--ghost-white));
+	--paper: var(--ghost-white);
+	--tint: var(--lavender-mist);
 
 	/*
-		Las cuatro tintas del logotipo: gris, rojo, amarillo y azul. Son el
-		vocabulario de color de los gestos sociales (puntos, burbujas, cintas).
+		Los tres primarios del logotipo, en el lugar del rojo, el azul y el
+		amarillo. El azul noche ocupa el puesto del gris.
 	*/
-	--pop-gray: #5b5a60;
-	--pop-red: #db3e3b;
-	--pop-gold: #a88814;
-	--pop-blue: #2023a1;
+	--pop-gray: var(--prussian-blue);
+	--pop-red: var(--periwinkle);
+	--pop-gold: var(--cyan);
+	--pop-blue: var(--medium-slate-blue);
 
 	--tone-1: var(--pop-red);
 	--tone-2: var(--pop-gray);
@@ -203,14 +203,15 @@
 }
 
 .landing .action--primary {
-	background: var(--accent);
-	border: 1px solid var(--accent);
-	color: #fff;
+	background: var(--medium-slate-blue);
+	border: 1px solid var(--medium-slate-blue);
+	color: var(--ghost-white);
 }
 
 .landing .action--primary:hover {
-	background: #191b83;
-	color: #fff;
+	background: var(--prussian-blue);
+	border-color: var(--prussian-blue);
+	color: var(--ghost-white);
 }
 
 .landing .action--quiet {
@@ -236,8 +237,8 @@
 
 .landing .action--blocked:hover,
 .landing .action--blocked:active {
-	background: var(--accent);
-	color: #fff;
+	background: var(--medium-slate-blue);
+	color: var(--ghost-white);
 	transform: none;
 }
 
@@ -247,9 +248,9 @@
 	left: 0;
 	z-index: 40;
 	padding: 0.45rem 0.55rem;
-	border: 2px solid #2c0a4a;
-	background: #100010;
-	color: #fcfcfc;
+	border: 2px solid var(--medium-slate-blue);
+	background: var(--prussian-blue);
+	color: var(--ghost-white);
 	font-family: "Press Start 2P", ui-monospace, monospace;
 	font-size: 10px;
 	line-height: 1.55;
@@ -436,12 +437,12 @@
 .landing .tint-word {
 	font-style: normal;
 	font-weight: 700;
-	color: var(--tone, var(--ink));
+	color: var(--ink);
 	padding-bottom: 0.08em;
-	background-image: linear-gradient(currentcolor, currentcolor);
+	background-image: linear-gradient(var(--tone, var(--ink)), var(--tone, var(--ink)));
 	background-repeat: no-repeat;
 	background-position: 0 100%;
-	background-size: 100% 0.1em;
+	background-size: 100% 0.34em;
 	transition: background-size 0.3s ease, translate 0.3s ease;
 }
 
@@ -453,7 +454,7 @@
 	height: 0.52em;
 	margin-right: 0.62em;
 	border-radius: 999px;
-	background: var(--pop-red);
+	background: var(--cyan);
 	vertical-align: 0.1em;
 }
 
@@ -480,7 +481,7 @@
 		translate: 0 -0.35rem;
 		border-color: var(--accent);
 		background-color: var(--paper);
-		box-shadow: 0 18px 32px rgb(23 23 26 / 7%);
+		box-shadow: 0 18px 32px rgb(11 27 58 / 8%);
 	}
 
 	.landing .action {
@@ -495,7 +496,7 @@
 
 	.landing .action:hover {
 		translate: 0 -0.22rem;
-		box-shadow: 0 14px 28px rgb(23 23 26 / 12%);
+		box-shadow: 0 14px 28px rgb(11 27 58 / 12%);
 	}
 
 	.landing .action--blocked:hover,

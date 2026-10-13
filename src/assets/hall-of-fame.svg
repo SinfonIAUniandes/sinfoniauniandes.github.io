@@ -15,7 +15,7 @@
 
     .border {
       fill: none;
-      stroke: rgb(196,160,39);
+      stroke: rgb(201,162,39);
       stroke-dasharray: 1.01;
       stroke-dashoffset: 1.01;
       stroke-linecap: butt;
@@ -55,7 +55,7 @@
     }
   </style>
 
-  <g class="wordmark" fill="rgb(196,160,39)">
+  <g class="wordmark" fill="rgb(201,162,39)">
     <g class="letter letter-1">
       <path d="M20 32.18 H30.76 V53.27 H48 V32.18 H58.76 V84 H48 V62.27 H30.76 V84 H20 Z" />
       <path d="M20 32.18 H30.76 V53.27 H48 V32.18 H58.76 V84 H48 V62.27 H30.76 V84 H20 Z" fill="none" pathLength="1" class="border border-1" />
