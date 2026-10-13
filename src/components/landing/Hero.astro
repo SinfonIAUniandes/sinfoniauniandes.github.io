@@ -332,6 +332,23 @@ const bubbles = [
 		}
 	}
 
+	/*
+		En pantallas bajas el robot queda centrado bajo el logotipo. La burbuja
+		sale por encima de la cabeza y, sin este relleno, «¡Hola!» queda tapada
+		por el wordmark, también en el punto alto del vaivén.
+	*/
+	@media (max-width: 60rem) and (max-height: 54rem) {
+		.hero__shell {
+			padding-top: 7.4rem;
+		}
+	}
+
+	@media (max-width: 60rem) and (max-height: 46rem) {
+		.hero__figure {
+			height: clamp(9rem, 24svh, 13rem);
+		}
+	}
+
 </style>
 
 <script>
