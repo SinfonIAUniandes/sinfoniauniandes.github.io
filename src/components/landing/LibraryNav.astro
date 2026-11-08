@@ -15,24 +15,31 @@ const books = [
 		aria-controls="library-case"
 		aria-label="Abrir biblioteca"
 	>
-		<svg class="library__icon library__icon--open" viewBox="0 0 24 24" aria-hidden="true">
-			<rect x="3.5" y="2.2" width="17" height="5.6" rx="1.35" fill="var(--pop-gray)"></rect>
-			<rect x="3.5" y="9.2" width="17" height="5.6" rx="1.35" fill="var(--pop-red)"></rect>
-			<rect x="3.5" y="16.2" width="17" height="5.6" rx="1.35" fill="var(--pop-blue)"></rect>
-			<rect x="16.6" y="2.2" width="2.2" height="5.6" rx="0.45" fill="var(--pop-gold)"></rect>
-		</svg>
-		<svg class="library__icon library__icon--close" viewBox="0 0 24 24" aria-hidden="true">
-			<path
-				fill="none"
-				stroke="currentColor"
-				stroke-linecap="round"
-				stroke-width="1.7"
-				d="M6 6l12 12M18 6L6 18"
-			></path>
-		</svg>
+		<span class="library__ghost" aria-hidden="true"></span>
+		<span class="library__spine" aria-hidden="true">
+			<span class="library__bands">
+				<span class="library__band library__band--blue"></span>
+				<span class="library__band library__band--gold"></span>
+				<span class="library__band library__band--red"></span>
+			</span>
+			<span class="library__chevron"></span>
+			<span class="library__reg">
+				<span class="library__dot library__dot--gray"></span>
+				<span class="library__dot library__dot--red"></span>
+				<span class="library__dot library__dot--gold"></span>
+				<span class="library__dot library__dot--blue"></span>
+			</span>
+			<span class="library__label">
+				<span class="library__label-text library__label-text--closed">Biblioteca</span>
+				<span class="library__label-text library__label-text--open">Cerrar</span>
+			</span>
+			<span class="library__folio">02</span>
+			<span class="library__focus"></span>
+		</span>
 	</button>
-	<div class="library__case" id="library-case" aria-hidden="true">
+	<div class="library__case" id="library-case" aria-hidden="true" inert>
 		<div class="library__clip">
+			<p class="library__shelf" aria-hidden="true">Estante / 02 títulos</p>
 			<ul class="library__stack" role="list">
 				{
 					books.map((book, index) => (
@@ -84,8 +91,6 @@ const books = [
 		display: flex;
 		flex-direction: column;
 		align-items: flex-end;
-		gap: 0.55rem;
-		padding: 1.15rem 1rem 0 0;
 		pointer-events: none;
 	}
 
@@ -95,61 +100,261 @@ const books = [
 	}
 
 	.library__toggle {
-		display: grid;
-		place-items: center;
-		width: 2.7rem;
-		height: 2.7rem;
+		position: relative;
+		display: block;
+		width: 4.15rem;
+		height: 8rem;
 		padding: 0;
-		border: 1px solid var(--line-strong);
-		border-radius: 999px;
-		background: var(--paper);
+		border: 0;
+		border-radius: 0;
+		background: transparent;
 		color: var(--ink);
 		cursor: pointer;
-		transition:
-			border-color 0.2s ease,
-			color 0.2s ease,
-			background 0.2s ease;
+		transform: rotate(-1.1deg);
+		transition: transform 0.36s cubic-bezier(0.2, 0.75, 0.25, 1);
 	}
 
-	.library__icon {
-		grid-area: 1 / 1;
-		width: 1.2rem;
-		height: 1.2rem;
-		transition: opacity 0.28s ease, rotate 0.36s cubic-bezier(0.2, 0.75, 0.25, 1);
-	}
-
-	.library__icon--close {
-		opacity: 0;
-		rotate: 45deg;
-		pointer-events: none;
-	}
-
-	.library:not(.is-closed) .library__icon--open {
-		opacity: 0;
-		rotate: -45deg;
-		pointer-events: none;
-	}
-
-	.library:not(.is-closed) .library__icon--close {
-		opacity: 1;
-		rotate: 0deg;
-	}
-
-	.library__toggle:hover,
 	.library__toggle:focus-visible {
-		border-color: var(--accent);
+		outline: none;
+	}
+
+	.library__ghost {
+		position: absolute;
+		inset: 0.4rem 0 0.1rem 0.6rem;
+		background:
+			repeating-linear-gradient(0deg, transparent 0 5px, rgb(32 35 161 / 9%) 6px 7px, transparent 8px 13px),
+			linear-gradient(180deg, #dfe3f8, #cdd3ef);
+		clip-path: polygon(2% 0, 100% 3%, 96% 100%, 0 96%);
+		transform: rotate(1.4deg);
+		opacity: 0.95;
+		transition: opacity 0.3s ease, translate 0.36s cubic-bezier(0.2, 0.75, 0.25, 1);
+	}
+
+	.library__ghost::after {
+		position: absolute;
+		inset: 0 0 0 0.3rem;
+		background: linear-gradient(
+			90deg,
+			var(--pop-gray) 0 2px,
+			transparent 2px 8px,
+			var(--pop-red) 8px 10px,
+			transparent 10px
+		);
+		content: "";
+		opacity: 0.5;
+	}
+
+	.library__spine {
+		position: absolute;
+		inset: 0;
+		border-left: 1px solid #b9bad0;
+		background:
+			repeating-linear-gradient(0deg, transparent 0 6px, rgb(23 23 26 / 3.5%) 7px 8px, transparent 9px 15px),
+			#fcfcff;
+		clip-path: polygon(0 0, 100% 1.5%, 97.5% 100%, 22% 100%, 18% 93%, 12% 100%, 1.5% 98%);
+		transition: translate 0.36s cubic-bezier(0.2, 0.75, 0.25, 1);
+	}
+
+	.library__spine::before {
+		position: absolute;
+		top: 0.7rem;
+		bottom: 0.7rem;
+		left: 1.6rem;
+		width: 1px;
+		background: linear-gradient(
+			180deg,
+			var(--pop-gold) 0 5px,
+			transparent 5px calc(100% - 5px),
+			var(--pop-gold) calc(100% - 5px) 100%
+		);
+		content: "";
+		opacity: 0.7;
+	}
+
+	.library__spine::after {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 0;
+		height: 0;
+		border-top: 14px solid var(--pop-red);
+		border-right: 14px solid transparent;
+		content: "";
+	}
+
+	.library__bands {
+		position: absolute;
+		top: 1.5rem;
+		bottom: 1.5rem;
+		left: 0.65rem;
+		display: flex;
+		gap: 3px;
+		width: 0.9rem;
+		transition: top 0.36s cubic-bezier(0.2, 0.75, 0.25, 1), bottom 0.36s cubic-bezier(0.2, 0.75, 0.25, 1);
+	}
+
+	.library__band {
+		display: block;
+		height: 100%;
+		transition: opacity 0.28s ease, translate 0.42s cubic-bezier(0.2, 0.75, 0.25, 1);
+	}
+
+	.library__band--blue {
+		--band: 0;
+		width: 5px;
+		background: var(--pop-blue);
+	}
+
+	.library__band--gold {
+		--band: 1;
+		width: 4px;
+		background: var(--pop-gold);
+	}
+
+	.library__band--red {
+		--band: 2;
+		width: 2px;
+		background: var(--pop-red);
+	}
+
+	.library__label {
+		position: absolute;
+		inset: 1.35rem 0 1.6rem 2rem;
+	}
+
+	.library__label-text {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		place-items: center;
+		writing-mode: vertical-rl;
+		transform: rotate(180deg);
+		font-family: var(--mono);
+		font-size: 0.66rem;
+		letter-spacing: 0.2em;
+		line-height: 1;
+		text-transform: uppercase;
+		white-space: nowrap;
+		transition: opacity 0.22s ease;
+	}
+
+	.library__label-text--open {
+		opacity: 0;
 		color: var(--accent);
+	}
+
+	.library__folio {
+		position: absolute;
+		right: 0.45rem;
+		bottom: 0.45rem;
+		color: var(--accent);
+		font-family: var(--display);
+		font-size: 0.68rem;
+		font-weight: 600;
+		line-height: 1;
+	}
+
+	.library__reg {
+		position: absolute;
+		top: 0.35rem;
+		right: 0.45rem;
+		display: flex;
+		gap: 2px;
+	}
+
+	.library__dot {
+		width: 3px;
+		height: 3px;
+		border-radius: 50%;
+	}
+
+	.library__dot--gray { background: var(--pop-gray); }
+	.library__dot--red { background: var(--pop-red); }
+	.library__dot--gold { background: var(--pop-gold); }
+	.library__dot--blue { background: var(--pop-blue); }
+
+	.library__focus {
+		position: absolute;
+		inset: 0.35rem;
+		border: 2px dashed transparent;
+		pointer-events: none;
+		transition: border-color 0.2s ease;
+	}
+
+	.library__toggle:focus-visible .library__focus {
+		border-color: var(--accent);
+	}
+
+	.library__chevron {
+		position: absolute;
+		top: 0.42rem;
+		left: 1.75rem;
+		width: 0.5rem;
+		height: 0.5rem;
+		border-top: 1.5px solid var(--accent);
+		border-right: 1.5px solid var(--accent);
+		opacity: 0;
+		transform: rotate(45deg) scale(0.6);
+		transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.2, 0.75, 0.25, 1);
+	}
+
+	.library__toggle:hover .library__spine,
+	.library__toggle:focus-visible .library__spine {
+		translate: -0.5rem 0;
+	}
+
+	.library__toggle:hover .library__ghost {
+		opacity: 1;
+		translate: -0.18rem 0;
+	}
+
+	.library__toggle:hover .library__bands {
+		top: 0.85rem;
+		bottom: 0.85rem;
+	}
+
+	.library:not(.is-closed) .library__toggle {
+		transform: rotate(0deg) translateX(0.3rem);
+	}
+
+	.library:not(.is-closed) .library__spine {
+		translate: 0.1rem 0;
+	}
+
+	.library:not(.is-closed) .library__band {
+		opacity: 0;
+		translate: 0 3rem;
+		transition-delay: calc(var(--band, 0) * 55ms);
+	}
+
+	.library:not(.is-closed) .library__label-text--closed {
+		opacity: 0;
+	}
+
+	.library:not(.is-closed) .library__label-text--open {
+		opacity: 1;
+	}
+
+	.library:not(.is-closed) .library__reg,
+	.library:not(.is-closed) .library__folio {
+		opacity: 0.4;
+	}
+
+	.library:not(.is-closed) .library__chevron {
+		opacity: 1;
+		transform: rotate(45deg) scale(1);
 	}
 
 	.library__case {
 		display: grid;
 		grid-template-rows: 1fr;
 		width: 16.5rem;
-		padding: 0.55rem;
-		border: 1px solid var(--line);
-		border-radius: 1rem;
-		background: var(--paper);
-		box-shadow: 0 16px 36px rgb(23 23 26 / 8%);
+		padding: 0.7rem 0.6rem 0.75rem;
+		border: 1px solid var(--line-strong);
+		border-right: 0;
+		border-radius: 0;
+		background: linear-gradient(180deg, #fff, #fbfbfe);
+		clip-path: polygon(0 0, 100% 0, 100% 94%, 97% 100%, 0 100%);
 		transition:
 			grid-template-rows 0.48s cubic-bezier(0.2, 0.75, 0.25, 1),
 			padding 0.48s cubic-bezier(0.2, 0.75, 0.25, 1),
@@ -168,9 +373,20 @@ const books = [
 		padding-block: 0;
 		border-color: transparent;
 		opacity: 0;
-		translate: 0.85rem 0;
+		translate: 0.6rem 0;
 		pointer-events: none;
-		box-shadow: none;
+	}
+
+	.library__shelf {
+		margin: 0 0 0.55rem;
+		padding: 0 0 0.5rem 0.75rem;
+		border-bottom: 1px solid var(--line);
+		color: var(--ink-faint);
+		font-family: var(--mono);
+		font-size: 0.55rem;
+		letter-spacing: 0.2em;
+		line-height: 1.4;
+		text-transform: uppercase;
 	}
 
 	.library__stack {
@@ -197,7 +413,7 @@ const books = [
 		padding: 0 1rem 0 0.9rem;
 		overflow: hidden;
 		border: 1px solid var(--edge);
-		border-radius: 0.55rem;
+		border-radius: 0.15rem;
 		background: var(--cloth);
 		color: var(--ink);
 		font-family: var(--display);
@@ -267,27 +483,65 @@ const books = [
 
 	@media (prefers-reduced-motion: reduce) {
 		.library__case,
-		.book,
 		.library__toggle,
-		.library__icon {
+		.library__ghost,
+		.library__spine,
+		.library__bands,
+		.library__band,
+		.library__label-text,
+		.library__focus,
+		.library__chevron,
+		.book {
 			transition: none;
 		}
 
+		.library__toggle:hover .library__spine,
+		.library__toggle:focus-visible .library__spine,
+		.library__toggle:hover .library__ghost,
 		.library.is-closed .library__case,
+		.library.is-closed .book,
+		.library:not(.is-closed) .library__band,
 		.library:not(.is-closed) .book:hover,
 		.library:not(.is-closed) .book:focus-visible {
 			translate: none;
 		}
 	}
 
-	/*
-		En pantallas chicas el menú sigue en la esquina superior derecha, con la
-		misma pila vertical que en escritorio; solo se recorta el ancho máximo
-		para que quepa en pantallas muy angostas.
-	*/
 	@media (max-width: 60rem) {
 		.library__case {
-			width: min(16.5rem, calc(100vw - 2rem));
+			width: min(16.5rem, calc(100vw - 1.5rem));
+		}
+	}
+
+	@media (max-width: 30rem) {
+		.library__toggle {
+			width: 3.55rem;
+		}
+
+		.library__bands {
+			left: 0.5rem;
+		}
+
+		.library__spine::before {
+			left: 1.35rem;
+		}
+
+		.library__label {
+			inset: 1.35rem 0 1.6rem 1.8rem;
+		}
+
+		.library__label-text {
+			font-size: 0.6rem;
+			letter-spacing: 0.16em;
+		}
+
+		.library__reg,
+		.library__folio {
+			right: 0.3rem;
+		}
+
+		.library__chevron {
+			left: 1.5rem;
 		}
 	}
 </style>
@@ -296,12 +550,31 @@ const books = [
 	const nav = document.querySelector<HTMLElement>(".library");
 	const toggle = nav?.querySelector<HTMLButtonElement>(".library__toggle");
 	const panel = nav?.querySelector<HTMLElement>(".library__case");
+
 	if (nav && toggle && panel) {
-		toggle.addEventListener("click", () => {
-			const closed = nav.classList.toggle("is-closed");
-			toggle.setAttribute("aria-expanded", String(!closed));
-			toggle.setAttribute("aria-label", closed ? "Abrir biblioteca" : "Cerrar biblioteca");
-			panel.setAttribute("aria-hidden", String(closed));
+		const setOpen = (open: boolean) => {
+			nav.classList.toggle("is-closed", !open);
+			toggle.setAttribute("aria-expanded", String(open));
+			toggle.setAttribute("aria-label", open ? "Cerrar biblioteca" : "Abrir biblioteca");
+			panel.setAttribute("aria-hidden", String(!open));
+			panel.toggleAttribute("inert", !open);
+		};
+
+		setOpen(false);
+
+		toggle.addEventListener("click", () => setOpen(nav.classList.contains("is-closed")));
+
+		document.addEventListener("keydown", (event) => {
+			if (event.key === "Escape" && !nav.classList.contains("is-closed")) {
+				setOpen(false);
+				toggle.focus();
+			}
+		});
+
+		document.addEventListener("pointerdown", (event) => {
+			if (!nav.classList.contains("is-closed") && !nav.contains(event.target as Node)) {
+				setOpen(false);
+			}
 		});
 	}
 </script>
