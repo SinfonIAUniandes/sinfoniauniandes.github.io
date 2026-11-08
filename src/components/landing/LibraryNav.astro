@@ -2,8 +2,8 @@
 const baseUrl = import.meta.env.BASE_URL.replace(/\/+$/, "");
 
 const books = [
-	{ href: `${baseUrl}/wiki`, label: "Wiki", icon: "wiki", cloth: "#fff", ink: "#2023a1", edge: "#2023a1" },
-	{ href: `${baseUrl}/hall-of-fame`, label: "Hall of Fame", icon: "fame", cloth: "#f6f0d4", ink: "#5c4a0c", edge: "#a88814" },
+	{ href: `${baseUrl}/wiki`, label: "Wiki", cloth: "#fff", ink: "#2023a1", edge: "#2023a1" },
+	{ href: `${baseUrl}/hall-of-fame`, label: "Hall of Fame", cloth: "#f6f0d4", ink: "#5c4a0c", edge: "#a88814" },
 ] as const;
 ---
 
@@ -43,36 +43,17 @@ const books = [
 			<ul class="library__stack" role="list">
 				{
 					books.map((book, index) => (
-						<li style={`--i: ${index}`}>
-							<a
-								class="book"
-								href={book.href}
-								style={`--cloth: ${book.cloth}; --ink: ${book.ink}; --edge: ${book.edge}`}
-							>
-								{book.icon === "wiki" ? (
-									<svg class="book__icon" viewBox="0 0 24 24" aria-hidden="true">
-										<path
-											fill="none"
-											stroke="currentColor"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="1.7"
-											d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15ZM8 7h8M8 11h6"
-										></path>
-									</svg>
-								) : (
-									<svg class="book__icon" viewBox="0 0 24 24" aria-hidden="true">
-										<path
-											fill="none"
-											stroke="currentColor"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="1.7"
-											d="m12 3 2.4 5.7 6.2.6-4.7 4.1 1.4 6.1L12 16.5 6.7 19.5l1.4-6.1L3.4 9.3l6.2-.6L12 3Z"
-										></path>
-									</svg>
-								)}
+						<li
+							style={`--i: ${index}; --cloth: ${book.cloth}; --ink: ${book.ink}; --edge: ${book.edge}`}
+						>
+							<span class="book__ghost" aria-hidden="true"></span>
+							<a class="book" href={book.href}>
+								<span class="book__folio" aria-hidden="true">
+									{String(index + 1).padStart(2, "0")}
+								</span>
 								<span class="book__title">{book.label}</span>
+								<span class="book__pages" aria-hidden="true"></span>
+								<span class="book__focus" aria-hidden="true"></span>
 							</a>
 						</li>
 					))
@@ -353,7 +334,9 @@ const books = [
 		border: 1px solid var(--line-strong);
 		border-right: 0;
 		border-radius: 0;
-		background: linear-gradient(180deg, #fff, #fbfbfe);
+		background:
+			repeating-linear-gradient(0deg, transparent 0 9px, rgb(23 23 26 / 3.5%) 10px 11px, transparent 12px 22px),
+			linear-gradient(180deg, #fff, #fbfbfe);
 		clip-path: polygon(0 0, 100% 0, 100% 94%, 97% 100%, 0 100%);
 		transition:
 			grid-template-rows 0.48s cubic-bezier(0.2, 0.75, 0.25, 1),
@@ -399,41 +382,142 @@ const books = [
 	}
 
 	.library__stack li {
+		position: relative;
 		display: flex;
 		height: 3.15rem;
 	}
 
+	.book__ghost {
+		position: absolute;
+		inset: 0.1rem -0.15rem -0.05rem 0.3rem;
+		background:
+			repeating-linear-gradient(0deg, transparent 0 6px, rgb(23 23 26 / 4%) 7px 8px, transparent 9px 15px),
+			#f7f7fb;
+		clip-path: polygon(0 4%, 100% 0, 98% 96%, 2% 100%);
+		transform: rotate(-0.5deg);
+		opacity: 0.45;
+		transition: opacity 0.32s ease, translate 0.4s cubic-bezier(0.2, 0.75, 0.25, 1);
+	}
+
+	.book__ghost::after {
+		position: absolute;
+		inset: 0;
+		background: var(--edge);
+		opacity: 0.14;
+		content: "";
+	}
+
+	.library__stack li:nth-child(even) .book__ghost {
+		transform: rotate(0.6deg);
+	}
+
 	.book {
 		position: relative;
+		z-index: 1;
 		display: flex;
 		align-items: center;
-		gap: 0.7rem;
+		gap: 0.85rem;
 		width: 100%;
 		min-height: 0;
-		padding: 0 1rem 0 0.9rem;
+		padding: 0 0 0 1.15rem;
 		overflow: hidden;
-		border: 1px solid var(--edge);
-		border-radius: 0.15rem;
-		background: var(--cloth);
+		border: 0;
+		border-radius: 0;
+		background-color: var(--cloth);
+		background-image:
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E"),
+			repeating-linear-gradient(0deg, transparent 0 6px, rgb(23 23 26 / 3.5%) 7px 8px, transparent 9px 16px),
+			radial-gradient(130% 90% at 15% 0%, rgb(255 255 255 / 45%), transparent 62%);
+		box-shadow:
+			inset 0 1px 0 rgb(255 255 255 / 70%),
+			inset 0 -2px 3px rgb(23 23 26 / 6%),
+			0 1px 0 rgb(23 23 26 / 10%);
+		clip-path: polygon(0 0, 100% 1%, 99.5% 100%, 0.5% 99%);
 		color: var(--ink);
 		font-family: var(--display);
-		font-size: 1.12rem;
-		font-weight: 500;
-		letter-spacing: -0.02em;
-		line-height: 1;
 		text-decoration: none;
-		box-shadow: inset 0.45rem 0 0 var(--edge);
 		transition:
 			translate 0.45s cubic-bezier(0.2, 0.75, 0.25, 1),
-			opacity 0.35s ease,
-			filter 0.28s ease;
+			opacity 0.35s ease;
 		transition-delay: calc(var(--i, 0) * 70ms);
 	}
 
-	.book__icon {
+	.book::before {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			180deg,
+			var(--edge) 0 1px,
+			transparent 1px calc(100% - 1px),
+			var(--edge) calc(100% - 1px) 100%
+		);
+		opacity: 0.32;
+		content: "";
+		pointer-events: none;
+	}
+
+	.book::after {
+		position: absolute;
+		top: 0.35rem;
+		bottom: 0.35rem;
+		left: 0;
+		width: 4px;
+		background: var(--edge);
+		opacity: 0.85;
+		content: "";
+		pointer-events: none;
+	}
+
+	.book__folio {
 		flex: 0 0 auto;
-		width: 1.2rem;
-		height: 1.2rem;
+		color: var(--ink);
+		font-family: var(--mono);
+		font-size: 0.6rem;
+		letter-spacing: 0.14em;
+		opacity: 0.55;
+	}
+
+	.book__title {
+		display: block;
+		overflow: hidden;
+		color: var(--ink);
+		font-size: 1.12rem;
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		line-height: 1;
+		text-overflow: ellipsis;
+		text-shadow: 0 1px 0 rgb(255 255 255 / 70%);
+		white-space: nowrap;
+	}
+
+	.book__pages {
+		position: absolute;
+		top: 0.4rem;
+		right: 0;
+		bottom: 0.4rem;
+		width: 2.4rem;
+		background:
+			repeating-linear-gradient(0deg, transparent 0 3px, rgb(23 23 26 / 7%) 4px 5px, transparent 6px 9px),
+			linear-gradient(90deg, #fbfaf5, #efeee7);
+		border-left: 1px solid rgb(23 23 26 / 10%);
+		box-shadow: inset 3px 0 4px rgb(23 23 26 / 6%);
+		pointer-events: none;
+	}
+
+	.book__focus {
+		position: absolute;
+		inset: 0.3rem;
+		z-index: 2;
+		border: 2px dashed transparent;
+		pointer-events: none;
+	}
+
+	.book:focus-visible {
+		outline: none;
+	}
+
+	.book:focus-visible .book__focus {
+		border-color: var(--edge);
 	}
 
 	.library.is-closed .book {
@@ -449,18 +533,16 @@ const books = [
 		text-decoration: none;
 	}
 
-	.book__title {
-		display: block;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
 	.library:not(.is-closed) .book:hover,
 	.library:not(.is-closed) .book:focus-visible {
-		translate: -0.28rem 0;
-		filter: brightness(1.04);
+		translate: -0.35rem 0;
 		transition-delay: 0s;
+	}
+
+	.library__stack li:hover .book__ghost,
+	.library__stack li:focus-within .book__ghost {
+		opacity: 0.9;
+		translate: -0.15rem 0;
 	}
 
 	@media (prefers-reduced-motion: no-preference) {
@@ -491,7 +573,8 @@ const books = [
 		.library__label-text,
 		.library__focus,
 		.library__chevron,
-		.book {
+		.book,
+		.book__ghost {
 			transition: none;
 		}
 
@@ -502,7 +585,9 @@ const books = [
 		.library.is-closed .book,
 		.library:not(.is-closed) .library__band,
 		.library:not(.is-closed) .book:hover,
-		.library:not(.is-closed) .book:focus-visible {
+		.library:not(.is-closed) .book:focus-visible,
+		.library__stack li:hover .book__ghost,
+		.library__stack li:focus-within .book__ghost {
 			translate: none;
 		}
 	}
