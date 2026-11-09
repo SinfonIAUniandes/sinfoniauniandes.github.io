@@ -4,6 +4,7 @@ const talk = {
 	title: "Desde los ojos de un Robot",
 	subtitle: "¿Cómo las máquinas ven nuestro mundo?",
 	speaker: "Juan David Guevara Arévalo",
+	note: "Inauguró las Charlas SinfonIA",
 	href: "https://youtu.be/YsuCxLRNemg",
 	poster: "https://i.ytimg.com/vi/YsuCxLRNemg/maxresdefault.jpg",
 };
@@ -13,7 +14,7 @@ const talk = {
 	<div class="shell">
 		<p class="eyebrow reveal">Charlas y talleres</p>
 		<h2 class="charlas__story reveal" style="--step: 1">
-			En 2026-20 surgió un sueño... y lo acabamos de empezar, nuestra primera charla fue un
+			En 2026-10 surgió un sueño... y lo acabamos de empezar, nuestra primera charla fue un
 			éxito y vienen muchas más! Podrás repetirlas en nuestro canal de
 			<a href="https://www.youtube.com/@SinfonIA-Uniandes">YouTube</a>.
 		</h2>
@@ -44,7 +45,10 @@ const talk = {
 					<p class="label">Ya se puede ver</p>
 					<h3>{talk.title}</h3>
 					<p class="talk__sub">{talk.subtitle}</p>
-					<p class="talk__speaker">{talk.speaker}</p>
+					<p class="talk__speaker">
+						{talk.speaker}
+						<span class="talk__speaker-note"> · {talk.note}</span>
+					</p>
 					<a class="talk__link" href={talk.href} rel="noreferrer">Ver en YouTube</a>
 				</div>
 			</article>
@@ -52,10 +56,12 @@ const talk = {
 			<aside class="soon reveal" style="--step: 3">
 				<p class="label">Siguiente</p>
 				<p class="soon__when">
-					<span class="soon__day">09</span>
-					<span class="soon__month">octubre</span>
+					<span class="soon__day">20</span>
+					<span class="soon__month">noviembre</span>
 				</p>
-				<p class="soon__note">La próxima charla es el 9 de octubre y vienen muchas más: reserva el día.</p>
+				<p class="soon__note">
+					La próxima charla es el 20 de noviembre y vienen muchas más: reserva el día.
+				</p>
 				<span class="soon__dots" aria-hidden="true">
 					<i></i><i></i><i></i><i></i>
 				</span>
@@ -244,6 +250,11 @@ const talk = {
 		font-family: var(--mono);
 		font-size: 0.78rem;
 		letter-spacing: 0.04em;
+	}
+
+	/* Lo que hizo de esa charla la primera de todas. */
+	.talk__speaker-note {
+		color: var(--pop-gold);
 	}
 
 	.talk__link {
