@@ -1,0 +1,155 @@
+---
+import uniandesLogo from "../assets/uniandes.png";
+import sinfoniaStatic from "../assets/sinfonia-static.svg";
+
+const baseUrl = import.meta.env.BASE_URL.replace(/\/+$/, "");
+const homeHref = `${baseUrl}/`;
+const year = new Date().getFullYear();
+
+const legal = [
+	"Universidad de los Andes | Vigilada Mineducación",
+	"Reconocimiento como Universidad: Decreto 1297 del 30 de mayo de 1964.",
+	"Reconocimiento personería jurídica: Resolución 28 del 23 de febrero de 1949 Minjusticia",
+	"Edificio Mario Laserna Cra 1Este No 19A - 40 Bogotá (Colombia) | Tel: +57 601 3394949 Ext: 2860, 2861, 2862 | Fax: +57 601 3324325",
+];
+---
+
+<footer class="site-footer">
+	<div class="site-footer__shell">
+		<div class="site-footer__lockup">
+			<a
+				class="site-footer__logo"
+				href="https://uniandes.edu.co/"
+				target="_blank"
+				rel="noreferrer"
+			>
+				<img
+					src={uniandesLogo.src}
+					width={uniandesLogo.width}
+					height={uniandesLogo.height}
+					alt="Universidad de los Andes"
+					loading="lazy"
+					decoding="async"
+				/>
+			</a>
+
+			<span class="site-footer__divider" aria-hidden="true"></span>
+
+			<a class="site-footer__logo site-footer__logo--sinfonia" href={homeHref} aria-label="SinfonIA">
+				<img
+					src={sinfoniaStatic.src}
+					alt="SINFONiA"
+					loading="lazy"
+					decoding="async"
+				/>
+			</a>
+		</div>
+
+		<p class="site-footer__legal">
+			{legal.map((line, index) => (
+				<>
+					{index > 0 && <br />}
+					{line}
+				</>
+			))}
+		</p>
+
+		<p class="site-footer__copyright">
+			© {year} - <a href={homeHref}>SinfonIA Uniandes</a>
+		</p>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		--footer-bg: var(--paper, #fff);
+		--footer-ink: var(--ink-soft, #56555d);
+		--footer-line: var(--line, #e3e2e9);
+		--footer-accent: var(--accent, #2023a1);
+		padding: clamp(2.5rem, 6vh, 4rem) clamp(1.15rem, 5vw, 4.5rem);
+		border-top: 1px solid var(--footer-line);
+		background: var(--footer-bg);
+		color: var(--footer-ink);
+		font-family: var(--body, "Lato", sans-serif);
+		text-align: center;
+	}
+
+	:global(html.theme-dark) .site-footer {
+		--footer-bg: #101218;
+		--footer-ink: #b4b1bd;
+		--footer-line: rgb(255 255 255 / 10%);
+		--footer-accent: #9aa3ff;
+	}
+
+	.site-footer__shell {
+		width: min(100%, 44rem);
+		margin-inline: auto;
+		text-align: center;
+	}
+
+	/* El logo de los Andes es oscuro sobre fondo claro; en el tema oscuro va
+	   sobre una placa blanca para no perder el color del escudo. */
+	.site-footer__lockup {
+		display: inline-flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: clamp(0.75rem, 2.5vw, 1.25rem);
+		margin-bottom: clamp(1.5rem, 4vh, 2.25rem);
+		padding: clamp(0.6rem, 2vw, 0.9rem) clamp(1rem, 3vw, 1.5rem);
+		border-radius: 0.5rem;
+		background: #fff;
+	}
+
+	.site-footer__logo {
+		display: inline-flex;
+		align-items: center;
+	}
+
+	.site-footer__logo img {
+		display: block;
+		width: auto;
+		height: clamp(2rem, 5vw, 2.6rem);
+	}
+
+	/* El wordmark SINFONiA trae la red de nodos sobre la "i"; se sube un poco
+	   para que la línea de base de las letras quede a la altura del escudo. */
+	.site-footer__logo--sinfonia img {
+		height: clamp(1.7rem, 4.2vw, 2.2rem);
+		margin-top: -0.3em;
+	}
+
+	/* La barra que separa los dos logos. */
+	.site-footer__divider {
+		align-self: stretch;
+		width: 1px;
+		background: #e3e2e9;
+	}
+
+	.site-footer__legal {
+		margin: 0 0 0.75rem;
+		font-size: 0.82rem;
+		line-height: 1.7;
+	}
+
+	.site-footer__copyright {
+		margin: 0;
+		font-size: 0.82rem;
+		line-height: 1.7;
+	}
+
+	.site-footer a {
+		color: var(--footer-accent);
+		text-decoration: none;
+		text-underline-offset: 0.18em;
+	}
+
+	.site-footer a:hover {
+		text-decoration: underline;
+	}
+
+	.site-footer a:focus-visible {
+		outline: 2px dashed var(--footer-accent);
+		outline-offset: 0.2rem;
+	}
+</style>

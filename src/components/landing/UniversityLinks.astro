@@ -1,0 +1,108 @@
+---
+const links = [
+	{ label: "Apoyo Financiero", value: "apoyofinanciero.uniandes.edu.co", href: "https://apoyofinanciero.uniandes.edu.co/" },
+	{ label: "Admisiones y Registro", value: "registro.uniandes.edu.co", href: "http://registro.uniandes.edu.co/" },
+	{ label: "Biblioteca", value: "biblioteca.uniandes.edu.co", href: "http://biblioteca.uniandes.edu.co/" },
+	{ label: "Bloque Neón", value: "bloqueneon.uniandes.edu.co", href: "https://bloqueneon.uniandes.edu.co/" },
+	{ label: "Agenda y Eventos", value: "eventos.uniandes.edu.co", href: "http://eventos.uniandes.edu.co/" },
+	{
+		label: "Decanatura de Estudiantes",
+		value: "decanaturadeestudiantes.uniandes.edu.co",
+		href: "http://decanaturadeestudiantes.uniandes.edu.co/",
+	},
+	{ label: "MAAD", value: "uniandes.edu.co/maad", href: "https://uniandes.edu.co/maad" },
+];
+---
+
+<section id="universidad" class="band band--tint university">
+	<div class="shell">
+		<h2 class="university__title reveal">Universidad de los Andes</h2>
+
+		<dl class="university__list">
+			{
+				links.map((link, index) => (
+					<div class="university__item reveal" style={`--step: ${(index % 4) + 1}`}>
+						<dt>{link.label}</dt>
+						<dd>
+							<a href={link.href}>{link.value}</a>
+						</dd>
+					</div>
+				))
+			}
+		</dl>
+	</div>
+</section>
+
+<style>
+	.university__title {
+		margin: 0 0 clamp(1.75rem, 5vh, 3rem);
+		color: var(--ink);
+		font-family: var(--display);
+		font-size: clamp(1.5rem, 3vw, 2.2rem);
+		font-weight: 500;
+		letter-spacing: -0.032em;
+		line-height: 1.1;
+	}
+
+	.university__list {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: clamp(2rem, 6vw, 5rem);
+		margin: 0;
+		padding: 0;
+	}
+
+	.university__item {
+		display: grid;
+		grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+		gap: 1rem;
+		align-items: baseline;
+		padding: 0.8rem 0 0.9rem;
+		border-top: 1px solid var(--line-strong);
+	}
+
+	.university__item dt {
+		color: var(--ink-faint);
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		font-weight: 500;
+		letter-spacing: 0.12em;
+		line-height: 1.5;
+		text-transform: uppercase;
+	}
+
+	.university__item dd {
+		margin: 0;
+		font-size: 0.98rem;
+		line-height: 1.55;
+		overflow-wrap: anywhere;
+	}
+
+	.university a {
+		color: var(--accent);
+		text-decoration: none;
+		text-underline-offset: 0.18em;
+	}
+
+	.university a:hover {
+		text-decoration: underline;
+	}
+
+	.university a:focus-visible {
+		outline: 2px dashed var(--accent);
+		outline-offset: 0.2rem;
+	}
+
+	@media (max-width: 60rem) {
+		.university__list {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+
+	@media (max-width: 34rem) {
+		.university__item {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 0.25rem;
+		}
+	}
+</style>
