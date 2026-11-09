@@ -35,6 +35,7 @@ const hallOfFame = defineCollection({
 				}),
 			),
 			highlights: z.array(z.string()).default([]),
+			/* Solo el orden en que se cuelgan las placas, no un rango. */
 			order: z.number().default(0),
 		}),
 });

@@ -30,13 +30,11 @@ const description =
 			<section class="wall" aria-labelledby="wall-title">
 				<header class="wall__head">
 					<h2 class="wall__title" id="wall-title">El muro</h2>
-					<p class="wall__count">
-						{String(laureates.length).padStart(2, "0")} en el muro
-					</p>
+					<span class="wall__seal" aria-hidden="true"></span>
 				</header>
 
 				<div class="wall__plates">
-					{laureates.map((entry, index) => <Laureate entry={entry} index={index} />)}
+					{laureates.map((entry) => <Laureate entry={entry} />)}
 				</div>
 
 				<p class="wall__closing">
@@ -148,13 +146,12 @@ const description =
 		line-height: 1;
 	}
 
-	.wall__count {
-		margin: 0;
-		color: var(--hall-gold-deep);
-		font-family: var(--hall-mono);
-		font-size: 0.72rem;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
+	/* El remate del filete: un rombo dorado, sin números ni jerarquías. */
+	.wall__seal {
+		width: 0.45rem;
+		height: 0.45rem;
+		background: var(--hall-gold);
+		transform: rotate(45deg);
 	}
 
 	.wall__plates {
