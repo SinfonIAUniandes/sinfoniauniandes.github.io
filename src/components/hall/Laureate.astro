@@ -101,6 +101,8 @@ const { name, photo, note, roles, highlights } = entry.data;
 
 	.laureate__portrait {
 		position: relative;
+		/* Aísla la mezcla para que el oro solo seruebe sobre la foto. */
+		isolation: isolate;
 		/* El marco se ajusta a la foto, no a la altura de la fila. */
 		align-self: start;
 		width: 100%;
@@ -116,10 +118,22 @@ const { name, photo, note, roles, highlights } = entry.data;
 		height: auto;
 		border-radius: 0.6rem;
 		/*
-			La foto trae fondo de estudio verde; el sepia lo vuelve un retrato
-			de archivo y lo deja en la misma paleta que el resto del muro.
+			La foto entra en gris y el oro de la capa de arriba hace el resto:
+			un duotono, como las estampas de los libros de honor.
 		*/
-		filter: grayscale(0.55) sepia(0.55) saturate(1.2) contrast(1.03) brightness(1.04);
+		filter: grayscale(1) contrast(1.06) brightness(1.3);
+	}
+
+	/* La capa de oro, multiplicada sobre la foto. */
+	.laureate__portrait::after {
+		position: absolute;
+		inset: 0.4rem;
+		border-radius: 0.6rem;
+		background: linear-gradient(155deg, #fbeec0, #d9b04a 48%, #a37f1c);
+		content: "";
+		mix-blend-mode: multiply;
+		opacity: 0.72;
+		pointer-events: none;
 	}
 
 	.laureate__name {
