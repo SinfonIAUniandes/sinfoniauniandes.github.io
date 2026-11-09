@@ -9,7 +9,7 @@ const laureates = (await getCollection("hallOfFame")).sort(
 );
 
 const description =
-	"El hall de fama de SinfonIA: las personas que construyeron los robots, mejoraron la visión y dejaron el proyecto en orden.";
+	"El salón de la fama de SinfonIA: solo las personas que dejaron una huella imborrable en el proyecto.";
 ---
 
 <Layout title="Hall of Fame · SinfonIA Uniandes" description={description} lang="es">
@@ -19,11 +19,11 @@ const description =
 		<div class="hall__shell">
 			<section class="intro">
 				<p class="eyebrow">SinfonIA · Universidad de los Andes</p>
-				<h1 class="intro__title">Las personas que construyeron SinfonIA</h1>
+				<h1 class="intro__title">Las personas que dejaron huella imborrable</h1>
 				<p class="lede">
-					Cada quien pasó por el proyecto dejó algo: un sistema que ve mejor,
-					un proceso que no se rompe, un robot que entiende el mundo real. Este
-					es el registro de quienes hicieron crecer la casa.
+					No todo el que pasa por SinfonIA entra a este salón. Solo quienes
+					dejaron una marca que el proyecto todavía carga: un sistema que ve
+					mejor, un proceso que no se rompe, un robot que entiende el mundo real.
 				</p>
 			</section>
 
@@ -40,8 +40,8 @@ const description =
 				</div>
 
 				<p class="wall__closing">
-					El muro sigue creciendo: este espacio está abierto para cada nueva
-					persona que sume a SinfonIA.
+					El muro sigue creciendo, pero es selecto: aquí solo entra quien dejó
+					una huella imborrable.
 				</p>
 			</section>
 		</div>
