@@ -2,7 +2,7 @@
 name: "Alexandra Gutiérrez Ballen"
 photo: "../assets/hall-of-fame/alexandra.jpg"
 order: 1
-note: "Colider y asesora legal y administrativa de la iniciativa."
+note: "Le dio a la iniciativa lo que hacía falta para no rendirse: recursos, permisos y asesoría legal."
 roles:
   - title: "Colider"
     from: "jun 2022"

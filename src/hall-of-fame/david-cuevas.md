@@ -19,6 +19,7 @@ highlights:
   - "Sirvió de puente para sumar a Nao a los robots con los que SinfonIA podía trabajar."
   - "Apoyó múltiples proyectos de investigación alrededor de la iniciativa."
   - "Fue mentor de muchos: sin su apoyo, ni SinfonIA sería lo que es hoy, ni los profesionales que se formaron en ella."
+funFact: "Su dedicación a SinfonIA lo llevó a obtener una beca completa en la Universidad de los Andes para hacer una maestría de investigación, un lugar que aceptó para seguir haciendo robótica."
 competitions:
   - year: "2023"
     city: "Burdeos"

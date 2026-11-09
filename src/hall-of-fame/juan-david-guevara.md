@@ -19,6 +19,7 @@ highlights:
   - "Integró aplicaciones de realidad aumentada (AR) con la operabilidad de los robots."
   - "Sirvió de puente para integrar a SinfonIA en el desarrollo alrededor del humanoide Unitree G1."
   - "Escribió el sitio web que estás mirando ahora."
+funFact: "Su experiencia en la iniciativa lo llevó a conseguir un puesto profesional en la industria como ingeniero de machine learning."
 competitions:
   - year: "2024"
     city: "Eindhoven"
