@@ -1,19 +1,217 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import SiteHeader from '../components/SiteHeader.astro';
+import Layout from "../layouts/Layout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import Laureate from "../components/hall/Laureate.astro";
+import { getCollection } from "astro:content";
+
+const laureates = (await getCollection("hallOfFame")).sort(
+	(a, b) => a.data.order - b.data.order,
+);
+
+const description =
+	"El hall de fama de SinfonIA: las personas que construyeron los robots, mejoraron la visión y dejaron el proyecto en orden.";
 ---
 
-<Layout title="Hall of Fame · SinfonIA Uniandes">
-	<main class="hall-page">
+<Layout title="Hall of Fame · SinfonIA Uniandes" description={description} lang="es">
+	<main class="hall">
 		<SiteHeader />
+
+		<div class="hall__shell">
+			<section class="intro">
+				<p class="eyebrow">SinfonIA · Universidad de los Andes</p>
+				<h1 class="intro__title">Las personas que construyeron SinfonIA</h1>
+				<p class="lede">
+					Cada quien pasó por el proyecto dejó algo: un sistema que ve mejor,
+					un proceso que no se rompe, un robot que entiende el mundo real. Este
+					es el registro de quienes hicieron crecer la casa.
+				</p>
+			</section>
+
+			<section class="wall" aria-labelledby="wall-title">
+				<header class="wall__head">
+					<h2 class="wall__title" id="wall-title">El muro</h2>
+					<p class="wall__count">
+						{String(laureates.length).padStart(2, "0")} en el muro
+					</p>
+				</header>
+
+				<div class="wall__plates">
+					{laureates.map((entry, index) => <Laureate entry={entry} index={index} />)}
+				</div>
+
+				<p class="wall__closing">
+					El muro sigue creciendo: este espacio está abierto para cada nueva
+					persona que sume a SinfonIA.
+				</p>
+			</section>
+		</div>
 	</main>
 </Layout>
 
 <style>
-	.hall-page {
+	/*
+		El hall es un libro de oro abierto: papel crema, filetes de tinta y
+		pan de oro. Los tokens viven en la raíz de la página para que las
+		placas y el texto compongan con la misma paleta.
+	*/
+	.hall {
+		--hall-paper: #faf6ea;
+		--hall-ink: #2a2620;
+		--hall-ink-soft: #5d564a;
+		--hall-gold: #a88814;
+		--hall-gold-deep: #7d640c;
+		--hall-rule: rgb(168 136 20 / 30%);
+		--hall-rule-soft: rgb(168 136 20 / 16%);
+
+		--hall-display: "Space Grotesk", "Lato", sans-serif;
+		--hall-mono: "JetBrains Mono", ui-monospace, monospace;
+
 		position: relative;
 		min-height: 100svh;
-		overflow: hidden;
-		background: white;
+		color: var(--hall-ink);
+		background-color: var(--hall-paper);
+		background-image:
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E"),
+			radial-gradient(120% 70% at 50% -12%, #fffdf5, transparent 68%);
+		background-size: 160px 160px, auto;
+		font-family: "Lato", sans-serif;
+	}
+
+	.hall__shell {
+		width: min(100% - clamp(1.15rem, 5vw, 4.5rem) * 2, 64rem);
+		margin-inline: auto;
+		/* El encabezado lleva el rótulo de oro hasta arriba: el texto arranca
+		   por debajo para no cruzarse con él. */
+		padding-block: clamp(9.5rem, 19vh, 11rem) clamp(3rem, 8vh, 5rem);
+	}
+
+	.intro {
+		max-width: 46rem;
+		margin-inline: auto;
+		text-align: center;
+	}
+
+	.eyebrow {
+		margin: 0 0 1.1rem;
+		color: var(--hall-gold-deep);
+		font-family: var(--hall-mono);
+		font-size: 0.72rem;
+		font-weight: 500;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+	}
+
+	.intro__title {
+		margin: 0;
+		background: linear-gradient(180deg, #8f7314, #6d5607);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		font-family: var(--hall-display);
+		font-size: clamp(2.1rem, 5.4vw, 3.6rem);
+		font-weight: 600;
+		letter-spacing: -0.035em;
+		line-height: 1.04;
+		text-wrap: balance;
+	}
+
+	.lede {
+		max-width: 34rem;
+		margin: 1.4rem auto 0;
+		color: var(--hall-ink-soft);
+		font-size: clamp(1rem, 1.15vw, 1.1rem);
+		line-height: 1.62;
+	}
+
+	.wall {
+		margin-top: clamp(3.5rem, 9vh, 6rem);
+	}
+
+	.wall__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.75rem 1.5rem;
+		margin-bottom: clamp(1.4rem, 3vw, 2rem);
+		padding-bottom: 0.9rem;
+		border-bottom: 1px solid var(--hall-rule);
+	}
+
+	.wall__title {
+		margin: 0;
+		color: var(--hall-ink);
+		font-family: var(--hall-display);
+		font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+		font-weight: 500;
+		letter-spacing: -0.02em;
+		line-height: 1;
+	}
+
+	.wall__count {
+		margin: 0;
+		color: var(--hall-gold-deep);
+		font-family: var(--hall-mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.wall__plates {
+		display: grid;
+		gap: clamp(1.25rem, 3vw, 2rem);
+	}
+
+	.wall__closing {
+		max-width: 34rem;
+		margin: clamp(2rem, 5vh, 3rem) auto 0;
+		color: var(--hall-ink-soft);
+		font-size: 0.98rem;
+		line-height: 1.6;
+		text-align: center;
+	}
+
+	/* Las placas entran despacio, como si se colgaran en la pared. */
+	@media (prefers-reduced-motion: no-preference) {
+		.wall__plates > * {
+			animation: plate-settle 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+		}
+
+		.wall__plates > *:nth-child(2) {
+			animation-delay: 0.12s;
+		}
+
+		.wall__plates > *:nth-child(3) {
+			animation-delay: 0.24s;
+		}
+
+		.wall__plates > *:nth-child(4) {
+			animation-delay: 0.36s;
+		}
+	}
+
+	@keyframes plate-settle {
+		from {
+			opacity: 0;
+			transform: translateY(1.4rem);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	@media (max-width: 40rem) {
+		.hall__shell {
+			padding-top: 10rem;
+		}
+	}
+</style>
+
+<style is:global>
+	/* El pie de página usa los mismos tokens que la landing; aquí se viste de
+	   papel crema para que no se note el cambio de página. */
+	:root {
+		--paper: #faf6ea;
 	}
 </style>

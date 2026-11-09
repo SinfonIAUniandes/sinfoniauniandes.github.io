@@ -1,0 +1,301 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+	entry: CollectionEntry<"hallOfFame">;
+	index: number;
+}
+
+const { entry, index } = Astro.props;
+const { name, photo, note, roles, highlights } = entry.data;
+const number = String(index + 1).padStart(2, "0");
+---
+
+<article class="laureate">
+	<div class="laureate__side">
+		<div class="laureate__portrait">
+			<Image
+				src={photo}
+				alt={`Retrato de ${name}`}
+				widths={[240, 420]}
+				sizes="(max-width: 48rem) 60vw, 220px"
+				loading="lazy"
+				decoding="async"
+			/>
+		</div>
+
+		{note && <p class="laureate__note">{note}</p>}
+	</div>
+
+	<div class="laureate__body">
+		<header class="laureate__head">
+			<p class="laureate__number">Nº {number}</p>
+			<h2 class="laureate__name">{name}</h2>
+			<p class="laureate__roles">
+				{roles.map((role) => role.title).join(" · ")}
+			</p>
+		</header>
+
+		<div class="laureate__columns">
+			<section class="laureate__block">
+				<h3 class="laureate__label">Trayectoria</h3>
+				<ol class="track" role="list">
+					{
+						roles.map((role) => (
+							<li class="track__item">
+								<p class="track__role">{role.title}</p>
+								<p class="track__period">
+									{role.from} — {role.to}
+								</p>
+							</li>
+						))
+					}
+				</ol>
+			</section>
+
+			{
+				highlights.length > 0 && (
+					<section class="laureate__block">
+						<h3 class="laureate__label">Lo que dejó</h3>
+						<ul class="legacy" role="list">
+							{highlights.map((highlight) => (
+								<li>{highlight}</li>
+							))}
+						</ul>
+					</section>
+				)
+			}
+		</div>
+	</div>
+</article>
+
+<style>
+	.laureate {
+		position: relative;
+		display: grid;
+		grid-template-columns: clamp(9rem, 24vw, 13rem) minmax(0, 1fr);
+		gap: clamp(1.4rem, 4vw, 3rem);
+		padding: clamp(1.4rem, 3.4vw, 2.6rem);
+		border: 1px solid var(--hall-rule);
+		border-radius: 1.25rem;
+		background: linear-gradient(180deg, #fffdf6, #f7f0de);
+		box-shadow:
+			inset 0 1px 0 rgb(255 255 255 / 85%),
+			0 18px 40px rgb(90 74 30 / 10%);
+		overflow: hidden;
+	}
+
+	/* El filete interior: la placa va enmarcada, como una foto montada. */
+	.laureate::before {
+		position: absolute;
+		inset: 0.5rem;
+		border: 1px solid var(--hall-rule-soft);
+		border-radius: 0.9rem;
+		content: "";
+		pointer-events: none;
+	}
+
+	.laureate__side {
+		display: grid;
+		gap: 1.1rem;
+		align-content: start;
+	}
+
+	.laureate__portrait {
+		position: relative;
+		/* El marco se ajusta a la foto, no a la altura de la fila. */
+		align-self: start;
+		width: 100%;
+		padding: 0.4rem;
+		border-radius: 0.9rem;
+		background: linear-gradient(150deg, #f4e4b4, #c4a027 55%, #8f7314);
+		box-shadow: 0 12px 26px rgb(90 74 30 / 22%);
+	}
+
+	.laureate__portrait img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: 0.6rem;
+		/*
+			La foto trae fondo de estudio verde; el sepia lo vuelve un retrato
+			de archivo y lo deja en la misma paleta que el resto del muro.
+		*/
+		filter: grayscale(0.55) sepia(0.55) saturate(1.2) contrast(1.03) brightness(1.04);
+	}
+
+	.laureate__number {
+		margin: 0 0 0.5rem;
+		color: var(--hall-gold-deep);
+		font-family: var(--hall-mono);
+		font-size: 0.7rem;
+		font-weight: 500;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+	}
+
+	.laureate__name {
+		margin: 0;
+		background: linear-gradient(180deg, #8f7314, #6d5607);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		font-family: var(--hall-display);
+		font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+		font-weight: 600;
+		letter-spacing: -0.03em;
+		line-height: 1.04;
+		text-wrap: balance;
+	}
+
+	.laureate__roles {
+		margin: 0.7rem 0 0;
+		color: var(--hall-ink-soft);
+		font-family: var(--hall-mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
+	.laureate__note {
+		max-width: 100%;
+		margin: 0;
+		padding-top: 0.9rem;
+		border-top: 1px solid var(--hall-rule-soft);
+		color: var(--hall-ink);
+		font-size: 0.94rem;
+		font-style: italic;
+		line-height: 1.5;
+	}
+
+	.laureate__columns {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+		gap: clamp(1.4rem, 3vw, 2.5rem);
+		margin-top: clamp(1.6rem, 3vw, 2.2rem);
+		padding-top: clamp(1.3rem, 2.6vw, 1.8rem);
+		border-top: 1px solid var(--hall-rule-soft);
+	}
+
+	.laureate__label {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin: 0 0 1rem;
+		color: var(--hall-gold-deep);
+		font-family: var(--hall-mono);
+		font-size: 0.68rem;
+		font-weight: 500;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+	}
+
+	/* La regla que se desvanece hacia el final, como un filete de tinta. */
+	.laureate__label::after {
+		flex: 1;
+		height: 1px;
+		background: linear-gradient(90deg, var(--hall-rule), transparent);
+		content: "";
+	}
+
+	.track {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.track__item {
+		position: relative;
+		padding: 0 0 1rem 1.5rem;
+	}
+
+	.track__item::before {
+		position: absolute;
+		top: 0.42rem;
+		left: 0.24rem;
+		width: 0.52rem;
+		height: 0.52rem;
+		border-radius: 50%;
+		background: var(--hall-gold);
+		box-shadow: 0 0 0 3px rgb(168 136 20 / 18%);
+		content: "";
+	}
+
+	/* El hilo que une los hitos de la trayectoria. */
+	.track__item::after {
+		position: absolute;
+		top: 1.05rem;
+		bottom: 0.15rem;
+		left: 0.48rem;
+		width: 1px;
+		background: rgb(168 136 20 / 40%);
+		content: "";
+	}
+
+	.track__item:last-child::after {
+		display: none;
+	}
+
+	.track__role {
+		margin: 0;
+		color: var(--hall-ink);
+		font-family: var(--hall-display);
+		font-size: 1.05rem;
+		font-weight: 500;
+		letter-spacing: -0.015em;
+		line-height: 1.2;
+	}
+
+	.track__period {
+		margin: 0.25rem 0 0;
+		color: var(--hall-gold-deep);
+		font-family: var(--hall-mono);
+		font-size: 0.74rem;
+		letter-spacing: 0.04em;
+	}
+
+	.legacy {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.legacy li {
+		position: relative;
+		margin: 0 0 0.7rem;
+		padding-left: 1.15rem;
+		color: var(--hall-ink-soft);
+		font-size: 0.98rem;
+		line-height: 1.55;
+	}
+
+	.legacy li:last-child {
+		margin-bottom: 0;
+	}
+
+	/* El rombo dorada que abre cada logro. */
+	.legacy li::before {
+		position: absolute;
+		top: 0.52em;
+		left: 0;
+		width: 0.38rem;
+		height: 0.38rem;
+		background: var(--hall-gold);
+		content: "";
+		transform: rotate(45deg);
+	}
+
+	@media (max-width: 48rem) {
+		.laureate {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.laureate__portrait {
+			width: clamp(9rem, 46vw, 12rem);
+		}
+
+		.laureate__note {
+			max-width: 30rem;
+		}
+	}</style>
