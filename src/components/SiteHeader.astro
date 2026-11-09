@@ -196,9 +196,11 @@ const isHallOfFame = Astro.url.pathname.replace(/\/+$/, "").endsWith("hall-of-fa
 		En el salón de la fama el rótulo se dibuja donde va a quedarse: el
 		trazo vive dentro del SVG. Antes el logo entraba gigante desde el
 		centro de la página y barrenba el contenido mientras se dibujaba.
+
+		Aquí sí lleva aire arriba: es el cartel de la sala, no una esquina.
 	*/
 	.site-header__logo--hall {
-		--hall-top: 1.25rem;
+		--hall-top: 4.5rem;
 		--hall-width: clamp(240px, 44vw, 400px);
 		top: var(--hall-top);
 		width: var(--hall-width);
