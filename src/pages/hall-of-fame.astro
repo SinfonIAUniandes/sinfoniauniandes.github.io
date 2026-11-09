@@ -4,8 +4,9 @@ import SiteHeader from "../components/SiteHeader.astro";
 import Laureate from "../components/hall/Laureate.astro";
 import { getCollection } from "astro:content";
 
-const laureates = (await getCollection("hallOfFame")).sort(
-	(a, b) => a.data.order - b.data.order,
+/* El muro se lee por orden alfabético, de la A a la Z. */
+const laureates = (await getCollection("hallOfFame")).sort((a, b) =>
+	a.data.name.localeCompare(b.data.name, "es"),
 );
 
 const description =

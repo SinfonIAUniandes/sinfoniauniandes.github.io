@@ -1,7 +1,6 @@
 ---
 name: "Alexandra Gutiérrez Ballen"
 photo: "../assets/hall-of-fame/alexandra.jpg"
-order: 1
 note: "Le dio a la iniciativa lo que hacía falta para no rendirse: recursos, permisos y asesoría legal."
 roles:
   - title: "Colider"

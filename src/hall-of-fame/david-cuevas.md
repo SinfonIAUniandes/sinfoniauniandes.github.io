@@ -1,7 +1,6 @@
 ---
 name: "David Cuevas Alba"
 photo: "../assets/hall-of-fame/david-cuevas.jpg"
-order: 2
 note: "El más curioso del equipo: le enseñó las bases de la robótica a todo el mundo."
 roles:
   - title: "Líder de Interface"

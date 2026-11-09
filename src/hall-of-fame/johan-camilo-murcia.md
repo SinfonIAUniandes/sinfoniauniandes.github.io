@@ -1,7 +1,6 @@
 ---
 name: "Johan Camilo Murcia"
 photo: "../assets/hall-of-fame/johan-camilo-murcia.jpg"
-order: 4
 note: "Le dio un norte a la iniciativa después de traer el primer lugar de RoboCup."
 roles:
   - title: "Líder de Navegación"
