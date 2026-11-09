@@ -15,4 +15,8 @@ highlights:
   - "En su administración trajo las Charlas SinfonIA: un proyecto visionario para difundir conocimiento, darle más impacto a la iniciativa y liderar el futuro de la robótica en Colombia."
   - "Tomó las riendas después del primer lugar en RoboCup 2024 y le dio un norte a la iniciativa."
   - "Lideró la navegación del equipo."
+competitions:
+  - year: "2024"
+    city: "Eindhoven"
+    place: "1.º"
 ---

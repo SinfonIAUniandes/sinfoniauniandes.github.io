@@ -1,5 +1,5 @@
 ---
-name: "Juan David Guevara Arévalo"
+name: "Juan David Guevara"
 photo: "../assets/hall-of-fame/juan-david-guevara.jpg"
 order: 3
 note: "Le dio a los robots una mirada mejor y al equipo un orden para trabajar."

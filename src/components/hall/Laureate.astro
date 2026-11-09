@@ -24,24 +24,6 @@ const { name, photo, note, roles, highlights, competitions, funFact } = entry.da
 		</div>
 
 		{note && <p class="laureate__note">{note}</p>}
-
-		{
-			competitions && competitions.length > 0 && (
-				<section class="laureate__block laureate__block--side">
-					<h3 class="laureate__label">Finales</h3>
-					<ul class="finals" role="list">
-						{competitions.map((competition) => (
-							<li class="finals__item">
-								<span class="finals__place">{competition.place}</span>
-								<span class="finals__where">
-									{competition.city} {competition.year}
-								</span>
-							</li>
-						))}
-					</ul>
-				</section>
-			)
-		}
 	</div>
 
 	<div class="laureate__body">
@@ -53,34 +35,56 @@ const { name, photo, note, roles, highlights, competitions, funFact } = entry.da
 		</header>
 
 		<div class="laureate__columns">
-			<section class="laureate__block">
-				<h3 class="laureate__label">Trayectoria</h3>
-				<ol class="track" role="list">
-					{
-						roles.map((role) => (
-							<li class="track__item">
-								<p class="track__role">{role.title}</p>
-								<p class="track__period">
-									{role.from} — {role.to}
-								</p>
-							</li>
-						))
-					}
-				</ol>
-			</section>
+			<div class="laureate__column">
+				<section class="laureate__block">
+					<h3 class="laureate__label">Trayectoria</h3>
+					<ol class="track" role="list">
+						{
+							roles.map((role) => (
+								<li class="track__item">
+									<p class="track__role">{role.title}</p>
+									<p class="track__period">
+										{role.from} — {role.to}
+									</p>
+								</li>
+							))
+						}
+					</ol>
+				</section>
 
-			{
-				highlights.length > 0 && (
-					<section class="laureate__block">
-						<h3 class="laureate__label">Lo que hizo posible</h3>
-						<ul class="legacy" role="list">
-							{highlights.map((highlight) => (
-								<li>{highlight}</li>
-							))}
-						</ul>
-					</section>
-				)
-			}
+				{
+					competitions && competitions.length > 0 && (
+						<section class="laureate__block">
+							<h3 class="laureate__label">Finales</h3>
+							<ul class="finals" role="list">
+								{competitions.map((competition) => (
+									<li class="finals__item">
+										<span class="finals__place">{competition.place}</span>
+										<span class="finals__where">
+											{competition.city} {competition.year}
+										</span>
+									</li>
+								))}
+							</ul>
+						</section>
+					)
+				}
+			</div>
+
+			<div class="laureate__column">
+				{
+					highlights.length > 0 && (
+						<section class="laureate__block">
+							<h3 class="laureate__label">Lo que hizo posible</h3>
+							<ul class="legacy" role="list">
+								{highlights.map((highlight) => (
+									<li>{highlight}</li>
+								))}
+							</ul>
+						</section>
+					)
+				}
+			</div>
 		</div>
 	</div>
 
@@ -205,17 +209,18 @@ const { name, photo, note, roles, highlights, competitions, funFact } = entry.da
 
 	.laureate__columns {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: clamp(1.4rem, 3vw, 2.5rem);
 		margin-top: clamp(1.6rem, 3vw, 2.2rem);
 		padding-top: clamp(1.3rem, 2.6vw, 1.8rem);
 		border-top: 1px solid var(--hall-rule-soft);
 	}
 
-	/* Las finales van en la columna de la foto: caben justas y equilibran
-	   la placa. */
-	.laureate__block--side {
-		margin-top: 0.4rem;
+	/* Cada columna apila sus bloques desde arriba. */
+	.laureate__column {
+		display: grid;
+		align-content: start;
+		gap: clamp(1.3rem, 2.6vw, 1.9rem);
 	}
 
 	.laureate__label {
@@ -380,6 +385,10 @@ const { name, photo, note, roles, highlights, competitions, funFact } = entry.da
 
 	@media (max-width: 48rem) {
 		.laureate {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.laureate__columns {
 			grid-template-columns: minmax(0, 1fr);
 		}
 
