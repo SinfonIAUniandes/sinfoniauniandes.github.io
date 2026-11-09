@@ -50,7 +50,7 @@ const isHallOfFame = Astro.url.pathname.replace(/\/+$/, "").endsWith("hall-of-fa
 	)}
 
 	{isHallOfFame && (
-		<div class="site-header__logo site-header__logo--hero site-header__logo--hall site-header__logo--animate">
+		<div class="site-header__logo site-header__logo--hero site-header__logo--hall">
 			<img src={hallOfFameLogo.src} alt="Hall of Fame" />
 		</div>
 	)}
@@ -129,10 +129,16 @@ const isHallOfFame = Astro.url.pathname.replace(/\/+$/, "").endsWith("hall-of-fa
 		transform: translateX(-50%);
 	}
 
+	/*
+		En el salón de la fama el rótulo se dibuja donde va a quedarse: el
+		trazo vive dentro del SVG. Antes el logo entraba gigante desde el
+		centro de la página y barrenba el contenido mientras se dibujaba.
+	*/
 	.site-header__logo--hall {
-		--hero-end-top: 1.25rem;
-		--hero-end-width: clamp(220px, 42vw, 340px);
-		width: var(--hero-end-width);
+		--hall-top: 1.25rem;
+		--hall-width: clamp(240px, 44vw, 400px);
+		top: var(--hall-top);
+		width: var(--hall-width);
 	}
 
 	.site-header__logo--animate {
@@ -144,10 +150,6 @@ const isHallOfFame = Astro.url.pathname.replace(/\/+$/, "").endsWith("hall-of-fa
 
 	.site-header__logo--sinfonia.site-header__logo--animate {
 		animation-delay: 1.05s;
-	}
-
-	.site-header__logo--hall.site-header__logo--animate {
-		animation-name: settle-hall;
 	}
 
 	.site-header__links {
@@ -219,19 +221,6 @@ const isHallOfFame = Astro.url.pathname.replace(/\/+$/, "").endsWith("hall-of-fa
 		}
 	}
 
-	@keyframes settle-hall {
-		from {
-			top: 50%;
-			width: min(92vw, 1200px);
-			transform: translate(-50%, -50%);
-		}
-		to {
-			top: var(--hero-end-top);
-			width: var(--hero-end-width);
-			transform: translate(-50%, 0);
-		}
-	}
-
 	@keyframes reveal-hall {
 		from { opacity: 0; }
 		to { opacity: 1; }
@@ -239,9 +228,13 @@ const isHallOfFame = Astro.url.pathname.replace(/\/+$/, "").endsWith("hall-of-fa
 
 	@media (max-width: 40rem) {
 		.site-header__logo--hall {
-			/* Baja un poco para no pegarse al escudo de los Andes. */
-			--hero-end-top: 4.2rem;
-			--hero-end-width: clamp(200px, 88vw, 340px);
+			/*
+				En pantallas chicas el escudo de los Andes ocupa la esquina
+				superior izquierda, así que el rótulo baja y se angosta para
+				quedar debajo, sin cruzarse con él.
+			*/
+			--hall-top: 5.4rem;
+			--hall-width: clamp(180px, 64vw, 280px);
 		}
 	}
 
@@ -277,11 +270,6 @@ const isHallOfFame = Astro.url.pathname.replace(/\/+$/, "").endsWith("hall-of-fa
 			width: clamp(132px, 18vw, 168px);
 			transform: translateX(-50%);
 			animation: none;
-		}
-
-		.site-header__logo--hall.site-header__logo--animate {
-			top: var(--hero-end-top);
-			width: var(--hero-end-width);
 		}
 
 		.site-header__links--delayed {

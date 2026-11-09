@@ -20,34 +20,39 @@
       stroke-dashoffset: 1.01;
       stroke-linecap: butt;
       stroke-linejoin: round;
-      animation: trace-border 0.111111s ease-in both;
+      animation: trace-border 0.26s ease-in both;
     }
 
     .letter {
       fill-opacity: 0;
-      animation: fill-in 0.027778s linear 0.111111s both;
+      animation: fill-in 0.16s linear both;
     }
 
+    /*
+      Cada letra se traza y luego se rellena, una detrás de otra, como si
+      alguien escribiera el rótulo a mano. El trazo completo dura un poco
+      más de un segundo: lo justo para que se vea.
+    */
     .border-1 { animation-delay: 0s; }
-    .border-2 { animation-delay: 0.044s; }
-    .border-3 { animation-delay: 0.088s; }
-    .border-4 { animation-delay: 0.132s; }
-    .border-5 { animation-delay: 0.176s; }
-    .border-6 { animation-delay: 0.22s; }
-    .border-7 { animation-delay: 0.264s; }
-    .border-8 { animation-delay: 0.308s; }
-    .border-9 { animation-delay: 0.352s; }
-    .border-10 { animation-delay: 0.396s; }
-    .letter-1 { animation-delay: 0.1s; }
-    .letter-2 { animation-delay: 0.144s; }
-    .letter-3 { animation-delay: 0.188s; }
-    .letter-4 { animation-delay: 0.232s; }
-    .letter-5 { animation-delay: 0.276s; }
-    .letter-6 { animation-delay: 0.32s; }
-    .letter-7 { animation-delay: 0.364s; }
-    .letter-8 { animation-delay: 0.408s; }
-    .letter-9 { animation-delay: 0.452s; }
-    .letter-10 { animation-delay: 0.496s; }
+    .border-2 { animation-delay: 0.075s; }
+    .border-3 { animation-delay: 0.15s; }
+    .border-4 { animation-delay: 0.225s; }
+    .border-5 { animation-delay: 0.3s; }
+    .border-6 { animation-delay: 0.375s; }
+    .border-7 { animation-delay: 0.45s; }
+    .border-8 { animation-delay: 0.525s; }
+    .border-9 { animation-delay: 0.6s; }
+    .border-10 { animation-delay: 0.675s; }
+    .letter-1 { animation-delay: 0.22s; }
+    .letter-2 { animation-delay: 0.295s; }
+    .letter-3 { animation-delay: 0.37s; }
+    .letter-4 { animation-delay: 0.445s; }
+    .letter-5 { animation-delay: 0.52s; }
+    .letter-6 { animation-delay: 0.595s; }
+    .letter-7 { animation-delay: 0.67s; }
+    .letter-8 { animation-delay: 0.745s; }
+    .letter-9 { animation-delay: 0.82s; }
+    .letter-10 { animation-delay: 0.895s; }
 
     @media (prefers-reduced-motion: reduce) {
       .border { animation: none; stroke-dashoffset: 0; }
