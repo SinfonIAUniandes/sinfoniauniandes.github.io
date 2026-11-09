@@ -17,5 +17,5 @@ highlights:
   - "Lideró la mejora importante del sistema de visión del robot durante su tiempo como Vision Lead."
   - "Como Technical Lead, estandarizó procesos, patrones de diseño y funcionalidades del equipo."
   - "Integró aplicaciones de realidad aumentada (AR) con la operabilidad de los robots."
-  - "Es el autor de este sitio web."
+  - "Escribió el sitio web que estás mirando ahora."
 ---
