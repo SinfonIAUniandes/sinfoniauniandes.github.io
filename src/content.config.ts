@@ -35,6 +35,17 @@ const hallOfFame = defineCollection({
 				}),
 			),
 			highlights: z.array(z.string()).default([]),
+			/* Las finales a las que llevó, una por una. */
+			competitions: z
+				.array(
+					z.object({
+						year: z.string(),
+						city: z.string(),
+						place: z.string(),
+					}),
+				)
+				.optional(),
+			funFact: z.string().optional(),
 			/* Solo el orden en que se cuelgan las placas, no un rango. */
 			order: z.number().default(0),
 		}),

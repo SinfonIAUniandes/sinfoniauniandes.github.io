@@ -7,7 +7,7 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { name, photo, note, roles, highlights } = entry.data;
+const { name, photo, note, roles, highlights, competitions, funFact } = entry.data;
 ---
 
 <article class="laureate">
@@ -24,6 +24,24 @@ const { name, photo, note, roles, highlights } = entry.data;
 		</div>
 
 		{note && <p class="laureate__note">{note}</p>}
+
+		{
+			competitions && competitions.length > 0 && (
+				<section class="laureate__block laureate__block--side">
+					<h3 class="laureate__label">Finales</h3>
+					<ul class="finals" role="list">
+						{competitions.map((competition) => (
+							<li class="finals__item">
+								<span class="finals__place">{competition.place}</span>
+								<span class="finals__where">
+									{competition.city} {competition.year}
+								</span>
+							</li>
+						))}
+					</ul>
+				</section>
+			)
+		}
 	</div>
 
 	<div class="laureate__body">
@@ -65,6 +83,15 @@ const { name, photo, note, roles, highlights } = entry.data;
 			}
 		</div>
 	</div>
+
+	{
+		funFact && (
+			<p class="laureate__fact">
+				<span class="laureate__fact-label">Dato curioso</span>
+				{funFact}
+			</p>
+		)
+	}
 </article>
 
 <style>
@@ -115,7 +142,13 @@ const { name, photo, note, roles, highlights } = entry.data;
 	.laureate__portrait img {
 		display: block;
 		width: 100%;
-		height: auto;
+		/*
+			Todos los retratos se cortan igual: así las placas del muro se leen
+			del mismo tamaño, y la cara siempre queda arriba.
+		*/
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		object-position: center top;
 		border-radius: 0.6rem;
 		/*
 			La foto entra en gris y el oro de la capa de arriba hace el resto:
@@ -177,6 +210,12 @@ const { name, photo, note, roles, highlights } = entry.data;
 		margin-top: clamp(1.6rem, 3vw, 2.2rem);
 		padding-top: clamp(1.3rem, 2.6vw, 1.8rem);
 		border-top: 1px solid var(--hall-rule-soft);
+	}
+
+	/* Las finales van en la columna de la foto: caben justas y equilibran
+	   la placa. */
+	.laureate__block--side {
+		margin-top: 0.4rem;
 	}
 
 	.laureate__label {
@@ -275,7 +314,7 @@ const { name, photo, note, roles, highlights } = entry.data;
 		margin-bottom: 0;
 	}
 
-	/* El rombo dorada que abre cada logro. */
+	/* El rombo dorado que abre cada logro. */
 	.legacy li::before {
 		position: absolute;
 		top: 0.52em;
@@ -285,6 +324,58 @@ const { name, photo, note, roles, highlights } = entry.data;
 		background: var(--hall-gold);
 		content: "";
 		transform: rotate(45deg);
+	}
+
+	/* Las finales, una por una. */
+	.finals {
+		display: grid;
+		gap: 0.5rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.finals__item {
+		display: flex;
+		align-items: baseline;
+		gap: 0.7rem;
+	}
+
+	.finals__place {
+		color: var(--hall-ink);
+		font-family: var(--hall-display);
+		font-size: 1.05rem;
+		font-weight: 600;
+		letter-spacing: -0.01em;
+	}
+
+	.finals__where {
+		color: var(--hall-gold-deep);
+		font-family: var(--hall-mono);
+		font-size: 0.76rem;
+		letter-spacing: 0.04em;
+	}
+
+	/* El dato curioso, al pie de la placa y de lado a lado. */
+	.laureate__fact {
+		grid-column: 1 / -1;
+		margin: clamp(1.2rem, 2.6vw, 1.8rem) 0 0;
+		padding-top: 1rem;
+		border-top: 1px solid var(--hall-rule-soft);
+		color: var(--hall-ink-soft);
+		font-size: 0.95rem;
+		line-height: 1.55;
+	}
+
+	.laureate__fact-label {
+		display: block;
+		margin-bottom: 0.3rem;
+		color: var(--hall-gold-deep);
+		font-family: var(--hall-mono);
+		font-size: 0.66rem;
+		font-weight: 500;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
 	}
 
 	@media (max-width: 48rem) {
