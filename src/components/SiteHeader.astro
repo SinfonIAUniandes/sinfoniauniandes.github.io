@@ -125,11 +125,15 @@ const isHallOfFame = Astro.url.pathname.replace(/\/+$/, "").endsWith("hall-of-fa
 		width: clamp(104px, 16vw, 140px);
 	}
 
-	/* El logotipo de SinfonIA que devuelve a la página principal. */
+	/*
+		El logotipo de SinfonIA que devuelve a la página principal. La red de
+		nodos sobre la "i" sube un poco: el rótulo se apoya en la misma línea
+		que los otros dos logos del encabezado.
+	*/
 	.site-header__logo--home {
-		top: 1.1rem;
+		top: 0.4rem;
 		right: clamp(0.85rem, 3vw, 1.75rem);
-		width: clamp(104px, 16vw, 140px);
+		width: clamp(140px, 15vw, 175px);
 	}
 
 	/*
@@ -313,9 +317,9 @@ const isHallOfFame = Astro.url.pathname.replace(/\/+$/, "").endsWith("hall-of-fa
 		}
 
 		.site-header__logo--home {
-			top: 0.75rem;
+			top: 0.55rem;
 			right: 0.75rem;
-			width: 96px;
+			width: 104px;
 		}
 
 		.site-header__uni--hall {
