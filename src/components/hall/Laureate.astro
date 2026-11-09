@@ -393,7 +393,12 @@ const { name, photo, note, roles, highlights, competitions, funFact } = entry.da
 		}
 
 		.laureate__portrait {
-			width: clamp(9rem, 46vw, 12rem);
+			/*
+				En móvil el retrato se centra y toma el 80% del ancho de la
+				placa, con su proporción.
+			*/
+			width: 80%;
+			margin-inline: auto;
 		}
 
 		.laureate__note {
